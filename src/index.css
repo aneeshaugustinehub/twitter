@@ -1,3 +1,30 @@
+/* src/index.css  (or globals.css / app.css) */
+
 @tailwind base;
-@tailwind components;
+@tailwind components;    /* ← your @layer components goes between these */
 @tailwind utilities;
+
+@layer components {
+  .color{
+    @apply bg-gray-200 dark:bg-gray-950 text-gray-950 dark:text-gray-200  border-gray-800
+  }
+  .btn-primary {
+    @apply px-4 py-2 transition;
+  }
+  .card {
+    @apply color shadow-md rounded-xl p-6;
+  }
+  .nav-item{
+    @apply color px-4 py-2 rounded-lg transition m-2 hover:bg-gray-400 dark:hover:bg-gray-800
+  }
+  .navbar{
+    @apply color w-60 h-full border-r fixed
+  }
+  .nav-link{
+    @apply inline-flex
+  }
+  .nav-title {
+        @apply px-3
+
+  }
+}
