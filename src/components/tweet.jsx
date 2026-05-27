@@ -1,12 +1,13 @@
+import propic from "../assets/propic.jpg";
+
 export default function Tweets() {
   return (
-    <div className="border border-gray-700 px-3 pt-2">
+    <div className="custom-border px-3 pt-2">
       <div className="flex gap-3">
-        {/* Avatar */}
         <div className="shrink-0">
           <img
-            src="https://github.com/mdo.png"
-            alt="hugenerd"
+            src={propic}
+            alt="img"
             width={40}
             height={40}
             className="rounded-full"
@@ -17,14 +18,14 @@ export default function Tweets() {
         <div className="flex flex-col flex-1">
           {/* Username row */}
           <div>
-            <a href="" className="font-bold text-white">
+            <a href="" className="font-bold ">
               username{" "}
             </a>
             <span className="font-light text-gray-500">@userid</span>
           </div>
 
           {/* Tweet text */}
-          <p className="mt-1 text-white">
+          <p className="mt-1 ">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry s standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -41,7 +42,7 @@ export default function Tweets() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-between pt-2 text-white">
+          <div className="flex justify-between pt-2 ">
             <button type="button" className="p-2 hover:text-blue-400">
               💬
             </button>

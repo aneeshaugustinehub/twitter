@@ -1,4 +1,4 @@
-//import propic from "src/assets/propic.jpg"
+import propic from "../assets/propic.jpg";
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
 import { MdNotificationsNone } from "react-icons/md";
@@ -7,11 +7,17 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { CiUser } from "react-icons/ci";
 import { CiCircleMore } from "react-icons/ci";
 import { CiAirportSign1 } from "react-icons/ci";
+import { IoLogoOctocat } from "react-icons/io5";
 
 export default function NavBar() {
   return (
     <>
       <div className="navbar">
+        <div className="nav-item">
+          <a href="#" className="nav-link text-4xl">
+            <IoLogoOctocat />
+          </a>
+        </div>
         <ul className="" id="menu">
           <li className="nav-item">
             <a href="#" className="nav-link ">
@@ -47,35 +53,42 @@ export default function NavBar() {
               <span className="nav-title">Bookmarks</span>{" "}
             </a>
           </li>
+          <li className="nav-item">
+            <a href="#" className="nav-link ">
+              <FaRegBookmark />{" "}
+              <span className="nav-title">Creator Studio</span>{" "}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="#" className="nav-link ">
+              <i className=""></i>{" "}
+              <span className="nav-title">Premium</span>{" "}
+            </a>
+          </li>
           <li className="nav-item ">
             <a href="/profile" className="nav-link">
               <CiUser />
               <span className="nav-title">Profile</span>{" "}
             </a>
           </li>
+          <li className="nav-item ">
+            <a
+              className="nav-link"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <CiCircleMore />
+              <span className="nav-title">More</span>{" "}
+            </a>
+          </li>
         </ul>
         <div className="hidden">
-          <a
-            href="#"
-            className="nav-link dropdown-toggle rounded-5 ps-3 p-2 "
-            id="dropdownUser1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <CiCircleMore />
-            <span className="nav-title">More</span>{" "}
-          </a>
           <ul className="">
             <li className="nav-item">
               <a href="#" className="nav-link">
                 <i className="fs-4 bi-people"></i>{" "}
                 <span className="nav-title">Communities</span>{" "}
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link ">
-                <i className=""></i>{" "}
-                <span className="nav-title">Premium</span>{" "}
               </a>
             </li>
             <li className="nav-item">
@@ -116,40 +129,42 @@ export default function NavBar() {
             </li>
           </ul>
         </div>
-        <button type="button" className="">
+        <button
+          type="button"
+          className="nav-item bg-white hover:bg-slate-200 text-gray-900 rounded-full px-20"
+        >
           <span className="nav-title">Post</span>
           <i className=""></i>
         </button>
-        <div className="">
+        <div className=" pt-6">
           <a
             href="#"
-            className=""
+            className="inline-flex"
             id="dropdownUser1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             <img
-              src="{propic}"
+              src={propic}
               alt="profile image"
-              width="40"
-              height="40"
-              className="rounded-circle"
+              width="50"
+              height="50"
+              className="rounded-full"
             />
-            <div className="username">
-              <span className="d-none d-lg-inline mx-1 px-2nav-title">
-                profile Name
-              </span>{" "}
-              <br />
-              <span className="d-none d-lg-block mx-1 px-2 fw-light">
-                {" "}
-                userid
-              </span>
+            <div className="username px-4 ">
+              <span className="text-md font-bold">aneesh augustine</span> <br />
+              <span className="text-xs text-gray-400">{"@aneeshaugusti12"}</span>
             </div>
           </a>
-          <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
+          <ul className="text-sm hidden">
             <li className="nav-item">
               <a className="dropdown-item" href="/JoinToday">
-                Sign out
+                Log out @aneeshaugusti12
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="dropdown-item" href="/JoinToday">
+                Add an existing account
               </a>
             </li>
           </ul>

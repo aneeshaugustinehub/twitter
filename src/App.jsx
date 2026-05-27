@@ -4,7 +4,7 @@ import Sidebar from "./components/sidebar";
 
 export default function App() {
   return (
-    <div className="color inline-flex">
+    <div className="color inline-flex justify-center  w-full">
       <NavBar />
       <MainContent/>
       <Sidebar />
