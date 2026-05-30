@@ -15,7 +15,7 @@ export default function Sidebar() {
           </div>
         </div>
         <div className="rounded-xl my-6 p-3 custom-border">
-          <p className="font-bold text-lg py-1 pb-2 ">Who to follow</p>
+          <p className="font-bold text-lg py-1 pb-2 ">You might like</p>
           <Connect />
           <Connect />
           <Connect />

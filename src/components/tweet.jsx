@@ -1,4 +1,8 @@
 import propic from "../assets/propic.jpg";
+import { CiHeart } from "react-icons/ci";
+import { BiMessageRounded } from "react-icons/bi";
+import { BiRepost } from "react-icons/bi";
+import { CiBookmark } from "react-icons/ci";
 
 export default function Tweets() {
   return (
@@ -44,17 +48,21 @@ export default function Tweets() {
           {/* Action buttons */}
           <div className="flex justify-between pt-2 ">
             <button type="button" className="p-2 hover:text-blue-400">
-              💬
+              <BiMessageRounded />
+            </button>
+            <button type="button" className="p-2 hover:text-red-400">
+              <CiHeart/>
             </button>
             <button type="button" className="p-2 hover:text-green-400">
-              🔁
+              <BiRepost />
             </button>
-            <button type="button" className="p-2 hover:text-pink-400">
-              🤍
+            <button type="button" className="p-2 hover:text-blue-400">
+              <CiBookmark />
             </button>
-            <button type="button" className="p-2 hover:text-yellow-400">
-              🔖
-            </button>
+            <button
+              type="button"
+              className="p-2 hover:text-yellow-400"
+            ></button>
           </div>
         </div>
       </div>
