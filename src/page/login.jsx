@@ -1,5 +1,14 @@
+import { UseNavigate } from "react-router-dom";
 
 export default function login() {
+  const navigate = UseNavigate();
+
+  const handleLogin =() => {
+    localStorage.setItem("token",);
+    console.log("login");
+    navigate ("/home")
+  }
+
   return (
     <div className="flex flex-col justify-center">
       <div className="my-10">
@@ -18,7 +27,7 @@ export default function login() {
           <button
             type="button"
             className="btn-follow rounded-2xl fw-bold w-full mt-6"
-            onClick={login}
+            onClick={handleLogin}
           >
             Continue
           </button>
