@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 export default function Profile() {
   const userData = JSON.parse(localStorage.getItem("userData"));
-  
   console.log(userData);
   
   return (

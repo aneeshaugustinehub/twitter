@@ -1,10 +1,13 @@
 import { Navigate } from "react-router-dom";
+import { useUser } from "./UserContext";
 
 export default function ProtectedRoute({ children }) {
-  const isLoggedIn = !!localStorage.getItem("username");
-  console.log(isLoggedIn)
+  const { user } = useUser();
+  const isLoggedIn = !!user.token;
+  console.log("isLoggedIn",isLoggedIn)
+  console.log("user",user);
   if (!isLoggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
   return children;
 }

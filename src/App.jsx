@@ -6,14 +6,6 @@ import JoinToday from "./page/JoinToday";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
-  // On any page/component
-  const username = localStorage.getItem("username");
-
-  if (username) {
-    console.log("User is logged in:", username);
-  } else {
-    console.log("No username found — user not logged in");
-  }
   return (
     <div className="color inline-flex justify-center  w-full h-full">
       <Routes>

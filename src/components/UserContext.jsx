@@ -1,24 +1,11 @@
-import { createContext,} from "react";
+import { createContext, useContext } from "react";
 
-export default function UserContest(){
+export const UserContext = createContext(null);
 
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
-    navigate("/home");
-  };
-  useEffect(() => {
-    const islogedin = localStorage.getItem("username");
-    if (islogedin) {
-      navigate("/home");
-    }
-  });
-
-return{
-
-}
-}
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used inside <UserProvider>");
+  }
+  return context;
+};
