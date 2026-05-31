@@ -2,6 +2,10 @@ import Propic from "../assets/propic.jpg";
 import { Link } from "react-router-dom";
 
 export default function Profile() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  
+  console.log(userData);
+  
   return (
     <>
       <div className="flex flex-col md:w-[600px]">
@@ -34,8 +38,8 @@ export default function Profile() {
 
             {/* Details */}
             <div className="pt-3">
-              <h5 className="font-bold text-white text-lg m-0">full name</h5>
-              <p className="font-light text-gray-500">@username</p>
+              <h5 className="font-bold text-white text-lg m-0">{userData?.username}</h5>
+              <p className="font-light text-gray-500">{userData?.userid}</p>
               <p className="text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </p>

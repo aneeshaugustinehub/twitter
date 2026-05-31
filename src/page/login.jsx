@@ -1,16 +1,25 @@
-import { UseNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function login() {
-  const navigate = UseNavigate();
+export default function Login() {
+  const navigate = useNavigate();
+  const [username,setUsername] = useState("")
+  const [password,setPassword] = useState("")
 
-  const handleLogin =() => {
-    localStorage.setItem("token",);
-    console.log("login");
-    navigate ("/home")
-  }
+  const handleLogin = () => {
+    localStorage.setItem("username", username);
+    localStorage.setItem("password",password)
+    navigate("/home");
+  };
+  useEffect(() => {
+    const islogedin = localStorage.getItem("username");
+    if (islogedin) {
+      navigate("/home");
+    }
+  });
 
   return (
-    <div className="flex flex-col justify-center">
+    <dialog className="flex flex-col justify-center">
       <div className="my-10">
         <h1 className="text-6xl font-bold">Login</h1>
       </div>
@@ -19,14 +28,26 @@ export default function login() {
           <input
             type="email"
             id="email"
-            class="mt-1 block w-full px-3 py-2 bg-white border text-gray-900 border-gray-300 rounded-2xl shadow-sm focus:ring-1 focus:ring-blue-500 text-sm"
+            className="login-input"
             placeholder="Email or username"
+            value={username}
+            onChange={(e)=> setUsername(e.target.value)}
           />
+          <input
+            type="email"
+            id="email"
+            className="login-input"
+            placeholder="Password"
+            value={username}
+            onChange={(e)=> setPassword(e.target.value)}
+          />
+          <span className="hidden">Please fill out this field.</span>
+          <span className="mt-4">forgot password</span>
         </div>
         <div className="">
           <button
             type="button"
-            className="btn-follow rounded-2xl fw-bold w-full mt-6"
+            className="btn-follow rounded-full font-bold w-full h-full mt-6 py-4"
             onClick={handleLogin}
           >
             Continue
@@ -47,6 +68,6 @@ export default function login() {
           , including <br /> <a href="">Cookie Use.</a>
         </p>
       </div>
-    </div>
+    </dialog>
   );
 }
