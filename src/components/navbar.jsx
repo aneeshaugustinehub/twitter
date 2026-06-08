@@ -8,25 +8,31 @@ import { CiUser } from "react-icons/ci";
 import { CiCircleMore } from "react-icons/ci";
 import { CiAirportSign1 } from "react-icons/ci";
 import { IoLogoOctocat } from "react-icons/io5";
+import { MdOutlineRocketLaunch } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect} from "react";
+import { useUser } from "./UserContext";
+
 
 export default function NavBar() {
+  const Navigate = useNavigate();
+  const {logout, user} = useUser()
+  const userdata =user
   useEffect(() => {
     const more = document.getElementById("nav-more");
     more.addEventListener("click", () => {
       document.querySelector("dialog").show();
     });
-    const accountmenu = document.getElementById("nav-account");
-    accountmenu.addEventListener("click", () => {
+    const acmenu = document.getElementById("nav-account");
+    acmenu.addEventListener("click", () => {
       document.getElementById("account-menu").show();
     });
   });
-  const Navigate = useNavigate();
+  
   const handleLogout = () => {
-    localStorage.removeItem("username");
-    Navigate("/");
-  };
+    logout()
+    Navigate("/")
+  }
 
   return (
     <>
@@ -44,36 +50,36 @@ export default function NavBar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link ">
+            <Link to="/explore" className="nav-link ">
               <IoSearch />
               <span className="nav-title">Explore</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link ">
+            <Link to="/Notifications" className="nav-link ">
               <MdNotificationsNone />
               <span className="nav-title">Notifications</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link ">
-              <BsChat /> <span className="nav-title">Messages</span>
+            <Link to="/chat" className="nav-link ">
+              <BsChat /> <span className="nav-title">chat</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link ">
+            <Link to="/Gork" className="nav-link ">
               <CiAirportSign1 /> <span className="nav-title">Gork</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link ">
+            <Link to="/Bookmarks" className="nav-link ">
               <FaRegBookmark />
               <span className="nav-title">Bookmarks</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link">
-              <FaRegBookmark />
+            <Link to="/creators/studio" className="nav-link">
+              <MdOutlineRocketLaunch />
               <span className="nav-title">Creator Studio</span>
             </Link>
           </li>
@@ -151,9 +157,11 @@ export default function NavBar() {
             </li>
           </ul>
         </dialog>
-        <div className="rounded-full py-4 md:px-20 flex justify-center items-center bg-white hover:bg-slate-200 text-gray-900">
-          <CiAirportSign1 className="md:hidden flex" />
-          <span className="nav-title">Post</span>
+        <div className="rounded-full xl:py-4 xl:px-20 flex justify-center items-center bg-gray-100 hover:bg-slate-200 text-gray-900">
+          <Link to="/home" className="">
+              <CiAirportSign1 className="xl:hidden flex text-4xl" />
+              <span className="xl:flex hidden">Home</span>
+            </Link>
         </div>
         <div className="pt-6">
           <Link
@@ -171,9 +179,9 @@ export default function NavBar() {
               className="rounded-full"
             />
             <div className="username px-4 hidden xl:block" id="nav-account">
-              <span className="text-md font-bold">aneesh augustine</span> <br />
+              <span className="text-md font-bold">{userdata.username}</span> <br />
               <span className="text-xs text-gray-400">
-                {"@aneeshaugusti12"}
+                {userdata.userid}
               </span>
             </div>
           </Link>
@@ -185,7 +193,7 @@ export default function NavBar() {
             <button onClick={handleLogout} className="account-link">
               <div className="dropdown-item">Log out @aneeshaugusti12</div>
             </button>
-            <button className="account-link" >
+            <button className="account-link">
               <div className="dropdown-item">Add an existing account</div>
             </button>
           </dialog>

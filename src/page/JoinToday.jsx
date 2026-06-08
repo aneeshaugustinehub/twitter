@@ -1,38 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function JoinToday() {
-  const [showPopup, setShowPopup] = useState(false);
+  const Navigate = useNavigate();
+  const [loginPopup, setloginPopup] = useState(false);
+  const [SignupPopup, setSignupPopup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { Login, user } = useUser();
 
   const isLoggedIn = !!user.token;
-  console.log("join", isLoggedIn, user);
+  useEffect(() => {
+    if (isLoggedIn) {
+      Navigate("/home");
+      return;
+    }
+  });
+  const Signup =()=>{
+    setSignupPopup(false);
 
-  if (!isLoggedIn) {
-    console.log("redirecting");
-    Navigate("/home");
   }
-  console.log("not redirecting");
-
+  
   const handleLogin = () => {
     if (!username || !password) return;
     Login(username, password);
-    setShowPopup(false);
+    setloginPopup(false);
     Navigate("/home");
   };
 
   return (
     <>
       <div className="signup w-full h-screen">
-        <div className="grid grid-cols-2 justify-center items-center ">
+        <div className="grid grid-cols-2 justify-center items-center px-24">
           <div className="flex flex-col justify-center">
             <div className="my-10">
               <h1 className="text-6xl font-bold">Happening now.</h1>
             </div>
             <div className="signin w-[350px]">
+              <button
+                type="submit"
+                className="btn-follow  px-0 p-0 rounded-2xl font-bold w-full mt-6"
+                id="join-today-btn"
+                onClick={() => setSignupPopup(!SignupPopup)}
+              >
+                <span className="">Continue</span>
+              </button>
               <input
                 type="email"
                 id="email"
@@ -46,7 +59,7 @@ export default function JoinToday() {
                 type="submit"
                 className="btn-follow  px-0 p-0 rounded-2xl font-bold w-full mt-6"
                 id="join-today-btn"
-                onClick={() => setShowPopup(!showPopup)}
+                onClick={() => setloginPopup(!loginPopup)}
               >
                 <span className="">Continue</span>
               </button>
@@ -76,14 +89,67 @@ export default function JoinToday() {
         </div>
         <div
           className={`${
-            showPopup ? "block" : "hidden"
+            loginPopup ? "block" : "hidden"
           } fixed inset-0 bg-black/50`}
         >
           <dialog className="flex color justify-center items-center p-16 rounded-xl my-auto">
             <div className="" id="login-popup">
-              <button onClick={() => setShowPopup(!showPopup)}> x </button>
+              <button onClick={() => setloginPopup(!loginPopup)}> x </button>
               <div className="my-10">
                 <h1 className="text-2xl font-bold">Login</h1>
+              </div>
+              <div className="signin">
+                <div>
+                  <input
+                    type="email"
+                    id="email"
+                    className="login-input"
+                    placeholder="Email or username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <input
+                    type="password"
+                    id="password"
+                    className="login-input"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <span className="hidden">Please fill out this field.</span>
+                  <span className="mt-4">forgot password</span>
+                  <button
+                    type="submit"
+                    className="btn-follow rounded-full font-bold w-full h-full mt-6 py-4"
+                    onClick={handleLogin}
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mt-5">
+                  By signing up, you agree to the{" "}
+                  <a href="" className="text-gray-200">
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a href="" className="text-gray-200">
+                    {" "}
+                    Privacy Policy
+                  </a>
+                  , including <br /> <a href="">Cookie Use.</a>
+                </p>
+              </div>
+            </div>
+          </dialog>
+
+          
+          <dialog className="flex color justify-center items-center p-16 rounded-xl my-auto">
+            <div className="" id="login-popup">
+              <button onClick={() => setSignupPopup(!loginPopup)}> x </button>
+              <div className="my-10">
+                <h1 className="text-2xl font-bold">Signup</h1>
               </div>
               <div className="signin">
                 <div>

@@ -1,12 +1,12 @@
-import MainContent from "../components/maincontent";
+import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 
-export default function Home() {
+export default function MainLayout() {
   return (
     <>
       <NavBar />
-      <MainContent />
+      <Outlet /> {}
       <Sidebar />
     </>
   );

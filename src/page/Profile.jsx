@@ -1,10 +1,11 @@
 import Propic from "../assets/propic.jpg";
 import { Link } from "react-router-dom";
-
+import { useUser } from "../components/UserContext";
 export default function Profile() {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log(userData);
-  
+const {user}=useUser()
+const userData=user
+
+
   return (
     <>
       <div className="flex flex-col md:w-[600px]">

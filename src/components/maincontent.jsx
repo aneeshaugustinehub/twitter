@@ -1,5 +1,4 @@
 import Tweets from "./tweet";
-import Profile from "../page/Profile";
 
 export default function MainContent() {
   const tweetItems = Array.from({ length: 30 }, (_, index) => (
@@ -7,7 +6,6 @@ export default function MainContent() {
   ));
   return (
     <div className="md:w-[600px]">
-      <Profile/>
       {tweetItems}  
     </div>
   );

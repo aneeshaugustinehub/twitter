@@ -6,8 +6,13 @@ export const UserProvider = ({ children }) => {
     const saved = localStorage.getItem("userdata")
     return saved? JSON.parse(saved):{username:"",token: ""}
   });
-  const Login = (username, token) => {
-    const data={username,token}
+  const Signup =(mail,fullname,username,token)=>{
+    const data={mail,fullname,username,token}
+    localStorage.setItem("userdata", JSON.stringify((data)));
+    setUser(data)
+  }
+  const Login = (mailorid,token) => {
+    const data={mailorid,token}
     localStorage.setItem("userdata", JSON.stringify((data)));
     setUser(data)
   };
@@ -16,7 +21,7 @@ export const UserProvider = ({ children }) => {
     setUser({username:"",token:""})
   }
   return (
-    <UserContext.Provider value={{ user, Login, logout}}>
+    <UserContext.Provider value={{ user, Login, logout ,Signup}}>
     {children}
     </UserContext.Provider>
 
