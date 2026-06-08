@@ -18,6 +18,7 @@ export default function NavBar() {
   const Navigate = useNavigate();
   const {logout, user} = useUser()
   const userdata =user
+  
   useEffect(() => {
     const more = document.getElementById("nav-more");
     more.addEventListener("click", () => {
@@ -157,13 +158,13 @@ export default function NavBar() {
             </li>
           </ul>
         </dialog>
-        <div className="rounded-full xl:py-4 xl:px-20 flex justify-center items-center bg-gray-100 hover:bg-slate-200 text-gray-900">
-          <Link to="/home" className="">
+        <div className="">
+          <Link to="/home" className="rounded-full xl:py-3 xl:px-24 flex justify-center items-center bg-gray-100 hover:bg-slate-200 text-gray-900">
               <CiAirportSign1 className="xl:hidden flex text-4xl" />
-              <span className="xl:flex hidden">Home</span>
+              <span className="xl:flex hidden font-black text-lg">Post</span>
             </Link>
         </div>
-        <div className="pt-6">
+        <div className="pt-6 cursor-pointer" id="nav-account">
           <Link
             href="#"
             className="inline-flex"
@@ -178,10 +179,10 @@ export default function NavBar() {
               height="50"
               className="rounded-full"
             />
-            <div className="username px-4 hidden xl:block" id="nav-account">
-              <span className="text-md font-bold">{userdata.username}</span> <br />
+            <div className="username px-4 hidden xl:block" >
+              <span className="text-md font-bold">{userdata.fullname}</span> <br />
               <span className="text-xs text-gray-400">
-                {userdata.userid}
+                {userdata.username}
               </span>
             </div>
           </Link>

@@ -4,6 +4,7 @@ import { useUser } from "../components/UserContext";
 export default function Profile() {
 const {user}=useUser()
 const userData=user
+console.log(userData);
 
 
   return (
@@ -38,8 +39,8 @@ const userData=user
 
             {/* Details */}
             <div className="pt-3">
-              <h5 className="font-bold text-white text-lg m-0">{userData?.username}</h5>
-              <p className="font-light text-gray-500">{userData?.userid}</p>
+              <h5 className="font-bold text-white text-lg m-0">{userData?.fullname}</h5>
+              <p className="font-light text-gray-500">{userData?.username}</p>
               <p className="text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </p>
