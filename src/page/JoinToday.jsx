@@ -3,39 +3,43 @@ import { useUser } from "../components/UserContext";
 import { useNavigate } from "react-router-dom";
 
 export default function JoinToday() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [loginPopup, setloginPopup] = useState(false);
   const [SignupPopup, setSignupPopup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { Login, user } = useUser();
+  const [Fullname, setFullname] = useState("");
+  const [Email, setEmail] = useState("");
+  const { Login, user,Signup } = useUser();
 
-  const isLoggedIn = !!user.token;
+  const isLoggedIn = !!user.islogged;
   useEffect(() => {
     if (isLoggedIn) {
-      Navigate("/home");
-      return;
+      navigate("/home");
     }
   });
-  const Signup =()=>{
+  const handleSignup = () => {
+    if(!username || !password || !Fullname)return console.log("invalid data");;
+      Signup(Email,Fullname,username,password)
     setSignupPopup(false);
+  };
 
-  }
-  
   const handleLogin = () => {
     if (!username || !password) return;
     Login(username, password);
     setloginPopup(false);
-    Navigate("/home");
+    //console.log("loggedin");
+    
+    navigate("/home");
   };
 
   return (
     <>
-      <div className="signup w-full h-screen">
-        <div className="grid grid-cols-2 justify-center items-center px-24">
+      <div className="signup md:h-dvh h-full flex flex-col min-h-screen justify-center items-center">
+        <div className="grid lg:grid-cols-2 px-24 w-full">
           <div className="flex flex-col justify-center">
-            <div className="my-10">
-              <h1 className="text-6xl font-bold">Happening now.</h1>
+            <div className="xl:mt-10 mt-10">
+              <h1 className="xl:text-6xl text-3xl font-bold p-0 m-0">Happening now.</h1>
             </div>
             <div className="signin w-[350px]">
               <button
@@ -143,11 +147,15 @@ export default function JoinToday() {
               </div>
             </div>
           </dialog>
-
-          
+        </div>
+        <div
+          className={`${
+            SignupPopup ? "block" : "hidden"
+          } fixed inset-0 bg-black/50`}
+        >
           <dialog className="flex color justify-center items-center p-16 rounded-xl my-auto">
             <div className="" id="login-popup">
-              <button onClick={() => setSignupPopup(!loginPopup)}> x </button>
+              <button onClick={() => setSignupPopup(!SignupPopup)}> x </button>
               <div className="my-10">
                 <h1 className="text-2xl font-bold">Signup</h1>
               </div>
@@ -157,7 +165,23 @@ export default function JoinToday() {
                     type="email"
                     id="email"
                     className="login-input"
-                    placeholder="Email or username"
+                    placeholder="Email"
+                    value={Email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <input
+                    type="Fullname"
+                    id="Fullname"
+                    className="login-input"
+                    placeholder="Fullname"
+                    value={Fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                  />
+                  <input
+                    type="username"
+                    id="username"
+                    className="login-input"
+                    placeholder="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -174,7 +198,7 @@ export default function JoinToday() {
                   <button
                     type="submit"
                     className="btn-follow rounded-full font-bold w-full h-full mt-6 py-4"
-                    onClick={handleLogin}
+                    onClick={handleSignup}
                   >
                     Continue
                   </button>
@@ -197,7 +221,7 @@ export default function JoinToday() {
             </div>
           </dialog>
         </div>
-        <footer className="mt-auto">
+        <footer className="flex mt-auto px-2 py-5">
           <div className="footer-links p-2 text-xs text-gray-600 flex-row justify-center text-center">
             <span className="p-1">
               <a href="">About</a>{" "}
