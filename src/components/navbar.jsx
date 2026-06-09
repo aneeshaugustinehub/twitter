@@ -79,13 +79,13 @@ export default function NavBar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/creators/studio" className="nav-link">
+            <Link  className="nav-link">
               <MdOutlineRocketLaunch />
               <span className="nav-title">Creator Studio</span>
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="" className="nav-link">
+            <Link  className="nav-link">
               <CiAirportSign1 />
               <span className="nav-title">Premium</span>
             </Link>
