@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function JoinToday() {
   const navigate = useNavigate();
@@ -29,52 +29,56 @@ export default function JoinToday() {
     Login(username, password);
     setloginPopup(false);
     //console.log("loggedin");
-    
     navigate("/home");
   };
 
   return (
     <>
-      <div className="signup md:h-dvh h-full flex flex-col min-h-screen justify-center items-center">
-        <div className="grid lg:grid-cols-2 px-24 w-full">
-          <div className="flex flex-col justify-center">
-            <div className="xl:mt-10 mt-10">
-              <h1 className="xl:text-6xl text-3xl font-bold p-0 m-0">Happening now.</h1>
-            </div>
-            <div className="signin w-[350px]">
+      <div className="flex flex-col">
+        <section className="grid lg:grid-cols-2 grid-cols-1 mt-20 ">
+          <div className="flex flex-col  justify-center items-center lg:my-0 my-10 lg:order-2">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/960px-X_logo_2023.svg.png?_=20250120013756"
+              alt=""
+              className="lg:h-[400px] h-24"
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center lg:order-1">
+            <div className="flex flex-col ">
+              <h1 className="xl:text-6xl text-5xl font-bold p-0 my-2">Happening now.</h1>
               <button
                 type="submit"
-                className="btn-follow  px-0 p-0 rounded-2xl font-bold w-full mt-6"
+                className="btn-join"
                 id="join-today-btn"
                 onClick={() => setSignupPopup(!SignupPopup)}
               >
-                <span className="">Continue</span>
+                <span className="">Signup</span>
               </button>
               <input
                 type="email"
                 id="email"
-                className="login-input"
+                className="input-join"
                 placeholder="Email or username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <label type="email">Enter your email:</label>
+              <label type="email" className="my-3">Enter your email:</label>
               <button
                 type="submit"
-                className="btn-follow  px-0 p-0 rounded-2xl font-bold w-full mt-6"
+                className="btn-join"
                 id="join-today-btn"
                 onClick={() => setloginPopup(!loginPopup)}
               >
                 <span className="">Continue</span>
               </button>
-              <div>
+              <div className="mt-3">
                 <p className="text-xs text-gray-500 mt-5">
                   By signing up, you agree to the{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="color">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="color">
                     {" "}
                     Privacy Policy
                   </a>
@@ -83,14 +87,8 @@ export default function JoinToday() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/960px-X_logo_2023.svg.png?_=20250120013756"
-              alt=""
-              className="h-80 w-80 bg-slate-50"
-            />
-          </div>
-        </div>
+        </section>
+        <section>
         <div
           className={`${
             loginPopup ? "block" : "hidden"
@@ -98,16 +96,16 @@ export default function JoinToday() {
         >
           <dialog className="flex color justify-center items-center p-16 rounded-xl my-auto">
             <div className="" id="login-popup">
-              <button onClick={() => setloginPopup(!loginPopup)}> x </button>
+              <button className="p-2 px-4 bg-slate-900 rounded-full" onClick={() => setloginPopup(!loginPopup)}> x </button>
               <div className="my-10">
                 <h1 className="text-2xl font-bold">Login</h1>
               </div>
-              <div className="signin">
+              <div className="">
                 <div>
                   <input
                     type="email"
                     id="email"
-                    className="login-input"
+                    className="input-join"
                     placeholder="Email or username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -115,16 +113,16 @@ export default function JoinToday() {
                   <input
                     type="password"
                     id="password"
-                    className="login-input"
+                    className="input-join"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="hidden">Please fill out this field.</span>
-                  <span className="mt-4">forgot password</span>
+                  <span className="my-2 text-sm">Forgot password</span>
                   <button
                     type="submit"
-                    className="btn-follow rounded-full font-bold w-full h-full mt-6 py-4"
+                    className="btn-join"
                     onClick={handleLogin}
                   >
                     Continue
@@ -134,11 +132,11 @@ export default function JoinToday() {
               <div>
                 <p className="text-xs text-gray-500 mt-5">
                   By signing up, you agree to the{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="text-black dark:text-white">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="text-black dark:text-white">
                     {" "}
                     Privacy Policy
                   </a>
@@ -154,8 +152,8 @@ export default function JoinToday() {
           } fixed inset-0 bg-black/50`}
         >
           <dialog className="flex color justify-center items-center p-16 rounded-xl my-auto">
-            <div className="" id="login-popup">
-              <button onClick={() => setSignupPopup(!SignupPopup)}> x </button>
+            <div className="">
+              <button className="p-2 px-4 bg-slate-900 rounded-full" onClick={() => setSignupPopup(!SignupPopup)}> x </button>
               <div className="my-10">
                 <h1 className="text-2xl font-bold">Signup</h1>
               </div>
@@ -164,7 +162,7 @@ export default function JoinToday() {
                   <input
                     type="email"
                     id="email"
-                    className="login-input"
+                    className="input-join"
                     placeholder="Email"
                     value={Email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -172,7 +170,7 @@ export default function JoinToday() {
                   <input
                     type="Fullname"
                     id="Fullname"
-                    className="login-input"
+                    className="input-join"
                     placeholder="Fullname"
                     value={Fullname}
                     onChange={(e) => setFullname(e.target.value)}
@@ -180,7 +178,7 @@ export default function JoinToday() {
                   <input
                     type="username"
                     id="username"
-                    className="login-input"
+                    className="input-join"
                     placeholder="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -188,16 +186,16 @@ export default function JoinToday() {
                   <input
                     type="password"
                     id="password"
-                    className="login-input"
+                    className="input-join"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="hidden">Please fill out this field.</span>
-                  <span className="mt-4">forgot password</span>
+                  <Link to="" className="mt-4">forgot password</Link>
                   <button
                     type="submit"
-                    className="btn-follow rounded-full font-bold w-full h-full mt-6 py-4"
+                    className="btn-join"
                     onClick={handleSignup}
                   >
                     Continue
@@ -207,11 +205,11 @@ export default function JoinToday() {
               <div>
                 <p className="text-xs text-gray-500 mt-5">
                   By signing up, you agree to the{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="text-black dark:text-white">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="" className="text-gray-200">
+                  <a href="" className="text-black dark:text-white">
                     {" "}
                     Privacy Policy
                   </a>
@@ -221,7 +219,8 @@ export default function JoinToday() {
             </div>
           </dialog>
         </div>
-        <footer className="flex mt-auto px-2 py-5">
+        </section>
+        <footer className="flex justify-center mt-auto px-2 py-5">
           <div className="footer-links p-2 text-xs text-gray-600 flex-row justify-center text-center">
             <span className="p-1">
               <a href="">About</a>{" "}

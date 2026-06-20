@@ -4,12 +4,11 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BiRepost, BiMessageRounded } from "react-icons/bi";
 import { HiOutlineAtSymbol } from "react-icons/hi";
 import { RiUserFollowLine } from "react-icons/ri";
-
+import { notifications } from "../components/DemoData";
 const avatarColors = [
   "bg-blue-500", "bg-purple-500", "bg-green-500",
   "bg-orange-500", "bg-pink-500", "bg-yellow-500",
 ];
-const notifications =[]
 
 const iconMap = {
   like: { Icon: AiOutlineHeart, color: "text-pink-500", bg: "bg-pink-500/10" },
@@ -28,7 +27,7 @@ function NotifItem({ n, idx, onRead }) {
   return (
     <div
       onClick={() => onRead(idx)}
-      className={`flex gap-3 px-4 py-3.5 border-b border-gray-800 cursor-pointer transition-colors hover:bg-gray-900 items-start ${n.unread ? "bg-sky-500/[0.03]" : ""}`}
+      className={`flex gap-3 px-4 py-3.5 border-b border-gray-800 cursor-pointer transition-colors dark:hover:bg-gray-900 hover:bg-gray-200 items-start ${n.unread ? "bg-sky-500/[0.03]" : ""}`}
     >
       <div className="flex flex-col items-center gap-2 flex-shrink-0">
         <div className={`w-9 h-9 rounded-full ${bg} flex items-center justify-center`}>
@@ -38,7 +37,7 @@ function NotifItem({ n, idx, onRead }) {
           {n.users.slice(0, 3).map((u, i) => (
             <div
               key={i}
-              className={`${multi ? "w-8 h-8 text-xs" : "w-10 h-10 text-sm"} rounded-full ${avatarColors[idx % avatarColors.length]} flex items-center justify-center text-white font-semibold flex-shrink-0 ${i > 0 ? "-ml-2" : ""}`}
+              className={`${multi ? "w-8 h-8 text-xs" : "w-10 h-10 text-sm"} rounded-full ${avatarColors[idx % avatarColors.length]} flex items-center justify-center text-black dark:text-white font-semibold flex-shrink-0 ${i > 0 ? "-ml-2" : ""}`}
               style={{ zIndex: 3 - i }}
             >
               {u}
@@ -50,7 +49,7 @@ function NotifItem({ n, idx, onRead }) {
       <div className="flex-1 min-w-0 pt-1">
         <div className="flex justify-between items-start gap-2">
           <p className="text-sm leading-snug">
-            <span className="font-semibold text-white">{n.names}</span>
+            <span className="font-semibold text-black dark:text-white">{n.names}</span>
             <span className="text-gray-400"> {n.text}</span>
           </p>
           <span className="text-xs text-gray-500 flex-shrink-0">{n.time}</span>
@@ -88,16 +87,16 @@ export default function Notifications() {
     <div className="flex flex-col w-full max-w-[600px] min-h-screen border-x border-gray-800">
 
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-sm px-4 py-3.5 border-b border-gray-800 flex justify-between items-center">
+      <div className="sticky top-0 z-10 dark:bg-black/80 bg-white/80 backdrop-blur-sm px-4 py-3.5 border-b border-gray-800 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold text-white">Notifications</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">Notifications</h1>
           {unreadCount > 0 && (
-            <span className="bg-sky-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+            <span className="bg-sky-500 text-black dark:text-white text-xs font-semibold px-2 py-0.5 rounded-full">
               {unreadCount}
             </span>
           )}
         </div>
-        <button className="text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-gray-800">
+        <button className="text-gray-400 dark:hover:text-white hover:text-black transition-colors p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800">
           <IoSettingsOutline className="text-xl" />
         </button>
       </div>
@@ -108,9 +107,9 @@ export default function Notifications() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-4 text-sm font-medium transition-colors hover:bg-gray-900 ${
+            className={`flex-1 py-4 text-sm font-medium transition-colors dark:hover:bg-gray-900 hover:bg-gray-200 ${
               activeTab === tab
-                ? "text-white border-b-2 border-sky-500"
+                ? "text-black dark:text-white border-b-2 border-sky-500"
                 : "text-gray-500"
             }`}
           >
@@ -122,7 +121,7 @@ export default function Notifications() {
       {/* Mark all read */}
       {activeTab === "All" && unreadCount > 0 && (
         <div className="flex justify-between items-center px-4 py-2.5 border-b border-gray-800">
-          <p className="text-sm font-medium text-white">New notifications</p>
+          <p className="text-sm font-medium text-black dark:text-white">New notifications</p>
           <button
             onClick={markAllRead}
             className="text-sm text-sky-500 hover:underline"
@@ -139,7 +138,7 @@ export default function Notifications() {
         ))
       ) : (
         <div className="flex flex-col items-center justify-center py-20 text-center px-8">
-          <p className="text-2xl font-bold text-white mb-2">Nothing here yet</p>
+          <p className="text-2xl font-bold text-black dark:text-white mb-2">Nothing here yet</p>
           <p className="text-gray-500 text-sm">
             {activeTab === "Mentions"
               ? "When someone mentions you, it'll show up here."

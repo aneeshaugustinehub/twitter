@@ -6,12 +6,12 @@ import { HiOutlineShare } from "react-icons/hi2";
 import { BsThreeDots } from "react-icons/bs";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { MdOutlineBookmarkRemove } from "react-icons/md";
+import {initialBookmarks } from "../components/DemoData"
 
 const avatarColors = [
   "bg-blue-500", "bg-purple-500", "bg-green-500",
   "bg-orange-500", "bg-pink-500", "bg-teal-500",
 ];
-const initialBookmarks = []
 
 const ALL_TAGS = ["All", ...Array.from(new Set(initialBookmarks.flatMap((b) => b.tags)))];
 
@@ -24,15 +24,15 @@ function TweetCard({ bookmark, onLike, onRemove }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="px-4 py-4 border-b border-gray-800 hover:bg-gray-900/50 transition-colors group relative">
+    <div className="px-4 py-4 border-b border-gray-800 dark:hover:bg-gray-900/50 hover:bg-gray-200/50 transition-colors group relative">
       <div className="flex gap-3">
-        <div className={`w-10 h-10 rounded-full ${avatarColors[bookmark.color]} flex items-center justify-center text-white font-semibold text-sm flex-shrink-0`}>
+        <div className={`w-10 h-10 rounded-full ${avatarColors[bookmark.color]} flex items-center justify-center text-black dark:text-white font-semibold text-sm flex-shrink-0`}>
           {bookmark.init}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-1 flex-wrap">
-              <span className="font-semibold text-white text-sm">{bookmark.name}</span>
+              <span className="font-semibold text-black dark:text-white text-sm">{bookmark.name}</span>
               {bookmark.verified && <RiVerifiedBadgeFill className="text-sky-500 text-sm flex-shrink-0" />}
               <span className="text-gray-500 text-sm">{bookmark.handle}</span>
               <span className="text-gray-600 text-sm">·</span>
@@ -50,7 +50,7 @@ function TweetCard({ bookmark, onLike, onRemove }) {
                 <div className="absolute right-0 top-8 bg-black border border-gray-700 rounded-xl shadow-lg z-10 w-48 overflow-hidden">
                   <button
                     onClick={() => { onRemove(bookmark.id); setMenuOpen(false); }}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm text-red-500 hover:bg-gray-900 transition-colors"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm text-red-500 dark:hover:bg-gray-900 hover:bg-gray-200 transition-colors"
                   >
                     <MdOutlineBookmarkRemove className="text-base" />
                     Remove bookmark
@@ -60,7 +60,7 @@ function TweetCard({ bookmark, onLike, onRemove }) {
             </div>
           </div>
 
-          <p className="text-white text-sm leading-relaxed mt-1 whitespace-pre-wrap">{bookmark.text}</p>
+          <p className="text-black dark:text-white text-sm leading-relaxed mt-1 whitespace-pre-wrap">{bookmark.text}</p>
 
           <div className="flex items-center gap-1 mt-2 flex-wrap">
             {bookmark.tags.map((tag) => (
@@ -142,9 +142,9 @@ export default function Bookmarks() {
     <div className="flex flex-col w-full max-w-[600px] min-h-screen border-x border-gray-800">
 
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-sm px-4 py-3.5 border-b border-gray-800 flex justify-between items-center">
+      <div className="sticky top-0 z-10 dark:bg-black/80 bg-white/80 backdrop-blur-sm px-4 py-3.5 border-b border-gray-800 flex justify-between items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Bookmarks</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">Bookmarks</h1>
           <p className="text-xs text-gray-500">@you</p>
         </div>
         {bookmarks.length > 0 && (
@@ -167,7 +167,7 @@ export default function Bookmarks() {
             placeholder="Search bookmarks"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-900 rounded-full py-2 pl-10 pr-4 text-sm text-white outline-none border border-transparent focus:border-sky-500 focus:bg-black transition-colors placeholder-gray-500"
+            className="w-full dark:hover:bg-gray-900 hover:bg-gray-200 rounded-full py-2 pl-10 pr-4 text-sm text-black dark:text-white outline-none border border-transparent focus:border-sky-500 dark:focus:bg-black focus:bg-white transition-colors placeholder-gray-500"
           />
         </div>
       </div>
@@ -180,8 +180,8 @@ export default function Bookmarks() {
             onClick={() => setActiveTag(tag)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
               activeTag === tag
-                ? "bg-white text-black"
-                : "bg-gray-900 text-gray-400 hover:bg-gray-800 border border-gray-700"
+                ? "dark:bg-white dark:text-black bg-black text-white"
+                : "dark:bg-gray-900 bg-gray-200 text-gray-400 hover:bg-gray-800 border border-gray-700"
             }`}
           >
             {tag}
@@ -206,7 +206,7 @@ export default function Bookmarks() {
           <div className="w-16 h-16 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center mb-5">
             <BiBookmark className="text-sky-400 text-3xl" />
           </div>
-          <p className="text-2xl font-bold text-white mb-2">
+          <p className="text-2xl font-bold text-black dark:text-white mb-2">
             {search || activeTag !== "All" ? "No results" : "Save posts for later"}
           </p>
           <p className="text-gray-500 text-sm max-w-xs">
@@ -227,20 +227,20 @@ export default function Bookmarks() {
             className="bg-black border border-gray-700 rounded-2xl p-6 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold text-white mb-2">Clear all bookmarks?</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white mb-2">Clear all bookmarks?</h2>
             <p className="text-gray-400 text-sm mb-6">
               This will remove all posts you've bookmarked. This can't be undone.
             </p>
             <div className="flex flex-col gap-3">
               <button
                 onClick={clearAll}
-                className="w-full py-3 bg-red-500 hover:bg-red-400 text-white font-semibold rounded-full transition-colors text-sm"
+                className="w-full py-3 bg-red-500 hover:bg-red-400 text-black dark:text-white font-semibold rounded-full transition-colors text-sm"
               >
                 Clear all
               </button>
               <button
                 onClick={() => setShowConfirm(false)}
-                className="w-full py-3 border border-gray-600 hover:bg-gray-900 text-white font-semibold rounded-full transition-colors text-sm"
+                className="w-full py-3 border border-gray-600 dark:hover:bg-gray-900 hover:bg-gray-200 text-black dark:text-white font-semibold rounded-full transition-colors text-sm"
               >
                 Cancel
               </button>

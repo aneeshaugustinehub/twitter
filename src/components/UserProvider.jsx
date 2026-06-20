@@ -7,6 +7,14 @@ export const UserProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : { username: "", token: "" };
   });
 
+  const EditUserProfile = (username,fullname, bio, location, website, dob)=>{
+    const stored = JSON.parse(localStorage.getItem("user")) || {};
+    const data ={username,fullname, bio, location, website, dob}
+    const update = {...stored, ...data }
+    localStorage.setItem("user", JSON.stringify(update));
+    setUser(update);
+
+  }
   const Signup = (mail, fullname, username, token) => {
     const data = { mail, fullname, username, token, islogged: true };
     localStorage.setItem("user", JSON.stringify(data));
@@ -39,7 +47,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, Login, logout, Signup }}>
+    <UserContext.Provider value={{ user, Login, logout, Signup, EditUserProfile,}}>
       {children}
     </UserContext.Provider>
   );

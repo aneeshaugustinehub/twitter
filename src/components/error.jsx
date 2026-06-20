@@ -1,5 +1,5 @@
 export default function error (){
     return(
-        <h1>404</h1>
+        <h1 className="text-2xl">404</h1>
     )
 }

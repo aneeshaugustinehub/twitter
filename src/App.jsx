@@ -12,14 +12,16 @@ import Notifications from "./page/Notifications";
 import Messages from "./page/Messages";
 import AIChat from "./page/AIChat";
 import Bookmarks from "./page/Bookmarks";
+import Todo from "./components/Todo";
 
 
 export default function App() {
   return (
     <>
-      <div className="color inline-flex justify-center  w-full h-full">
+      <div className="color min-h-screen flex justify-center">
         <Routes>
           <Route path="/" element={<JoinToday />} />
+          <Route path="/todo" element={<Todo />} />
           <Route path="/*" element={<Error />}></Route>
           <Route element={<SubLayout />}>
             <Route
