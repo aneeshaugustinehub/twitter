@@ -6,27 +6,21 @@ export default function JoinToday() {
   const navigate = useNavigate();
   const [loginPopup, setloginPopup] = useState(false);
   const [SignupPopup, setSignupPopup] = useState(false);
-  const [username, setUsername] = useState("");
+  const [user_id, setUser_id] = useState("");
   const [password, setPassword] = useState("");
   const [Fullname, setFullname] = useState("");
   const [Email, setEmail] = useState("");
-  const { Login, user,Signup } = useUser();
+  const { Login,Signup } = useUser();
 
-  const isLoggedIn = !!user.islogged;
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/home");
-    }
-  });
   const handleSignup = () => {
-    if(!username || !password || !Fullname)return console.log("invalid data");;
-      Signup(Email,Fullname,username,password)
+    if(!user_id || !password || !Fullname)return console.log("invalid data");;
+      Signup(Email,Fullname,user_id,password)
     setSignupPopup(false);
   };
 
   const handleLogin = () => {
-    if (!username || !password) return;
-    Login(username, password);
+    if (!user_id || !password) return;
+    Login(user_id, password);
     setloginPopup(false);
     //console.log("loggedin");
     navigate("/home");
@@ -59,8 +53,8 @@ export default function JoinToday() {
                 id="email"
                 className="input-join"
                 placeholder="Email or username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={user_id}
+                onChange={(e) => setUser_id(e.target.value)}
               />
               <label type="email" className="my-3">Enter your email:</label>
               <button
@@ -107,8 +101,8 @@ export default function JoinToday() {
                     id="email"
                     className="input-join"
                     placeholder="Email or username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={user_id}
+                    onChange={(e) => setUser_id(e.target.value)}
                   />
                   <input
                     type="password"
@@ -180,8 +174,8 @@ export default function JoinToday() {
                     id="username"
                     className="input-join"
                     placeholder="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={user_id}
+                    onChange={(e) => setUser_id(e.target.value)}
                   />
                   <input
                     type="password"

@@ -18,7 +18,7 @@ function NewsItem({ item }) {
 }
   return (
     <>
-          <div className="px-4 py-3">
+          <div className="px-4 py-3 border border-gray-800 my-2 mx-4 rounded-2xl">
             <h2 className="text-xl font-bold text-black dark:text-white mb-3">Latest news</h2>
             {news.slice(0, 3).map((n, i) => <NewsItem key={i} item={n} />)}
           </div>

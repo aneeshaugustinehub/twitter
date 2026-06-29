@@ -1,26 +1,28 @@
 import { Routes, Route } from "react-router-dom";
 import Profile from "./page/Profile";
 import EditProfile from "./components/EditProfile";
-import JoinToday from "./page/JoinToday";
+import Loading from "./components/Loading";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import Error from "./components/error";
 import MainLayout from "./components/MainLayout";
 import SubLayout from "./components/SubLayout";
-import MainContent from "./components/maincontent";
+import MainContent from "./components/mainContent";
 import Explore from "./page/Explore";
 import Notifications from "./page/Notifications";
 import Messages from "./page/Messages";
 import AIChat from "./page/AIChat";
 import Bookmarks from "./page/Bookmarks";
 import Todo from "./components/Todo";
-
+import JoinToday from "./page/JoinToday"
 
 export default function App() {
   return (
     <>
       <div className="color min-h-screen flex justify-center">
         <Routes>
-          <Route path="/" element={<JoinToday />} />
+          <Route path="/" element={<PublicRoute><Loading/></PublicRoute>} />
+          <Route path="/login" element={<PublicRoute><JoinToday/></PublicRoute>} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/*" element={<Error />}></Route>
           <Route element={<SubLayout />}>

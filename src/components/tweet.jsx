@@ -47,7 +47,7 @@ export default function Tweets() {
             <a href="" className="font-bold ">
               {user.fullname}
             </a>
-            <p className="font-light text-gray-500 mx-2">@{user.username}</p>
+            <p className="font-light text-gray-500 mx-2">@{user.user_id}</p>
             <button
               // onClick={""}
               className="ml-auto rounded-full hover:bg-gray-800 hover:text-sky-400 px-2"

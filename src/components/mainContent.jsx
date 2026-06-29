@@ -1,3 +1,4 @@
+import Post from "./Post";
 import Tweets from "./tweet";
 
 export default function MainContent() {
@@ -5,8 +6,11 @@ export default function MainContent() {
     <Tweets key={index} />
   ));
   return (
-    <div className="md:w-[600px]">
-      {tweetItems}  
+    <div className="md:w-[580px]">
+      <div className="flex md:w-[580px] h-30 custom-border py-2">
+        <Post />
+      </div>
+      {tweetItems}
     </div>
   );
 }

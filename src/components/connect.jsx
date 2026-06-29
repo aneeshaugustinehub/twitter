@@ -21,24 +21,7 @@ export default function Connect() {
   }
   return (
     <>
-      {/* <div className="px-3 py-2 flex align-items-center justify-content-end Connect ">
-        <img
-          src={propic}
-          alt="hugenerd"
-          width="50"
-          height="50"
-          className="rounded-full"
-        />
-        <div className="px-2">
-          <span className="fw-bold">username</span>
-          <br />
-          <span className="text-black dark:text-white-50 text-decoration-none">userid</span>
-        </div>
-        <button type="button" className="btn-follow">
-          Follow
-        </button>
-      </div> */}
-      <div className="px-4 py-3 border-b border-gray-800">
+      <div className="px-4 py-3 border border-gray-800 my-2 mx-4 rounded-2xl">
         <h2 className="text-xl font-bold text-black dark:text-white mb-3">Who to follow</h2>
         {users.map((u, i) => (
           <div

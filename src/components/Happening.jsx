@@ -14,7 +14,7 @@ function TrendItem({ item }) {
 }
   
   return <>
-          <div className="px-4 py-3 border-b border-gray-800">
+          <div className="px-4 py-3 border border-gray-800 my-2 mx-4 rounded-2xl">
             <h2 className="text-xl font-bold text-black dark:text-white mb-3">Trending now</h2>
             {trends.slice(0, 4).map((t, i) => <TrendItem key={i} item={t} />)}
           </div>

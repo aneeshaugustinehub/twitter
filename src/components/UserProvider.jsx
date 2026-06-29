@@ -4,19 +4,19 @@ import { UserContext } from "./UserContext";
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : { username: "", token: "" };
+    return saved ? JSON.parse(saved) : { user_id: "", token: "" };
   });
 
-  const EditUserProfile = (username,fullname, bio, location, website, dob)=>{
+  const EditUserProfile = (user_id,fullname, bio, location, website, dob)=>{
     const stored = JSON.parse(localStorage.getItem("user")) || {};
-    const data ={username,fullname, bio, location, website, dob}
+    const data ={user_id,fullname, bio, location, website, dob}
     const update = {...stored, ...data }
     localStorage.setItem("user", JSON.stringify(update));
     setUser(update);
 
   }
-  const Signup = (mail, fullname, username, token) => {
-    const data = { mail, fullname, username, token, islogged: true };
+  const Signup = (mail, fullname, user_id, token) => {
+    const data = { mail, fullname, user_id, token, islogged: true };
     localStorage.setItem("user", JSON.stringify(data));
     setUser(data);
   };
@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     const isEmail = emailRegex.test(userid);
     const match = isEmail
       ? stored.mail === userid
-      : stored.username === userid;
+      : stored.user_id === userid;
 
     if (match && stored.token === token) {
       const updated = { ...stored, islogged: true };
@@ -43,7 +43,7 @@ export const UserProvider = ({ children }) => {
     const stored = JSON.parse(localStorage.getItem("user")) || {};
     const updated = { ...stored, islogged: false };
     localStorage.setItem("user", JSON.stringify(updated));
-    setUser({ username: "", token: "" });
+    setUser({ user_id: "", token: "" });
   };
 
   return (

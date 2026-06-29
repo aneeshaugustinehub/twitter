@@ -15,7 +15,7 @@ const ProfileImage=localStorage.getItem("ProfileImage")
 
   return (
     <>
-      <div className="flex flex-col md:w-[600px]">
+      <div className="flex flex-col md:w-[580px]">
         {/* Banner */}
         <img
           src={bannerImage ||  "https://placehold.co/240x240"}
@@ -47,7 +47,7 @@ const ProfileImage=localStorage.getItem("ProfileImage")
             {/* Details */}
             <div className="pt-3">
               <h5 className="font-bold text-black dark:text-white text-lg m-0">{userData?.fullname}</h5>
-              <p className="font-light text-gray-500">@{userData?.username}</p>
+              <p className="font-light text-gray-500">@{userData?.user_id}</p>
               <p className="text-black dark:text-white">{userData?.bio}</p>
 
               {/* Meta info */}
@@ -56,7 +56,7 @@ const ProfileImage=localStorage.getItem("ProfileImage")
                 <span><CiLocationOn />{userData?.location}</span>
                 <span>
                   🔗
-                  <a href="" className="text-blue-400 hover:underline">{userData?.website}</a>
+                  <a href={userData?.website} className="text-blue-400 hover:underline">{userData?.website}</a>
                 </span>
                 <span>🎈 Born {userData?.dob}</span>
                 <span>📅 Joined {userData?.Joined}</span>

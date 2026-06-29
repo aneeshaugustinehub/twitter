@@ -40,7 +40,7 @@
  }
 
  .custom-border {
-  @apply border border-gray-700
+  @apply border-l border-r border-t border-gray-800
  }
 
  .sidebar {
@@ -60,5 +60,8 @@
  }
  .dropdown{
   @apply color-popup color bottom-24 left-0 right-0 m-auto rounded-xl
+ }
+ .popup{
+  @apply color-popup color bottom-0 left-0 right-0 top-0 m-auto rounded-xl
  }
 }

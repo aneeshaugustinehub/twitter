@@ -28,8 +28,8 @@ function NewsItem({ item }) {
         <p className="text-xs text-gray-500 mb-1">{item.cat} · {item.time}</p>
         <p className="text-sm font-medium text-black dark:text-white leading-snug">{item.title}</p>
       </div>
-      <div className="w-16 h-16 rounded-xl bg-gray-800 flex items-center justify-center flex-shrink-0">
-        <HiOutlinePhoto className="text-gray-600 text-2xl" />
+      <div className="w-16 h-16 rounded-xl dark:bg-gray-800 bg-gray-200 flex items-center justify-center flex-shrink-0">
+        <HiOutlinePhoto className="dark:text-gray-200 text-gray-800 text-2xl" />
       </div>
     </div>
   );
@@ -56,7 +56,7 @@ export default function Explore() {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="flex flex-col w-full max-w-[600px] min-h-screen border-x border-gray-800">
+    <div className="flex flex-col w-full max-w-[580px] min-h-screen border-x border-gray-800">
 
       {/* Search bar */}
       <div className="sticky top-0 z-10 dark:bg-black/80 bg-white/80 backdrop-blur-sm px-4 py-3 border-b border-gray-800">

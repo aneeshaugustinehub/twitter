@@ -139,7 +139,7 @@ export default function Bookmarks() {
   });
 
   return (
-    <div className="flex flex-col w-full max-w-[600px] min-h-screen border-x border-gray-800">
+    <div className="flex flex-col w-full max-w-[580px] min-h-screen border-x border-gray-800">
 
       {/* Header */}
       <div className="sticky top-0 z-10 dark:bg-black/80 bg-white/80 backdrop-blur-sm px-4 py-3.5 border-b border-gray-800 flex justify-between items-center">
