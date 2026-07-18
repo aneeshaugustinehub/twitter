@@ -27,14 +27,6 @@ export default function App() {
       <div className="color min-h-screen flex justify-center">
         <Routes>
           <Route
-            path="/:username"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/"
             element={
               isLoggedIn ? (
@@ -69,6 +61,13 @@ export default function App() {
             />
           </Route>
           <Route element={<MainLayout />}>
+            <Route
+              path="/:username"
+              element={
+                  <Profile />
+              }
+            />
+
             <Route
               path="/notifications"
               element={

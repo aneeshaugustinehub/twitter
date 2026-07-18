@@ -10,8 +10,8 @@ export default function Profile() {
 
   const BASE_URL = "http://localhost:3000/profilesImage/";
 
-  const bannerImage = BASE_URL + user.bannerPic;
-  const ProfileImage = BASE_URL + user.profilePic;
+  const bannerImage = BASE_URL + user?.bannerPic;
+  const ProfileImage = BASE_URL + user?.profilePic;
 
   return (
     <>
@@ -77,7 +77,7 @@ export default function Profile() {
                 </span>
                 <span style={{ color: "#888", fontSize: "14spanx" }}>
                   📅 Joined{" "}
-                  {new Date(userData.createdAt).toLocaleDateString("en-US", {
+                  {new Date(userData?.createdAt).toLocaleDateString("en-US", {
                     month: "long",
                     day: "numeric",
                     year: "numeric",
