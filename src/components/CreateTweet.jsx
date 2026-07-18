@@ -1,10 +1,13 @@
 import { FiImage } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
+import axios from "axios";
+import { useUser } from "./UserContext";
 
-export default function Post() {
+export default function CreateTweet() {
+  const { user } = useUser();
   const [Description, setDescription] = useState("");
-  const [PostImage, setPostImage] = useState();
+  // const [PostImage, setPostImage] = useState();
   const [PostImagePreview, setPostImagePreview] = useState();
   const ProfileImage = localStorage.getItem("ProfileImage");
   const PostImageRef = useRef();
@@ -12,11 +15,23 @@ export default function Post() {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     setPostImagePreview(url);
-    setPostImage(file);
+    // setPostImage(file);
   };
-  const PostHandle = () => {
-    console.log(Description);
-    console.log(PostImage);
+  const id = user.user_id
+  const PostHandle = async () => {
+    if (!Description.trim() && !PostImagePreview) return;
+    try {
+      // console.log(Description,PostImagePreview);
+      
+      await axios.post(`http://localhost:3000/tweets/${id}`, {
+        description: Description,
+        imagePath: PostImagePreview,
+      });
+      setDescription("");
+      setPostImagePreview(null);
+    } catch (error) {
+      console.log(error, "error posting tweets");
+    }
   };
   return (
     <div className="flex px-3 w-full h-full">

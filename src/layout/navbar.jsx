@@ -10,7 +10,7 @@ import { IoLogoOctocat } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useUser } from "./UserContext";
-import Post from "./Post";
+import CreateTweet from "./CreateTweet";
 
 export default function NavBar() {
   const ProfileImage = localStorage.getItem("ProfileImage");
@@ -206,7 +206,7 @@ export default function NavBar() {
           <span className="px-2 hover:bg-slate-700 rounded-full">x</span>
           <span className=" flex-row ml-auto text-sky-500">Drafts</span>
         </div>
-        <Post />
+        <CreateTweet />
       </dialog>
     </>
   );

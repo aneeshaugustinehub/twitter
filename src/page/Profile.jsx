@@ -2,7 +2,7 @@ import { CiLocationOn } from "react-icons/ci";
 // import Propic from "../assets/propic.jpg";
 import { Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-import Tweet from "../components/tweet"
+import Tweets from "../components/Tweets"
 
 export default function Profile() {
 const {user}=useUser()
@@ -75,9 +75,7 @@ const ProfileImage=localStorage.getItem("ProfileImage")
             </div>
           </div>
         </div>
-        <Tweet/>
-        <Tweet/>
-        <Tweet/>
+        {/* <Tweets/> */}
       </div>
     </>
   );

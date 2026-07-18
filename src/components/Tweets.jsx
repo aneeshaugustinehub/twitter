@@ -1,27 +1,38 @@
-import propic from "../assets/propic.jpg";
+// import propic from "../assets/propic.jpg";
 import { CiHeart } from "react-icons/ci";
 import { BiMessageRounded } from "react-icons/bi";
 import { BiRepost } from "react-icons/bi";
 import { CiBookmark } from "react-icons/ci";
-import { useUser } from "./UserContext";
 
-export default function Tweets() {
-  const { user } = useUser();
-  const ProfileImage=localStorage.getItem("ProfileImage")
+export default function Tweets({ tweet }) {
+  function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr);
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
 
-
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m`;
+  if (hours < 24) return `${hours}h`;
+  if (days < 7) return `${days}d`;
+  return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
   return (
     <div className="custom-border px-3 pt-2">
       <div className="flex gap-3">
         <div className="shrink-0">
           <img
-            src={ProfileImage}
+            src={"ProfileImage"}
             alt="img"
             width={40}
             height={40}
             className="rounded-full h-12 w-12 object-cover"
           />
         </div>
+{/* 
+{tweet._id}
+{tweet.updatedAt}
+*/}
 
         {/* Content */}
         <dialog className="color dark:bg-gray-900 bg-gray-200  m-auto px-2 rounded-lg">
@@ -42,14 +53,14 @@ export default function Tweets() {
           </ul>
         </dialog>
         <div className="flex flex-col flex-1">
-          {/* Username row */}
+          {/* tweetname row */}
           <div className="flex justify-center">
             <a href="" className="font-bold ">
-              {user.fullname}
+              {tweet.postedBy}
             </a>
-            <p className="font-light text-gray-500 mx-2">@{user.user_id}</p>
+            <p className="font-light text-gray-500 mx-2">@{tweet.postedBy}</p> <p className="font-light text-gray-500">{timeAgo(tweet.createdAt)} </p>
             <button
-              // onClick={""}
+              onClick={""}
               className="ml-auto rounded-full hover:bg-gray-800 hover:text-sky-400 px-2"
             >
               ...
@@ -57,35 +68,30 @@ export default function Tweets() {
           </div>
 
           {/* Tweet text */}
-          <p className="mt-1 ">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry s standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
-          </p>
+          <p className="mt-1 ">{tweet.description}</p>
 
           {/* Image */}
           <div>
             <img
               className="rounded-2xl w-full"
-              src="https://picsum.photos/300/200"
+              src={tweet.imagePath}
               alt="post image"
             />
           </div>
 
           {/* Action buttons */}
           <div className="flex justify-between pt-2 ">
-            <button type="button" className="p-2 hover:text-blue-400">
-              <BiMessageRounded />
+            <button type="button" className="flex inline-flex p-2 hover:text-blue-400">
+              <BiMessageRounded className="text-xl font-light mx-1"/>{tweet.commentCount}
             </button>
-            <button type="button" className="p-2 hover:text-red-400">
-              <CiHeart />
+            <button type="button" className="flex inline-flex p-2 hover:text-red-400">
+              <CiHeart className="text-xl font-light mx-1"/>{tweet.likeCount}
             </button>
-            <button type="button" className="p-2 hover:text-green-400">
-              <BiRepost />
+            <button type="button" className="flex inline-flex p-2 hover:text-green-400">
+              <BiRepost className="text-xl font-light mx-1"/> {tweet.retweetCount}
             </button>
-            <button type="button" className="p-2 hover:text-blue-400">
-              <CiBookmark />
+            <button type="button" className="flex inline-flex p-2 hover:text-blue-400">
+              <CiBookmark className="text-xl font-light mx-1"/>
             </button>
             <button
               type="button"

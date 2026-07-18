@@ -87,19 +87,19 @@ export default function EditProfile() {
     EditUserProfile(user_id, Fullname, Bio, Location, Website, Dob);
     // console.log("Status",Status);
     if (typeof BannerImage === "string") {
-      console.log("no image");
+      // console.log("no image");
       localStorage.setItem("BannerImage",null);
     } else {
-      console.log("Banner update");
+      // console.log("Banner update");
       const BannerImageBase64 = await readFileAsBase64(BannerImage);
       setBannerImage(BannerImageBase64);
       localStorage.setItem("BannerImage", BannerImageBase64);
     }
     if (typeof ProfileImage === "string") {
-      console.log("no image");
+      // console.log("no image");
       localStorage.setItem("ProfileImage",null);
     } else {
-      console.log("Profile update");
+      // console.log("Profile update");
       const ProfileImageBase64 = await readFileAsBase64(ProfileImage);
       setProfileImage(ProfileImageBase64);
       localStorage.setItem("ProfileImage", ProfileImageBase64);
