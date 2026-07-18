@@ -66,7 +66,7 @@ export default function Messages() {
   const totalUnread = convos.reduce((sum, c) => sum + c.unread, 0);
 
   return (
-    <div className="flex w-full max-w-[950px] min-h-screen border-x border-gray-800">
+    <div className="flex w-full max-w-[930px] min-h-screen border-x border-gray-800">
 
       {/* Sidebar */}
       <div className={`flex flex-col border-r border-gray-800 ${activeId ? "hidden md:flex w-[360px]" : "flex w-full md:w-[360px]"} flex-shrink-0`}>

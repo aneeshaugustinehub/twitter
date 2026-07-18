@@ -3,12 +3,10 @@ import { useUser } from "./UserContext";
 
 export default function ProtectedRoute({ children }) {
   const { user } = useUser();
-  const isLoggedIn = !!user.islogged;
-
+  const isLoggedIn = !!user?.token;
+  
   if (!isLoggedIn) {
-    //console.log(isLoggedIn);
-    
-    return <Navigate to="/login" replace />;
+    return 
   }
   return children;
 }

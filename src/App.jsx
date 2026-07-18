@@ -1,30 +1,55 @@
 import { Routes, Route } from "react-router-dom";
 import Profile from "./page/Profile";
-import EditProfile from "./components/EditProfile";
-import Loading from "./components/Loading";
+import EditProfile from "./page/EditProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import PublicRoute from "./components/PublicRoute";
-import Error from "./components/error";
-import MainLayout from "./components/MainLayout";
-import SubLayout from "./components/SubLayout";
-import MainContent from "./components/mainContent";
+// import PublicRoute from "./components/PublicRoute";
+// import PublicRoute from "./components/PublicRoute";
+// import Error from "./components/error";
+// import Todo from "./components/Todo";
+import MainLayout from "./layout/MainLayout";
+import SubLayout from "./layout/SubLayout";
+import MainContent from "./layout/MainContent";
 import Explore from "./page/Explore";
 import Notifications from "./page/Notifications";
 import Messages from "./page/Messages";
 import AIChat from "./page/AIChat";
 import Bookmarks from "./page/Bookmarks";
-import Todo from "./components/Todo";
-import JoinToday from "./page/JoinToday"
+import JoinToday from "./page/JoinToday";
+import { TweetsProvider } from "../src/components/tweetsProvider";
+import { Navigate } from "react-router-dom";
+import { useUser } from "./components/UserContext";
 
 export default function App() {
+  const { user } = useUser();
+  const isLoggedIn = !!user?.token;
   return (
     <>
       <div className="color min-h-screen flex justify-center">
         <Routes>
-          <Route path="/" element={<PublicRoute><Loading/></PublicRoute>} />
-          <Route path="/login" element={<PublicRoute><JoinToday/></PublicRoute>} />
-          <Route path="/todo" element={<Todo />} />
-          <Route path="/*" element={<Error />}></Route>
+          <Route
+            path="/:username"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/login"
+            element={isLoggedIn ? <Navigate to="/" replace /> : <JoinToday />}
+          />
+          {/* <Route path="/todo" element={<Todo />} /> */}
+          {/* <Route path="/*" element={<Error />}></Route> */}
           <Route element={<SubLayout />}>
             <Route
               path="/chat"
@@ -69,15 +94,7 @@ export default function App() {
               }
             />
             <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/EditProfile"
+              path="/editprofile"
               element={
                 <ProtectedRoute>
                   <EditProfile />
@@ -88,7 +105,9 @@ export default function App() {
               path="/home"
               element={
                 <ProtectedRoute>
-                  <MainContent />
+                  <TweetsProvider>
+                    <MainContent />
+                  </TweetsProvider>
                 </ProtectedRoute>
               }
             />

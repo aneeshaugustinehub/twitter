@@ -9,15 +9,17 @@ import { CiAirportSign1 } from "react-icons/ci";
 import { IoLogoOctocat } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useUser } from "./UserContext";
-import CreateTweet from "./CreateTweet";
+import { useUser } from "../components/UserContext";
+import CreateTweet from "../components/CreateTweet";
+import { TweetsProvider } from "../components/tweetsProvider";
 
 export default function NavBar() {
-  const ProfileImage = localStorage.getItem("ProfileImage");
+  const BASE_URL = "http://localhost:3000/profilesImage/";
 
   const Navigate = useNavigate();
   const { logout, user } = useUser();
   const userdata = user;
+  const ProfileImage = BASE_URL + userdata?.profilePic;
 
   useEffect(() => {
     const more = document.getElementById("nav-more");
@@ -83,23 +85,13 @@ export default function NavBar() {
                 <span className="nav-title">Bookmarks</span>
               </Link>
             </li>
-            {/* <li className="nav-item">
-            <Link  className="nav-link">
-              <MdOutlineRocketLaunch />
-              <span className="nav-title">Creator Studio</span>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link  className="nav-link">
-              <CiAirportSign1 />
-              <span className="nav-title">Premium</span>
-            </Link>
-          </li> */}
             <li className="nav-item">
-              <Link to="/profile" className="nav-link ">
-                <CiUser />
-                <span className="nav-title">Profile</span>
-              </Link>
+              {userdata && userdata.userId && (
+                <Link to={`/${userdata?.userId}`} className="nav-link ">
+                  <CiUser />
+                  <span className="nav-title">Profile</span>
+                </Link>
+              )}
             </li>
             <li className="nav-item">
               <Link
@@ -177,15 +169,15 @@ export default function NavBar() {
           >
             <img
               src={ProfileImage}
-              alt={userdata.fullname}
+              alt={userdata?.fullname}
               width="50"
               height="50"
               className="rounded-full h-12 w-12 object-cover"
             />
             <div className="username px-4 hidden xl:block">
-              <span className="text-md font-bold ">{userdata.fullname}</span>{" "}
+              <span className="text-md font-bold ">{userdata?.name}</span>{" "}
               <br />
-              <span className="text-xs text-gray-600">{userdata.user_id}</span>
+              <span className="text-xs text-gray-600">{userdata?.userId}</span>
             </div>
           </div>
           <dialog className="dropdown" closedby="any" id="account-menu">
@@ -193,7 +185,7 @@ export default function NavBar() {
               onClick={handleLogout}
               className="dropdown-item py-2 px-2 my-1"
             >
-              <div>Log out{userdata.user_id}</div>
+              <div>Log out{userdata?.user_id}</div>
             </button>
             <button className="dropdown-item py-2 px-2 my-1 ">
               <div className="">Add an existing account</div>
@@ -206,7 +198,9 @@ export default function NavBar() {
           <span className="px-2 hover:bg-slate-700 rounded-full">x</span>
           <span className=" flex-row ml-auto text-sky-500">Drafts</span>
         </div>
-        <CreateTweet />
+        <TweetsProvider>
+          <CreateTweet />
+        </TweetsProvider>
       </dialog>
     </>
   );

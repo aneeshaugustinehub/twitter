@@ -1,56 +1,67 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>twitter</title>
-        <style>
-      /* Inline styles ensure the loader renders instantly without waiting for CSS files */
-      .preloader-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #1a1a1a;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        font-family: sans-serif;
-      }
-      .spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid #333;
-        border-top: 5px solid #646cff; /* Vite purple */
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-      .loading-text {
-        color: #ffffff;
-        margin-top: 15px;
-        font-size: 1.1rem;
-        letter-spacing: 1px;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    </style>
 
-  </head>
-  <body>
-    <!-- For Vue projects, change 'root' to 'app' -->
-    <div id="root">
-      <!-- Everything inside this div will be replaced when the app mounts -->
-      <div class="preloader-container">
-        <div class="spinner"></div>
-        <div class="loading-text">Loading Application...</div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>twitter</title>
+  <style>
+    /* Inline styles ensure the loader renders instantly without waiting for CSS files */
+    .preloader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: sans-serif;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #333;
+      border-top: 5px solid #646cff;
+      /* Vite purple */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      color: #ffffff;
+      margin-top: 15px;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- For Vue projects, change 'root' to 'app' -->
+  <div id="root">
+    <!-- Everything inside this div will be replaced when the app mounts -->
+    <div class="preloader-container">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading Application...</div>
     </div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

@@ -1,6 +1,6 @@
-import Connect from "./connect";
-import Happening from "./Happening";
-import News from "./news";
+import Connect from "../components/Connect";
+import Happening from "../components/Happening";
+import News from "../components/News";
 
 export default function Sidebar() {
   return (

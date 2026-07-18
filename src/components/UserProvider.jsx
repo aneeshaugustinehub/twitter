@@ -1,53 +1,123 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
+import axios from "axios";
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : { user_id: "", token: "" };
-  });
+  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  const EditUserProfile = (user_id,fullname, bio, location, website, dob)=>{
-    const stored = JSON.parse(localStorage.getItem("user")) || {};
-    const data ={user_id,fullname, bio, location, website, dob}
-    const update = {...stored, ...data }
-    localStorage.setItem("user", JSON.stringify(update));
-    setUser(update);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/users");
+        setUsers(res.data);
+      } catch (error) {
+        console.log(error, "error fetching tweets");
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  }
-  const Signup = (mail, fullname, user_id, token) => {
-    const data = { mail, fullname, user_id, token, islogged: true };
-    localStorage.setItem("user", JSON.stringify(data));
-    setUser(data);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        if (localUser) {
+          const res = await axios.get(
+            `http://localhost:3000/users/${localUser.userId}`,
+          );
+          setUser(res.data);
+        }
+      } catch (error) {
+        console.log(error, "error fetching tweets");
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const EditUserProfile = async (
+    userId,
+    name,
+    bio,
+    location,
+    website,
+    dob,
+    profilePic,
+    bannerPic,
+  ) => {
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("name", name);
+    formData.append("bio", bio);
+    formData.append("location", location);
+    formData.append("website", website);
+    formData.append("dob", dob);
+
+    if (profilePic) formData.append("profilePic", profilePic);
+    if (bannerPic) formData.append("bannerPic", bannerPic);
+
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3000/users/${user._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/formdata" } },
+      );
+      setUser(data);
+    } catch (error) {
+      console.error("EditUserProfile error", error);
+    }
+  };
+  const Signup = async (email, name, userId, password, birthday) => {
+    if (!email.trim() || !name || !userId || !password || !birthday) return;
+    try {
+      // console.log(Description,PostImagePreview);
+      const response = await axios.post(`http://localhost:3000/users/`, {
+        email: email,
+        name: name,
+        userId: userId,
+        token: password,
+        dob: birthday,
+      });
+      // console.log(response.data.newUser.token);
+      // console.log(response.data.newUser.userId);
+      setUser(response.data.newUser);
+      localStorage.setItem("user", JSON.stringify(response.data.newUser));
+    } catch (error) {
+      console.log(error, "error Signup");
+    }
   };
 
-  const Login = (userid, token) => {
+  const Login = async (userid, password) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const stored = JSON.parse(localStorage.getItem("user")) || {};
+    try {
+      const stored = await axios.get(`http://localhost:3000/users/${userid}`);
+      console.log(stored.data);
 
-    const isEmail = emailRegex.test(userid);
-    const match = isEmail
-      ? stored.mail === userid
-      : stored.user_id === userid;
-
-    if (match && stored.token === token) {
-      const updated = { ...stored, islogged: true };
-      localStorage.setItem("user", JSON.stringify(updated));
-      setUser(updated);
-    } else {
-      console.log("Invalid credentials");
+      const isEmail = emailRegex.test(userid);
+      const match = isEmail
+        ? stored.data.mail === userid
+        : stored.data.userId === userid;
+      if (match && stored.data.token === password) {
+        const updated = { ...stored.data, token: password };
+        localStorage.setItem("user", JSON.stringify(updated));
+        setUser(updated);
+      } else {
+        console.log("Invalid credentials");
+      }
+    } catch (error) {
+      console.log(error, "error fetching tweets");
     }
   };
 
   const logout = () => {
-    const stored = JSON.parse(localStorage.getItem("user")) || {};
-    const updated = { ...stored, islogged: false };
-    localStorage.setItem("user", JSON.stringify(updated));
-    setUser({ user_id: "", token: "" });
+    localStorage.removeItem("user");
+    setUser({});
   };
 
   return (
-    <UserContext.Provider value={{ user, Login, logout, Signup, EditUserProfile,}}>
+    <UserContext.Provider
+      value={{ users, user, Login, logout, Signup, EditUserProfile }}
+    >
       {children}
     </UserContext.Provider>
   );

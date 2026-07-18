@@ -7,65 +7,39 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { useUser } from "../components/UserContext";
 
-// Safely wrap it to ensure a file exists before reading
-const readFileAsBase64 = (file) => {
-  if (!file || !(file instanceof Blob)) {
-    console.error("readFileAsBase64 received an invalid file:", file);
-    return Promise.reject("Invalid file object");
-  }
-
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file); // Line 16 where it was crashing
-  });
-};
-
 export default function EditProfile() {
+  const BASE_URL = "http://localhost:3000/profilesImage/";
   const navigate = useNavigate();
   const { EditUserProfile, user } = useUser();
-  const [Fullname, setFullname] = useState(user.fullname);
-  const [user_id, setuser_id] = useState(user.user_id);
-  const [Bio, setBio] = useState(user.bio);
-  const [Location, setLocation] = useState(user.location);
-  const [Website, setWebsite] = useState(user.website);
-  const [Dob, setDob] = useState(user.dob);
-
-  const [ProfilePreview, setProfilePreview] = useState(
-    localStorage.getItem("ProfileImage"),
-  );
-  const [BannerPreview, setBannerPreview] = useState(
-    localStorage.getItem("BannerImage"),
-  );
-  const [BannerImage, setBannerImage] = useState(
-    localStorage.getItem("BannerImage"),
-  );
-  const [ProfileImage, setProfileImage] = useState(
-    localStorage.getItem("ProfileImage"),
-  );
+  const [fullname, setFullname] = useState(user.name);
+  const [user_id, setUser_id] = useState(user.userId);
+  const [bio, setBio] = useState(user.bio);
+  const [location, setLocation] = useState(user.location);
+  const [website, setWebsite] = useState(user.website);
+  const [dob, setDob] = useState(user.dob);
+  const [ProfilePreview, setProfilePreview] = useState(BASE_URL+user.profilePic);
+  const [BannerPreview, setBannerPreview] = useState(BASE_URL+user.bannerPic);
+  const [BannerImage, setBannerImage] = useState();
+  const [ProfileImage, setProfileImage] = useState();
   // const [Status,setStatus] = useState("")
   const BannerRef = useRef();
   const ProfileRef = useRef();
 
   const handleBannerImage = (e) => {
     const file = e.target.files[0];
-    // if (!file){
-    //   setStatus('Please select a file first.');
-    //   return;
-    // }
-    // console.log(BannerImage,BannerPreview);
+    if (!file) {
+      // setStatus('Please select a file first.');
+      console.log("Please select a file first.");
+
+      return;
+    }
     const url = URL.createObjectURL(file);
     setBannerPreview(url);
     setBannerImage(file);
-    // console.log(BannerImage,BannerPreview);
   };
   const RemoveImage = () => {
-    // console.log("banner removed");
-    // console.log(BannerImage,BannerPreview);
     setBannerPreview("");
     setBannerImage("BannerImage");
-    // console.log(BannerImage,BannerPreview);
   };
 
   const handleProfileImage = (e) => {
@@ -79,34 +53,32 @@ export default function EditProfile() {
     setProfileImage(file);
     setProfilePreview(url);
   };
-
   const updateProfile = async () => {
-    if (!user_id || !Fullname || !Bio || !Location || !Website || !Dob) {
+    if (
+      !user_id &&
+      !name &&
+      !bio &&
+      !location &&
+      !website &&
+      !dob &&
+      !ProfileImage &&
+      !BannerImage
+    ) {
+      console.log("no data");
       return;
     }
-    EditUserProfile(user_id, Fullname, Bio, Location, Website, Dob);
-    // console.log("Status",Status);
-    if (typeof BannerImage === "string") {
-      // console.log("no image");
-      localStorage.setItem("BannerImage",null);
-    } else {
-      // console.log("Banner update");
-      const BannerImageBase64 = await readFileAsBase64(BannerImage);
-      setBannerImage(BannerImageBase64);
-      localStorage.setItem("BannerImage", BannerImageBase64);
-    }
-    if (typeof ProfileImage === "string") {
-      // console.log("no image");
-      localStorage.setItem("ProfileImage",null);
-    } else {
-      // console.log("Profile update");
-      const ProfileImageBase64 = await readFileAsBase64(ProfileImage);
-      setProfileImage(ProfileImageBase64);
-      localStorage.setItem("ProfileImage", ProfileImageBase64);
-    }
-    navigate("/profile");
+    EditUserProfile(
+      user_id,
+      fullname,
+      bio,
+      location,
+      website,
+      dob,
+      ProfileImage,
+      BannerImage,
+    );
+    navigate(`/${user_id}`);
   };
-
   return (
     <div className="flex flex-col md:w-[580px] w-full rounded-2xl overflow-hidden">
       <div className="flex justify-between items-center px-4 py-3 border-b border-gray-800">
@@ -207,7 +179,7 @@ export default function EditProfile() {
           <label className="text-xs text-gray-500 block mb-1">Name</label>
           <input
             type="text"
-            value={Fullname}
+            value={fullname}
             onChange={(e) => {
               setFullname(e.target.value);
             }}
@@ -220,7 +192,7 @@ export default function EditProfile() {
             type="text"
             value={user_id}
             onChange={(e) => {
-              setuser_id(e.target.value);
+              setUser_id(e.target.value);
             }}
             className="w-full dark:bg-gray-900 bg-gray-200 text-black dark:text-white text-sm outline-none border-1  "
           />
@@ -229,7 +201,7 @@ export default function EditProfile() {
           <label className="text-xs text-gray-500 block mb-1">Bio</label>
           <textarea
             rows={3}
-            value={Bio}
+            value={bio}
             onChange={(e) => {
               setBio(e.target.value);
             }}
@@ -240,7 +212,7 @@ export default function EditProfile() {
           <label className="text-xs text-gray-500 block mb-1">Location</label>
           <input
             type="text"
-            value={Location}
+            value={location}
             onChange={(e) => {
               setLocation(e.target.value);
             }}
@@ -252,7 +224,7 @@ export default function EditProfile() {
           <label className="text-xs text-gray-500 block mb-1">Website</label>
           <input
             type="text"
-            value={Website}
+            value={website}
             onChange={(e) => {
               setWebsite(e.target.value);
             }}
@@ -264,7 +236,7 @@ export default function EditProfile() {
           <label className="text-xs text-gray-500 block mb-1">dob</label>
           <input
             type="text"
-            value={Dob}
+            value={dob}
             onChange={(e) => {
               setDob(e.target.value);
             }}

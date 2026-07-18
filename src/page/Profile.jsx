@@ -2,23 +2,23 @@ import { CiLocationOn } from "react-icons/ci";
 // import Propic from "../assets/propic.jpg";
 import { Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-import Tweets from "../components/Tweets"
+// import Tweets from "../components/Tweets"
 
 export default function Profile() {
-const {user}=useUser()
-const userData=user
-const bannerImage=localStorage.getItem("BannerImage")
-const ProfileImage=localStorage.getItem("ProfileImage")
+  const { user } = useUser();
+  const userData = user;
 
-// console.log(userData);
+  const BASE_URL = "http://localhost:3000/profilesImage/";
 
+  const bannerImage = BASE_URL + user.bannerPic;
+  const ProfileImage = BASE_URL + user.profilePic;
 
   return (
     <>
       <div className="flex flex-col md:w-[580px]">
         {/* Banner */}
         <img
-          src={bannerImage ||  "https://placehold.co/240x240"}
+          src={bannerImage || "https://placehold.co/240x240"}
           className="w-full h-48 md:h-60 object-cover"
           alt="banner"
           height=""
@@ -46,29 +46,52 @@ const ProfileImage=localStorage.getItem("ProfileImage")
 
             {/* Details */}
             <div className="pt-3">
-              <h5 className="font-bold text-black dark:text-white text-lg m-0">{userData?.fullname}</h5>
-              <p className="font-light text-gray-500">@{userData?.user_id}</p>
+              <h5 className="font-bold text-black dark:text-white text-lg m-0">
+                {userData?.name}
+              </h5>
+              <p className="font-light text-gray-500">@{userData?.userId}</p>
               <p className="text-black dark:text-white">{userData?.bio}</p>
 
               {/* Meta info */}
               <div className="text-gray-500 flex flex-wrap gap-2 text-sm">
                 <span>💼 {userData?.tag}</span>
-                <span><CiLocationOn />{userData?.location}</span>
+                <span className="inline-flex">
+                  <CiLocationOn /> {userData?.location}
+                </span>
                 <span>
                   🔗
-                  <a href={userData?.website} className="text-blue-400 hover:underline">{userData?.website}</a>
+                  <a
+                    href={userData?.website}
+                    className="text-blue-400 hover:underline"
+                  >
+                    {userData?.website}
+                  </a>
                 </span>
-                <span>🎈 Born {userData?.dob}</span>
-                <span>📅 Joined {userData?.Joined}</span>
+                <span>
+                  🎈 Born{" "}
+                  {new Date(userData?.dob).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </span>
+                <span style={{ color: "#888", fontSize: "14spanx" }}>
+                  📅 Joined{" "}
+                  {new Date(userData.createdAt).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </span>{" "}
               </div>
               {/* Following / Followers */}
               <div className="flex gap-4 mt-2 text-sm text-black dark:text-white">
                 <span>
-                  <span className="font-bold">99</span>
+                  <span className="font-bold">{userData?.noFollowing}</span>
                   <span className="text-gray-500">Following</span>
                 </span>
                 <span>
-                  <span className="font-bold">15</span>
+                  <span className="font-bold">{userData?.noFollowers}</span>
                   <span className="text-gray-500">Followers</span>
                 </span>
               </div>

@@ -90,8 +90,6 @@ const initialBookmarks = [
     tags: ["CSS", "WebDev"],
   },
 ];
-
-//messages
 const conversations = [
   {
     id: 1,
@@ -171,7 +169,6 @@ const conversations = [
     verified: false,
   },
 ];
-
 const initialMessages = {
   1: [
     {
@@ -286,8 +283,6 @@ const initialMessages = {
     { id: 3, from: "them", text: "useContext or zustand?", time: "1d ago" },
   ],
 };
-
-//notifications
 const notifications = [
   {
     type: "like",
@@ -380,8 +375,6 @@ const notifications = [
     content: '"have you tried using useContext for this?"',
   },
 ];
-
-//Explore
 const trends = [
   { cat: "Technology · Trending", tag: "#OpenAI", posts: "245K" },
   { cat: "Politics · Trending", tag: "#Election2026", posts: "189K" },
@@ -392,7 +385,6 @@ const trends = [
   { cat: "Business · Trending", tag: "#Bitcoin", posts: "204K" },
   { cat: "Music · Trending", tag: "#NewAlbum", posts: "63K" },
 ];
-
 const users = [
   {
     init: "TM",
@@ -416,7 +408,6 @@ const users = [
     bio: "Breaking news, fast",
   },
 ];
-
 const news = [
   {
     cat: "Technology",
@@ -445,7 +436,6 @@ const news = [
     time: "9h ago",
   },
 ];
-
 const sports = [
   {
     cat: "Football",
@@ -468,7 +458,6 @@ const sports = [
     time: "8h ago",
   },
 ];
-
 const entertainment = [
   {
     cat: "Movies",
@@ -491,7 +480,6 @@ const entertainment = [
     time: "10h ago",
   },
 ];
-
 export {
   initialBookmarks,
   conversations,
