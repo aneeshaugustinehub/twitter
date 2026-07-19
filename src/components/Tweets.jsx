@@ -36,7 +36,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
         <div className="flex gap-3">
           <div className="shrink-0">
             <img
-              src={tweet.postedBy}
+              src={tweet?.postedBy}
               alt=""
               width={40}
               height={40}

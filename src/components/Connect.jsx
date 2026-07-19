@@ -39,7 +39,7 @@ export default function Connect() {
               src={BASE_URL + u.profilePic}
               className={`w-11 h-11 rounded-full flex items-center justify-center bg-blue-900 text-black dark:text-white font-semibold text-sm flex-shrink-0`}
             />
-            <Link to={`/user/${u.userId}`} className="flex-1 min-w-0">
+            <Link to={`${u.userId}`} className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-black dark:text-white">
                 {u.name}
               </p>

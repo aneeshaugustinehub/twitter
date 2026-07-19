@@ -13,7 +13,7 @@ export default function MainContent() {
           <CreateTweet />
         </TweetsProvider>
       </div>
-      {TweetItems.map((tweet) => (
+      {TweetItems?.map((tweet) => (
         <Tweets key={tweet._id} tweet={tweet} />
       ))}
     </div>

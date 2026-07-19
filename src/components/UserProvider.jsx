@@ -3,37 +3,37 @@ import { UserContext } from "./UserContext";
 import axios from "axios";
 
 export const UserProvider = ({ children }) => {
+  const BASE_URL=import.meta.env.VITE_BASE_URL+"users"
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/users");
+        const res = await axios.get(BASE_URL);
         setUsers(res.data);
       } catch (error) {
-        console.log(error, "error fetching tweets");
+        console.log(error, "error fetching fetchUsers");
       }
     };
     fetchUsers();
-  }, []);
+  }, [BASE_URL]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
-          const res = await axios.get(
-            `http://localhost:3000/users/${localUser.userId}`,
+          const res = await axios.get(BASE_URL+"/"+localUser.userId,
           );
           setUser(res.data);
         }
       } catch (error) {
-        console.log(error, "error fetching tweets");
+        console.log(error, "error fetching fetchUser");
       }
     };
     fetchUser();
-  }, []);
+  }, [BASE_URL]);
 
   const EditUserProfile = async (
     userId,
@@ -57,8 +57,7 @@ export const UserProvider = ({ children }) => {
     if (bannerPic) formData.append("bannerPic", bannerPic);
 
     try {
-      const { data } = await axios.put(
-        `http://localhost:3000/users/${user._id}`,
+      const { data } = await axios.put(BASE_URL+user._id,
         formData,
         { headers: { "Content-Type": "multipart/formdata" } },
       );
@@ -71,7 +70,7 @@ export const UserProvider = ({ children }) => {
     if (!email.trim() || !name || !userId || !password || !birthday) return;
     try {
       // console.log(Description,PostImagePreview);
-      const response = await axios.post(`http://localhost:3000/users/`, {
+      const response = await axios.post(BASE_URL, {
         email: email,
         name: name,
         userId: userId,
@@ -90,7 +89,7 @@ export const UserProvider = ({ children }) => {
   const Login = async (userid, password) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
-      const stored = await axios.get(`http://localhost:3000/users/${userid}`);
+      const stored = await axios.get(BASE_URL+"/"+userid);
       console.log(stored.data);
 
       const isEmail = emailRegex.test(userid);

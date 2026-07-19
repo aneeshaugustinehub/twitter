@@ -64,7 +64,9 @@ export default function App() {
             <Route
               path="/:username"
               element={
+                <TweetsProvider>
                   <Profile />
+                </TweetsProvider>
               }
             />
 

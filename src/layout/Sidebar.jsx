@@ -5,7 +5,7 @@ import { useUser } from "../components/UserContext";
 
 export default function Sidebar() {
   const { user } = useUser();
-  console.log(user);
+  // console.log(user);
 
   return (
     <div

@@ -2,35 +2,36 @@ import { CiLocationOn } from "react-icons/ci";
 // import Propic from "../assets/propic.jpg";
 import { Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-// import Tweets from "../components/Tweets"
+import Tweets from "../components/Tweets";
+import { useTweets } from "../components/tweetsContext";
 
 export default function Profile() {
   const { user } = useUser();
   const userData = user;
+  const { tweetsByUser } = useTweets();
 
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
-  const bannerImage = BASE_URL + user?.bannerPic;
-  const ProfileImage = BASE_URL + user?.profilePic;
-
+  const bannerImage = user?.bannerPic ? BASE_URL + user?.bannerPic : "https://placehold.co/240x240";
+  const ProfileImage = user?.profilePic ? BASE_URL + user.profilePic : "https://placehold.co/60x60";
+  
   return (
     <>
       <div className="flex flex-col md:w-[580px]">
         {/* Banner */}
         <img
-          src={bannerImage || "https://placehold.co/240x240"}
+          src={bannerImage}
           className="w-full h-48 md:h-60 object-cover"
           alt="banner"
           height=""
         />
-
         {/* Profile info */}
         <div className="border border-gray-700 p-3">
           <div className="flex flex-col">
             {/* Avatar + Edit button row */}
             <div className="flex justify-between items-start">
               <img
-                src={ProfileImage || "https://placehold.co/60x60"}
+                src={ProfileImage}
                 className="w-32 h-32 rounded-full border-4 border-white dark:border-black object-cover -mt-14 "
                 alt="profile"
               />
@@ -98,7 +99,9 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        {/* <Tweets/> */}
+        {tweetsByUser?.map((tweet) => (
+          <Tweets key={tweet._id} tweet={tweet} />
+        ))}{" "}
       </div>
     </>
   );

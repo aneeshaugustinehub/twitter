@@ -1,19 +1,19 @@
 import axios from "axios";
 import { tweetsContext } from "./tweetsContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+// import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./UserContext";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "tweets/";
 
 export const TweetsProvider = ({ children }) => {
-  const {user} = useUser();
+  const { user } = useUser();
+  // const [tweetsByUser, setTweetsByUser] = useState();
   // const [Description, setDescription] = useState("");
   // const [PostImage, setPostImage] = useState();
-  
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const {
@@ -27,6 +27,21 @@ export const TweetsProvider = ({ children }) => {
       return res.data.tweets;
     },
   });
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const {
+    data: tweetsByUser = [],
+    isLoading: isTweetsByUserLoading,
+    error: tweetsByUserError,
+  } = useQuery({
+    queryKey: ["tweetsByUser", localUser?.userId],
+    queryFn: async () => {
+      const res = await axios.get(BASE_URL+"user/"+ localUser.userId);
+      return res.data.tweets;
+    },
+    enabled: !!localUser?.userId,
+  });
+  // console.log(tweetsByUser("gamingsprrow")
+  // );
 
   const CreateTweet = async (Description, PostImage) => {
     if (!Description.trim() && !PostImage) return;
@@ -36,24 +51,15 @@ export const TweetsProvider = ({ children }) => {
       formData.append("Description", Description);
       formData.append("tweetImage", PostImage);
       // console.log(formData, "formData");
-      await axios.post(
-        `http://localhost:3000/tweets/${user.userId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      await axios.post(BASE_URL + user.userId, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
-      navigate("/")
+      });
+      navigate("/");
     } catch (error) {
       return error;
     }
-  };
-
-  const deleteTweet = async (id) => {
-    console.log("deleteTweet", id);
-    await axios.delete(BASE_URL + "/" + id);
   };
 
   const deleteMutation = useMutation({
@@ -67,9 +73,11 @@ export const TweetsProvider = ({ children }) => {
   return (
     <tweetsContext.Provider
       value={{
-        deleteTweet,
         CreateTweet,
         TweetItems,
+        tweetsByUser,
+        isTweetsByUserLoading,
+        tweetsByUserError,
         deleteMutation,
         isLoading,
         error,
