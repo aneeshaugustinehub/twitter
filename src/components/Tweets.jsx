@@ -19,7 +19,7 @@ import { BsThreeDots } from "react-icons/bs";
 // import { MdOutlineBookmarkRemove } from "react-icons/md";
 
 export default function Tweets({ tweet }) {
-const BASE_URL = "http://localhost:3000/tweetsImage/";
+const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
   const { deleteMutation } = useTweets();
   const [TweetMenu, setTweetMenu] = useState(false);
   const likeHandle = () => {

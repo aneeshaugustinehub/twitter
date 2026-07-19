@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./UserContext";
 
-const BASE_URL = "http://localhost:3000/tweets/";
+const BASE_URL = import.meta.env.VITE_BASE_URL + "tweets/";
 
 export const TweetsProvider = ({ children }) => {
   const {user} = useUser();

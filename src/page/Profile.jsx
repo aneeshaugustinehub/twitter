@@ -8,7 +8,7 @@ export default function Profile() {
   const { user } = useUser();
   const userData = user;
 
-  const BASE_URL = "http://localhost:3000/profilesImage/";
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
   const bannerImage = BASE_URL + user?.bannerPic;
   const ProfileImage = BASE_URL + user?.profilePic;

@@ -8,19 +8,19 @@ import { CiCircleMore } from "react-icons/ci";
 import { CiAirportSign1 } from "react-icons/ci";
 import { IoLogoOctocat } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useUser } from "../components/UserContext";
 import CreateTweet from "../components/CreateTweet";
 import { TweetsProvider } from "../components/tweetsProvider";
 import { useState } from "react";
 
 export default function NavBar() {
-  const BASE_URL = "http://localhost:3000/profilesImage/";
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
   const Navigate = useNavigate();
   const { logout, user } = useUser();
   const userdata = user;
-  console.log(user);
+  // console.log(user);
 
   const ProfileImage = BASE_URL + userdata?.profilePic;
   const [navMore, setNavMore] = useState(null);

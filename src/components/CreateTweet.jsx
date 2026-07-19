@@ -5,7 +5,8 @@ import { useUser } from "./UserContext";
 import { useTweets } from "../components/tweetsContext";
 
 export default function CreateTweet() {
-  const BASE_URL = "http://localhost:3000/profilesImage/";
+  
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
   const { CreateTweet } = useTweets();
   const { user } = useUser();

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 // import propic from "../assets/propic.jpg";
 // import axios from "axios";
 import { useUser } from "./UserContext";
 
 export default function Connect() {
   const { users } = useUser();
-  const BASE_URL = "http://localhost:3000/profilesImage/";
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
+  
   function FollowButton() {
     const [following, setFollowing] = useState(false);
     return (

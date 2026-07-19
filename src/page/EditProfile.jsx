@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 import { useUser } from "../components/UserContext";
 
 export default function EditProfile() {
-  const BASE_URL = "http://localhost:3000/profilesImage/";
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
   const navigate = useNavigate();
   const { EditUserProfile, user } = useUser();
   const [fullname, setFullname] = useState(user.name);
