@@ -5,6 +5,14 @@
 /* ← your @layer components goes between these */
 @tailwind utilities;
 
+@import url('https://googleapis.com');
+
+/* 2. Configure Tailwind utility */
+
+@theme {
+  --font-sans: "Poppins", sans-serif;
+}
+
 @layer components {
  .color {
   @apply bg-gray-100 dark:bg-gray-950 text-black dark:text-white border-gray-800

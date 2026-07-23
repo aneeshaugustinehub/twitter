@@ -86,7 +86,7 @@ export default function EditProfile() {
           <Link
             aria-label="Close"
             className="text-black dark:text-white hover:bg-gray-800 rounded-full p-1"
-            to="/profile"
+            to={`/${user_id}`}
           >
             <MdOutlineClose size={20} />
           </Link>
@@ -104,7 +104,7 @@ export default function EditProfile() {
 
       <div className="relative h-36 bg-gray-700 ">
         <img
-          src={BannerPreview || "https://placehold.co/600x400"}
+          src={BannerPreview}
           alt=""
           className="w-full h-full object-cover opacity-80"
         />

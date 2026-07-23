@@ -79,6 +79,14 @@ export default function App() {
               }
             />
             <Route
+              path="/connect_people"
+              element={
+                <ProtectedRoute>
+                  <Notifications />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/Bookmarks"
               element={
                 <ProtectedRoute>

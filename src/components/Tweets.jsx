@@ -5,13 +5,12 @@ import { useState } from "react";
 import moment from "moment";
 import { useTweets } from "./tweetsContext";
 
-import { FiSearch, FiTrash2 } from "react-icons/fi";
+import {FiTrash2 } from "react-icons/fi";
 // import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import {
   BiRepost,
   BiMessageRounded,
   BiBookmark,
-  BiBookmarkMinus,
 } from "react-icons/bi";
 // import { HiOutlineShare } from "react-icons/hi2";
 import { BsThreeDots } from "react-icons/bs";

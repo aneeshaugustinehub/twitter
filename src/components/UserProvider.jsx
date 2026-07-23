@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 import axios from "axios";
 
 export const UserProvider = ({ children }) => {
-  const BASE_URL=import.meta.env.VITE_BASE_URL+"users"
+  const BASE_URL=import.meta.env.VITE_BASE_URL+"users/"
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
 
@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
       try {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
-          const res = await axios.get(BASE_URL+"/"+localUser.userId,
+          const res = await axios.get(BASE_URL+localUser.userId,
           );
           setUser(res.data);
         }
@@ -89,7 +89,7 @@ export const UserProvider = ({ children }) => {
   const Login = async (userid, password) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
-      const stored = await axios.get(BASE_URL+"/"+userid);
+      const stored = await axios.get(BASE_URL+userid);
       console.log(stored.data);
 
       const isEmail = emailRegex.test(userid);

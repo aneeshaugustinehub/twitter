@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 // import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./UserContext";
+import { useParams } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "tweets/";
 
@@ -27,18 +28,18 @@ export const TweetsProvider = ({ children }) => {
       return res.data.tweets;
     },
   });
-  const localUser = JSON.parse(localStorage.getItem("user"));
-  const {
+  const { username } = useParams();
+    const {
     data: tweetsByUser = [],
     isLoading: isTweetsByUserLoading,
     error: tweetsByUserError,
   } = useQuery({
-    queryKey: ["tweetsByUser", localUser?.userId],
+    queryKey: ["tweetsByUser", username],
     queryFn: async () => {
-      const res = await axios.get(BASE_URL+"user/"+ localUser.userId);
+      const res = await axios.get(BASE_URL + "user/" + username);
       return res.data.tweets;
     },
-    enabled: !!localUser?.userId,
+    enabled: !!username,
   });
   // console.log(tweetsByUser("gamingsprrow")
   // );
