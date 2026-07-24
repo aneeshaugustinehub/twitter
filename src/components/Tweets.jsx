@@ -1,42 +1,43 @@
-// import propic from "../assets/propic.jpg";
+// import { HiOutlineShare } from "react-icons/hi2";
+// import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+// import { RiVerifiedBadgeFill } from "react-icons/ri";
+// import { MdOutlineBookmarkRemove } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useTweets } from "./tweetsContext";
 import { FiTrash2 } from "react-icons/fi";
-// import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BiRepost, BiMessageRounded, BiBookmark } from "react-icons/bi";
-// import { HiOutlineShare } from "react-icons/hi2";
 import { BsThreeDots } from "react-icons/bs";
 import { useUser } from "./UserContext";
-// import { RiVerifiedBadgeFill } from "react-icons/ri";
-// import { MdOutlineBookmarkRemove } from "react-icons/md";
 
 export default function Tweets({ tweet }) {
-  const [tweetUser, setTweetUser] = useState()
-  const { GetPostUser } = useUser();
+  const [tweetUser, setTweetUser] = useState();
+  const { user, GetPostUser } = useUser();
 
   const TWEET_IMAGE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
-  const BASE_URL = import.meta.env.VITE_BASE_URL+"profilesImage/";
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
   const { deleteMutation } = useTweets();
   const [TweetMenu, setTweetMenu] = useState(false);
-
-  const likeHandle = () => {
-    console.log("like");
-  };
 
   useEffect(() => {
     const handlePostUser = async (id) => {
       const res = await GetPostUser(id);
-      setTweetUser(res)
+      setTweetUser(res);
     };
     handlePostUser(tweet.postedBy);
   }, [tweet, GetPostUser]);
-console.log(tweetUser);
 
   const handleDelete = () => {
     deleteMutation.mutateAsync(tweet._id);
+  };
+  const profileAction = (value, id) => {
+    console.log(value, id);
+  };
+
+  const likeHandle = () => {
+    console.log("like");
   };
 
   return (
@@ -45,37 +46,126 @@ console.log(tweetUser);
         <div className="flex gap-3">
           <div className="shrink-0">
             <img
-              src={BASE_URL +tweetUser?.profilePic}
+              src={BASE_URL + tweetUser?.profilePic}
               alt=""
               width={30}
               height={30}
               className="rounded-full h-10 w-10 object-cover"
             />
           </div>
-          {/* 
-{tweet.updatedAt}
-*/}
           <dialog
             closedby="any"
             className={`color dark:bg-gray-900 bg-gray-200  m-auto px-2 rounded-lg ${TweetMenu ? "flex" : ""}`}
           >
-            <ul className="mt-2 rounded-lg ">
-              <li className="dropdown-item">
-                <button
-                  onClick={() => handleDelete(tweet._id)}
-                  className="inline-block"
-                >
+            {tweetUser?._id === user._id ? (
+              <ul className="mt-2 rounded-lg">
+                <li className="dropdown-item inline-flex ">
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Delete
+                  </button>
+                </li>
+                <li className="dropdown-item">
                   {" "}
-                  <FiTrash2 /> Delete
-                </button>
-              </li>
-              {/* <li className="dropdown-item">Pin to your profile</li>
-              <li className="dropdown-item">Highlight on your profile</li>
-              <li className="dropdown-item">Add/remove from Lists</li>
-              <li className="dropdown-item">Mute this conversation</li>
-              <li className="dropdown-item">Change who can reply</li>
-              <li className="dropdown-item">View post activity</li> */}
-            </ul>
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Pin to your profile{" "}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Highlight on your profile{" "}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Add/remove from Lists{" "}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Mute this conversation{" "}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Change who can reply{" "}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(tweet._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    View post activity{" "}
+                  </button>
+                </li>
+              </ul>
+            ) : (
+              <ul className="mt-2 rounded-lg ">
+                <li className="dropdown-item inline-flex ">
+                  <button
+                    onClick={() => profileAction("Unfollow", tweetUser?._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 /> Unfollow @{tweetUser?.name}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  <button
+                    onClick={() => profileAction("Unfollow", tweetUser?._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 />
+                    Add/remove from Lists
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  <button
+                    onClick={() => profileAction("Mute", tweetUser?._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 /> Mute @{tweetUser?.name}
+                  </button>
+                </li>
+                <li className="dropdown-item">
+                  <button
+                    onClick={() => profileAction("Block", tweetUser?._id)}
+                    className="inline-flex p-2 hover:bg-slate-700 rounded-lg w-full"
+                  >
+                    <FiTrash2 /> Block @{tweetUser?.name}
+                  </button>
+                </li>
+              </ul>
+            )}
           </dialog>
           <div className="flex flex-col flex-1">
             {/* tweetName row */}

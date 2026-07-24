@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import FollowButton from "./FollowButton";
-// import propic from "../assets/propic.jpg";
-// import axios from "axios";
 import { useUser } from "./UserContext";
 
 export default function Connect() {

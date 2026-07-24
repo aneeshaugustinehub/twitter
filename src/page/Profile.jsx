@@ -1,5 +1,4 @@
 import { CiLocationOn } from "react-icons/ci";
-// import Propic from "../assets/propic.jpg";
 import { Link, useParams } from "react-router-dom";
 import Tweets from "../components/Tweets";
 import { useTweets } from "../components/tweetsContext";
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
 import FollowButton from "../components/FollowButton";
 import { GoArrowLeft } from "react-icons/go";
+import Loading from "../components/Loading";
 
 export default function Profile() {
   const { user } = useUser();
@@ -24,9 +24,14 @@ export default function Profile() {
   }, [username, BASE_URL]);
 
   const userData = profile;
-  // console.log(profile);
 
-  const { tweetsByUser } = useTweets();
+  const { useTweetsByUser } = useTweets();
+
+  const {
+    data: tweetsByUser = [],
+    isLoading,
+    error,
+  } = useTweetsByUser(userData?._id);
 
   const bannerImage = userData?.bannerPic
     ? BASE_URL + "profilesImage/" + userData?.bannerPic
@@ -35,6 +40,12 @@ export default function Profile() {
     ? BASE_URL + "profilesImage/" + userData.profilePic
     : "https://placehold.co/60x60";
 
+  if (isLoading) {
+    <Loading />;
+  }
+  if (error) {
+    <Loading />;
+  }
   return (
     <>
       <div className="flex flex-col md:w-[580px] ">
