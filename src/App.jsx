@@ -15,6 +15,7 @@ import Messages from "./page/Messages";
 import AIChat from "./page/AIChat";
 import Bookmarks from "./page/Bookmarks";
 import JoinToday from "./page/JoinToday";
+import Comment from "./layout/Comment";
 import { TweetsProvider } from "../src/components/tweetsProvider";
 import { Navigate } from "react-router-dom";
 import { useUser } from "./components/UserContext";
@@ -116,6 +117,16 @@ export default function App() {
                 <ProtectedRoute>
                   <TweetsProvider>
                     <MainContent />
+                  </TweetsProvider>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/comment/:id"
+              element={
+                <ProtectedRoute>
+                  <TweetsProvider>
+                    <Comment/>
                   </TweetsProvider>
                 </ProtectedRoute>
               }

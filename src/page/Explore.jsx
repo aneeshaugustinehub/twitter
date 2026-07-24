@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlinePhoto } from "react-icons/hi2";
-import { trends,users,news,sports,entertainment } from "../components/DemoData";
+import { trends,news,sports,entertainment } from "../components/DemoData";
 import Connect from "../components/Connect";
 
 const TABS = ["For you", "Trending", "News", "Sports", "Entertainment"];
@@ -36,21 +36,7 @@ function NewsItem({ item }) {
   );
 }
 
-function FollowButton() {
-  const [following, setFollowing] = useState(false);
-  return (
-    <button
-      onClick={() => setFollowing(!following)}
-      className={`rounded-full px-4 py-1.5 text-sm font-semibold flex-shrink-0 transition-colors ${
-        following
-          ? "border border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
-          : "color-btn"
-      }`}
-    >
-      {following ? "Following" : "Follow"}
-    </button>
-  );
-}
+
 
 export default function Explore() {
   const [activeTab, setActiveTab] = useState("For you");

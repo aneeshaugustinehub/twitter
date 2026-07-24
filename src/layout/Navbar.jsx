@@ -1,7 +1,7 @@
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
 import { MdNotificationsNone } from "react-icons/md";
-import { BsChat } from "react-icons/bs";
+import { BsChat, BsThreeDots } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
 import { CiUser } from "react-icons/ci";
 import { CiCircleMore } from "react-icons/ci";
@@ -40,7 +40,7 @@ export default function NavBar() {
             <IoLogoOctocat />
           </Link>
         </div>
-        <div className={`${user ? `` : `hidden`}`}>
+        <div className={`${user ? `h-full flex flex-col` : `hidden`}`}>
           <div>
             <ul className="" id="menu">
               <li className="nav-item">
@@ -85,7 +85,7 @@ export default function NavBar() {
                   </Link>
                 )}
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <button
                   className="nav-link"
                   aria-expanded="false"
@@ -96,7 +96,7 @@ export default function NavBar() {
                   <CiCircleMore />
                   <span className="nav-title">More</span>
                 </button>
-              </li>
+              </li> */}
             </ul>
             <dialog
               className={`dropdown ${navMore ? "flex " : ""}`}
@@ -177,12 +177,13 @@ export default function NavBar() {
                 className="rounded-full h-12 w-12 object-cover"
               />
               <div className="username px-4 hidden xl:block">
-                <span className="text-md font-bold ">{userdata?.name}</span>{" "}
+                <span className="text-md font-bold p-0">{userdata?.name}</span>{" "}
                 <br />
-                <span className="text-xs text-gray-600">
+                <span className="font-light text-gray-500">@
                   {userdata?.userId}
                 </span>
               </div>
+              <BsThreeDots />
             </div>
             <dialog
               className={`dropdown ${navAcc ? "flex flex-col" : ""}`}

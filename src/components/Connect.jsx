@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import FollowButton from "./FollowButton";
 // import propic from "../assets/propic.jpg";
 // import axios from "axios";
 import { useUser } from "./UserContext";
@@ -9,21 +8,7 @@ export default function Connect() {
   const { users } = useUser();
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
   
-  function FollowButton() {
-    const [following, setFollowing] = useState(false);
-    return (
-      <button
-        onClick={() => setFollowing(!following)}
-        className={`rounded-full px-4 py-1.5 text-sm font-semibold flex-shrink-0 transition-colors ${
-          following
-            ? "border border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
-            : "color-btn"
-        }`}
-      >
-        {following ? "Following" : "Follow"}
-      </button>
-    );
-  }
+
   return (
     <>
       <div className="px-4 py-3 ">
