@@ -29,7 +29,7 @@ export const TweetsProvider = ({ children }) => {
     },
   });
   const { username } = useParams();
-    const {
+  const {
     data: tweetsByUser = [],
     isLoading: isTweetsByUserLoading,
     error: tweetsByUserError,
@@ -41,8 +41,17 @@ export const TweetsProvider = ({ children }) => {
     },
     enabled: !!username,
   });
-  // console.log(tweetsByUser("gamingsprrow")
-  // );
+  
+  const TweetByID = async (id) => {
+    if (!id) return null;
+    try {
+      const res = await axios.get(BASE_URL + id);
+      return res.data.tweets;
+    } catch (error) {
+    console.error('Failed to fetch tweet:', error);
+    throw error;
+  }
+  };
 
   const CreateTweet = async (Description, PostImage) => {
     if (!Description.trim() && !PostImage) return;
@@ -52,7 +61,7 @@ export const TweetsProvider = ({ children }) => {
       formData.append("Description", Description);
       formData.append("tweetImage", PostImage);
       // console.log(formData, "formData");
-      await axios.post(BASE_URL + user.userId, formData, {
+      await axios.post(BASE_URL + user._id, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -77,6 +86,7 @@ export const TweetsProvider = ({ children }) => {
         CreateTweet,
         TweetItems,
         tweetsByUser,
+        TweetByID,
         isTweetsByUserLoading,
         tweetsByUserError,
         deleteMutation,

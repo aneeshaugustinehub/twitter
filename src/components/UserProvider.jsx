@@ -3,29 +3,31 @@ import { UserContext } from "./UserContext";
 import axios from "axios";
 
 export const UserProvider = ({ children }) => {
-  const BASE_URL=import.meta.env.VITE_BASE_URL+"users/"
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const USER_URL =  BASE_URL + "users/";
+  const USER_ID_URL =  BASE_URL + "users/id/";
+
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(BASE_URL);
+        const res = await axios.get(USER_URL);
         setUsers(res.data);
       } catch (error) {
         console.log(error, "error fetching fetchUsers");
       }
     };
     fetchUsers();
-  }, [BASE_URL]);
+  }, [USER_URL]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const localUser = JSON.parse(localStorage.getItem("user"));
         if (localUser) {
-          const res = await axios.get(BASE_URL+localUser.userId,
-          );
+          const res = await axios.get(USER_URL + localUser.userId);
           setUser(res.data);
         }
       } catch (error) {
@@ -33,7 +35,18 @@ export const UserProvider = ({ children }) => {
       }
     };
     fetchUser();
-  }, [BASE_URL]);
+  }, [USER_URL]);
+
+  const GetPostUser = async (id) => {
+    try {
+      if (id) {
+        const res = await axios.get(USER_ID_URL + id);
+        return (res.data);
+      }
+    } catch (error) {
+      console.log(error, "error fetching fetchUser");
+    }
+  };
 
   const EditUserProfile = async (
     userId,
@@ -57,10 +70,9 @@ export const UserProvider = ({ children }) => {
     if (bannerPic) formData.append("bannerPic", bannerPic);
 
     try {
-      const { data } = await axios.put(BASE_URL+user._id,
-        formData,
-        { headers: { "Content-Type": "multipart/formdata" } },
-      );
+      const { data } = await axios.put(USER_URL + user._id, formData, {
+        headers: { "Content-Type": "multipart/formdata" },
+      });
       setUser(data);
     } catch (error) {
       console.error("EditUserProfile error", error);
@@ -70,7 +82,7 @@ export const UserProvider = ({ children }) => {
     if (!email.trim() || !name || !userId || !password || !birthday) return;
     try {
       // console.log(Description,PostImagePreview);
-      const response = await axios.post(BASE_URL, {
+      const response = await axios.post(USER_URL, {
         email: email,
         name: name,
         userId: userId,
@@ -89,7 +101,7 @@ export const UserProvider = ({ children }) => {
   const Login = async (userid, password) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
-      const stored = await axios.get(BASE_URL+userid);
+      const stored = await axios.get(USER_URL + userid);
       console.log(stored.data);
 
       const isEmail = emailRegex.test(userid);
@@ -115,7 +127,15 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ users, user, Login, logout, Signup, EditUserProfile }}
+      value={{
+        users,
+        user,
+        Login,
+        logout,
+        Signup,
+        EditUserProfile,
+        GetPostUser,
+      }}
     >
       {children}
     </UserContext.Provider>

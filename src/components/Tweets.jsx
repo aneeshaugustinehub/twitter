@@ -1,30 +1,40 @@
 // import propic from "../assets/propic.jpg";
 import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useTweets } from "./tweetsContext";
-
-import {FiTrash2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 // import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import {
-  BiRepost,
-  BiMessageRounded,
-  BiBookmark,
-} from "react-icons/bi";
+import { BiRepost, BiMessageRounded, BiBookmark } from "react-icons/bi";
 // import { HiOutlineShare } from "react-icons/hi2";
 import { BsThreeDots } from "react-icons/bs";
+import { useUser } from "./UserContext";
 // import { RiVerifiedBadgeFill } from "react-icons/ri";
 // import { MdOutlineBookmarkRemove } from "react-icons/md";
 
 export default function Tweets({ tweet }) {
-const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
+  const [tweetUser, setTweetUser] = useState()
+  const { GetPostUser } = useUser();
+
+  const TWEET_IMAGE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
+  const BASE_URL = import.meta.env.VITE_BASE_URL+"profilesImage/";
   const { deleteMutation } = useTweets();
   const [TweetMenu, setTweetMenu] = useState(false);
+
   const likeHandle = () => {
     console.log("like");
   };
-  // console.log(tweet._id);
+
+  useEffect(() => {
+    const handlePostUser = async (id) => {
+      const res = await GetPostUser(id);
+      setTweetUser(res)
+    };
+    handlePostUser(tweet.postedBy);
+  }, [tweet, GetPostUser]);
+console.log(tweetUser);
+
   const handleDelete = () => {
     deleteMutation.mutateAsync(tweet._id);
   };
@@ -35,11 +45,11 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
         <div className="flex gap-3">
           <div className="shrink-0">
             <img
-              src={tweet?.postedBy}
+              src={BASE_URL +tweetUser?.profilePic}
               alt=""
-              width={40}
-              height={40}
-              className="rounded-full h-12 w-12 object-cover"
+              width={30}
+              height={30}
+              className="rounded-full h-10 w-10 object-cover"
             />
           </div>
           {/* 
@@ -68,20 +78,20 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
             </ul>
           </dialog>
           <div className="flex flex-col flex-1">
-            {/* tweetname row */}
+            {/* tweetName row */}
             <div className="flex justify-center">
-              <a
-                href={`/${tweet.postedBy}`}
+              <Link
+                to={`/${tweetUser?.userId}`}
                 className="flex justify-center font-bold "
               >
-                {tweet.postedBy}
+                {tweetUser?.name}
                 <p className="font-thin text-sm text-gray-500 mx-2">
-                  @{tweet.postedBy}
+                  @{tweetUser?.userId}
                 </p>{" "}
                 <p className="font-thin text-sm text-gray-500">
                   {moment(tweet.createdAt).fromNow()}{" "}
                 </p>
-              </a>
+              </Link>
               <button
                 onClick={() => setTweetMenu(!TweetMenu)}
                 className="ml-auto rounded-full hover:bg-gray-800 hover:text-sky-400 px-2"
@@ -89,18 +99,22 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
                 <BsThreeDots />
               </button>
             </div>
-            {/* Tweet text */}
-            <p className="mt-1 font-thin">{tweet.description}</p>
-            {/* Image */}
-            <div>
-              {tweet.imagePath && (
-                <img
-                  className="rounded-2xl w-full max-h-80 object-contain cursor-pointer"
-                  src={BASE_URL+tweet.imagePath}
-                  alt=""
-                />
-              )}
-            </div>
+            <Link to={`/comment/${tweet._id}`}>
+              {/* Tweet text */}
+              <p className="mt-1 font-thin pb-2 text-[15px]">
+                {tweet.description}
+              </p>
+              {/* Image */}
+              <div>
+                {tweet.imagePath && (
+                  <img
+                    className="rounded-2xl w-full max-h-[500px] object-contain cursor-pointer"
+                    src={TWEET_IMAGE_URL + tweet.imagePath}
+                    alt=""
+                  />
+                )}
+              </div>
+            </Link>
             {/* Action buttons */}
             <div className="flex justify-between pt-2 ">
               <Link
