@@ -1,23 +1,23 @@
 import axios from "axios";
 import { tweetsContext } from "./tweetsContext";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useUser } from "./UserContext";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const TWEET_URL = BASE_URL + "tweets/";
 
 export const TweetsProvider = ({ children }) => {
-
   const { user } = useUser();
-
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const {
     data: TweetItems = [],
-    isLoading:isTweetItemsLoading,
-    error:errorTweetItems,
+    isLoading: isTweetItemsLoading,
+    error: errorTweetItems,
   } = useQuery({
     queryKey: ["tweets"],
     queryFn: async () => {
@@ -59,24 +59,40 @@ export const TweetsProvider = ({ children }) => {
     });
   };
 
-  const CreateTweet = async (Description, PostImage) => {
-    if (!Description.trim() && !PostImage) return;
-    try {
+  // const CreateTweet = async (Description, PostImage) => {
+  //   if (!Description.trim() && !PostImage) return;
+  //   try {
+  //     const formData = new FormData();
+  //     // formData.append("postedBy", user.userId);
+  //     formData.append("Description", Description);
+  //     formData.append("tweetImage", PostImage);
+  //     // console.log(formData, "formData");
+  //     await axios.post(TWEET_URL + user._id, formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     navigate("/");
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // };
+
+  const { mutate: CreateTweet } = useMutation({
+    mutationFn: async ({ Description, tweetImage }) => {
       const formData = new FormData();
-      // formData.append("postedBy", user.userId);
       formData.append("Description", Description);
-      formData.append("tweetImage", PostImage);
-      // console.log(formData, "formData");
-      await axios.post(TWEET_URL + user._id, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      formData.append("tweetImage", tweetImage);
+      console.log(formData);
+
+      await axios.post(TWEET_URL + user._id, formData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tweets"],
       });
-      navigate("/");
-    } catch (error) {
-      return error;
-    }
-  };
+    },
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
@@ -86,7 +102,6 @@ export const TweetsProvider = ({ children }) => {
       queryClient.invalidateQueries({ queryKey: ["tweets"] });
     },
   });
-
 
   return (
     <tweetsContext.Provider

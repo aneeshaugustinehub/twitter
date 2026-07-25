@@ -1,51 +1,82 @@
-import { useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 export const UserProvider = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const USER_URL =  BASE_URL + "users/";
-  const USER_ID_URL =  BASE_URL + "users/id/";
+  const USER_URL = BASE_URL + "users/";
+  const USER_ID_URL = BASE_URL + "users/id/";
 
-  const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
+  const {
+    data: users,
+    isLoading: usersIsLoading,
+    error: usersError,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axios.get(USER_URL);
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await axios.get(USER_URL);
-        setUsers(res.data);
-      } catch (error) {
-        console.log(error, "error fetching fetchUsers");
-      }
-    };
-    fetchUsers();
-  }, [USER_URL]);
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const res = await axios.get(USER_URL);
+  //       setUsers(res.data);
+  //     } catch (error) {
+  //       console.log(error, "error fetching fetchUsers");
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, [USER_URL]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const localUser = JSON.parse(localStorage.getItem("user"));
-        if (localUser) {
-          const res = await axios.get(USER_URL + localUser.userId);
-          setUser(res.data);
-        }
-      } catch (error) {
-        console.log(error, "error fetching fetchUser");
-      }
-    };
-    fetchUser();
-  }, [USER_URL]);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const localUser = JSON.parse(localStorage.getItem("user"));
+  //       if (localUser) {
+  //         const res = await axios.get(USER_URL + localUser.userId);
+  //         setUser(res.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error, "error fetching fetchUser");
+  //     }
+  //   };
+  //   fetchUser();
+  // }, [USER_URL]);
 
-  const GetPostUser = async (id) => {
-    try {
-      if (id) {
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const {
+    data: user,
+    isLoading: userIsLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["user", localUser],
+    queryFn: async () => {
+      const res = await axios.get(USER_URL + localUser.userId);
+      return res.data;
+    },
+  });
+
+  // const GetPostUser = async (id) => {
+  //   try {
+  //     if (id) {
+  //       const res = await axios.get(USER_ID_URL + id);
+  //       return (res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, "error fetching fetchUser");
+  //   }
+  // };
+  const GetPostUser = (id) => {
+    return useQuery({
+      queryKey: ["GetPostUser", id],
+      queryFn: async () => {
         const res = await axios.get(USER_ID_URL + id);
-        return (res.data);
-      }
-    } catch (error) {
-      console.log(error, "error fetching fetchUser");
-    }
+        return res.data;
+      },
+    });
   };
 
   const EditUserProfile = async (
@@ -70,10 +101,9 @@ export const UserProvider = ({ children }) => {
     if (bannerPic) formData.append("bannerPic", bannerPic);
 
     try {
-      const { data } = await axios.put(USER_URL + user._id, formData, {
+      await axios.put(USER_URL + user._id, formData, {
         headers: { "Content-Type": "multipart/formdata" },
       });
-      setUser(data);
     } catch (error) {
       console.error("EditUserProfile error", error);
     }
@@ -89,9 +119,6 @@ export const UserProvider = ({ children }) => {
         token: password,
         dob: birthday,
       });
-      // console.log(response.data.newUser.token);
-      // console.log(response.data.newUser.userId);
-      setUser(response.data.newUser);
       localStorage.setItem("user", JSON.stringify(response.data.newUser));
     } catch (error) {
       console.log(error, "error Signup");
@@ -111,7 +138,6 @@ export const UserProvider = ({ children }) => {
       if (match && stored.data.token === password) {
         const updated = { ...stored.data, token: password };
         localStorage.setItem("user", JSON.stringify(updated));
-        setUser(updated);
       } else {
         console.log("Invalid credentials");
       }
@@ -122,14 +148,17 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("user");
-    setUser({});
   };
 
   return (
     <UserContext.Provider
       value={{
         users,
+        usersError,
+        usersIsLoading,
         user,
+        userError,
+        userIsLoading,
         Login,
         logout,
         Signup,

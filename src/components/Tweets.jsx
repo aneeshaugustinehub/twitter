@@ -4,7 +4,7 @@
 // import { MdOutlineBookmarkRemove } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import moment from "moment";
 import { useTweets } from "./tweetsContext";
 import { FiTrash2 } from "react-icons/fi";
@@ -13,21 +13,21 @@ import { BsThreeDots } from "react-icons/bs";
 import { useUser } from "./UserContext";
 
 export default function Tweets({ tweet }) {
-  const [tweetUser, setTweetUser] = useState();
-  const { user, GetPostUser } = useUser();
-
   const TWEET_IMAGE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
+  const { user, GetPostUser } = useUser();
   const { deleteMutation } = useTweets();
   const [TweetMenu, setTweetMenu] = useState(false);
 
-  useEffect(() => {
-    const handlePostUser = async (id) => {
-      const res = await GetPostUser(id);
-      setTweetUser(res);
-    };
-    handlePostUser(tweet.postedBy);
-  }, [tweet, GetPostUser]);
+  // useEffect(() => {
+  //   const handlePostUser = async (id) => {
+  //     const res = await GetPostUser(id);
+  //     setTweetUser(res);
+  //   };
+  //   handlePostUser(tweet.postedBy);
+  // }, [tweet, GetPostUser]);
+
+  const { data: tweetUser = [],} = GetPostUser(tweet.postedBy);
 
   const handleDelete = () => {
     deleteMutation.mutateAsync(tweet._id);

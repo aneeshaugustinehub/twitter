@@ -5,7 +5,6 @@ import { useUser } from "./UserContext";
 import { useTweets } from "../components/tweetsContext";
 
 export default function CreateTweet() {
-  
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
   const { CreateTweet } = useTweets();
@@ -25,7 +24,8 @@ export default function CreateTweet() {
     setPostImage(file);
   };
   const PostHandle = async () => {
-    CreateTweet(Description, PostImage);
+    CreateTweet({ Description: Description, tweetImage: PostImage });
+    setDescription("")
     setPostImagePreview(null);
   };
   return (
@@ -42,8 +42,9 @@ export default function CreateTweet() {
         <input
           className="border-none focus:outline-none focus:ring-0 w-full min-w-full bg-transparent text-xl py-4"
           type="text"
+          value={Description}
           placeholder="what's happening?"
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(value) => setDescription(value.target.value)}
         />
         <img
           src={PostImagePreview || null}
