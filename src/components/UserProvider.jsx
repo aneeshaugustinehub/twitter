@@ -1,6 +1,6 @@
 import { UserContext } from "./UserContext";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 export const UserProvider = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
     },
   });
 
-  // const GetPostUser = async (id) => {
+  // const GetUserById = async (id) => {
   //   try {
   //     if (id) {
   //       const res = await axios.get(USER_ID_URL + id);
@@ -69,9 +69,19 @@ export const UserProvider = ({ children }) => {
   //     console.log(error, "error fetching fetchUser");
   //   }
   // };
-  const GetPostUser = (id) => {
+  const GetUserByUsername = (username) => {
     return useQuery({
-      queryKey: ["GetPostUser", id],
+      queryKey: ["userByUsername", username],
+      queryFn: async () => {
+        const res = await axios.get(USER_URL + username);
+        return res.data;
+      },
+    });
+  };
+
+  const GetUserById = (id) => {
+    return useQuery({
+      queryKey: ["GetUserById", id],
       queryFn: async () => {
         const res = await axios.get(USER_ID_URL + id);
         return res.data;
@@ -108,6 +118,7 @@ export const UserProvider = ({ children }) => {
       console.error("EditUserProfile error", error);
     }
   };
+
   const Signup = async (email, name, userId, password, birthday) => {
     if (!email.trim() || !name || !userId || !password || !birthday) return;
     try {
@@ -129,7 +140,7 @@ export const UserProvider = ({ children }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
       const stored = await axios.get(USER_URL + userid);
-      console.log(stored.data);
+      // console.log(stored.data);
 
       const isEmail = emailRegex.test(userid);
       const match = isEmail
@@ -150,6 +161,31 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  //   const { mutate: CreateTweet } = useMutation({
+  //   mutationFn: async ({ Description, tweetImage }) => {
+  //     const formData = new FormData();
+  //     formData.append("Description", Description);
+  //     formData.append("tweetImage", tweetImage);
+  //     await axios.post(TWEET_URL + user._id, formData);
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["tweets"],
+  //     });
+  //   },
+  // });
+
+  const { mutate: AddBookmark } = useMutation({
+    mutationFn: async ({ userId, tweetId }) => {
+      await axios.put(USER_URL + "bookmark/" + userId,{tweetId});
+    },
+    onSuccess: () => {
+      QueryClient.invalidateQueries({
+        queryKey: ["bookmark"],
+      });
+    },
+  });
+
   return (
     <UserContext.Provider
       value={{
@@ -162,8 +198,10 @@ export const UserProvider = ({ children }) => {
         Login,
         logout,
         Signup,
+        AddBookmark,
         EditUserProfile,
-        GetPostUser,
+        GetUserById,
+        GetUserByUsername,
       }}
     >
       {children}

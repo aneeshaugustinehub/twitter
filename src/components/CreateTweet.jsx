@@ -29,18 +29,18 @@ export default function CreateTweet() {
     setPostImagePreview(null);
   };
   return (
-    <div className="flex px-3 w-full h-full">
+    <div className="flex px-4 py-2  w-full h-full">
       <div className="shrink-0">
         <img
           src={BASE_URL + ProfileImage}
           alt="img"
-          className="rounded-full h-12 w-12 object-cover"
+          className="rounded-full h-10 w-10 object-cover"
         />
       </div>
 
       <div className="block items-center w-full mx-2">
-        <input
-          className="border-none focus:outline-none focus:ring-0 w-full min-w-full bg-transparent text-xl py-4"
+        <textarea
+          className="border-none focus:outline-none focus:ring-0 w-full min-w-full bg-transparent text-xl py-2"
           type="text"
           value={Description}
           placeholder="what's happening?"
@@ -52,8 +52,7 @@ export default function CreateTweet() {
           className="max-h-80 object-cover"
         />
 
-        <hr className="my-4 h-px bg-neutral-quaternary custom-border" />
-        <div className="flex items-center my-2">
+        <div className="flex items-center">
           {" "}
           <FiImage
             className="text-2xl text-gray-600 mr-2 cursor-pointer"

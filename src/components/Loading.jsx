@@ -1,6 +1,8 @@
-
 export default function Loading() {
-    return (
-      <h1 className="text-2xl flex justify-center items-center">Loading...</h1>
-    );
+  return (
+    <div className="flex justify-center items-center py-4">
+      <h1 className="text-2xl">Loading...</h1>
+    </div>
+  );
 }
+

@@ -8,17 +8,17 @@ import { FiImage } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { useUser } from "../components/UserContext";
+import TweetsAndReplay from "../components/TweetsAndReplay";
 
 export default function Comment() {
+  const { CreateReplay, TweetByID, useGetReplay } = useTweets();
   const { user } = useUser();
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
   const CommentImageRef = useRef();
   const [CommentImagePreview, setCommentImagePreview] = useState();
   const [CommentImage, setCommentImage] = useState();
-  const [Comment, setComment] = useState();
-
+  const [Comment, setComment] = useState("");
   const { id } = useParams();
-  const { TweetByID } = useTweets();
 
   // const [tweet, setTweet] = useState();
   // const [isLoading, setIsLoading] = useState(true);
@@ -40,27 +40,37 @@ export default function Comment() {
   // }, [TweetByID, id]);
 
   const { data: tweets = [], isLoading, error } = TweetByID(id);
+  const { data: replay = [] } = useGetReplay(id);
   const ImagePreviewHandle = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
-    console.log(user);
     setCommentImagePreview(url);
     setCommentImage(file);
   };
 
   const CommentHandle = () => {
-    console.log(CommentImage, Comment);
-    // addComments(CommentImage, Comment);
+    if (!tweets._id) return;
+    if (!Comment && !CommentImage) return;
+    CreateReplay({
+      tweetId: tweets._id,
+      ReplayText: Comment,
+      ReplayImage: CommentImage,
+    });
+    setComment("");
+    setCommentImagePreview(null);
   };
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!tweets) return null;
+  if (!tweets) return <div>no post: </div>;
+  // if(tweets.replayId){
+
+  // }
 
   return (
     <>
       <div className="md:w-[580px]">
-        <div className="inline-flex text-xl font-bold p-2 fixed bg-slate-950/70 w-full custom-border">
+        <div className="inline-flex text-xl font-bold p-2 fixed bg-slate-950/70 md:w-[580px] custom-border">
           <Link to="/home">
             <GoArrowLeft />{" "}
           </Link>
@@ -68,9 +78,9 @@ export default function Comment() {
         </div>
         <div className="overflow-y-scroll">
           <div className="mt-9">
-            <Tweets key={tweets._id} tweet={tweets} />
+            <TweetsAndReplay key={tweets._id} tweet={tweets} />
           </div>
-          <div className="flex px-3 w-full h-full">
+          <div className="flex px-3 py-4 w-full h-full custom-border">
             <div className="shrink-0">
               <img
                 src={BASE_URL + user.profilePic}
@@ -82,6 +92,7 @@ export default function Comment() {
               <input
                 className="border-none focus:outline-none focus:ring-0 w-full min-w-full bg-transparent text-xl py-4"
                 type="text"
+                value={Comment}
                 placeholder="what's happening?"
                 onChange={(e) => setComment(e.target.value)}
               />
@@ -120,6 +131,9 @@ export default function Comment() {
             </div>
           </div>
         </div>
+        {replay?.map((replay) => (
+          <Tweets key={replay._id} tweet={replay} />
+        ))}
       </div>
     </>
   );

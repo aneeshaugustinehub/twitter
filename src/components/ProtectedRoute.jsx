@@ -1,23 +1,27 @@
-import { Navigate } from "react-router-dom";
 import { useUser } from "./UserContext";
 import Loading from "./Loading";
+import JoinToday from "../page/JoinToday";
 
 export default function ProtectedRoute({ children }) {
-  const { user, userError, userIsLoading } = useUser();  
+  const { user, userError, userIsLoading } = useUser();
   const isLoggedIn = !!user?.token;
   if (userIsLoading) {
-    console.log("Loading");
+    // console.log("Loading");
 
-    return <Loading />;
+    return (
+      <div className="md:w-[580px]">
+        <Loading />
+      </div>
+    );
   }
   if (userError) {
     console.log("userError");
-    return <Navigate to="/login" replace />;
+    return <JoinToday />;
   }
   if (!isLoggedIn) {
     console.log("isLoggedIn");
 
-    return <Navigate to="/login" replace />;
+    return <JoinToday />;
   }
   return children;
 }

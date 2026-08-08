@@ -1,6 +1,6 @@
 // import { getTweets } from "../api";
 import CreateTweet from "../components/CreateTweet";
-import Tweets from "../components/Tweets";
+import TweetsAndReplay from "../components/TweetsAndReplay";
 import { useTweets } from "../components/tweetsContext";
 import { TweetsProvider } from "../components/tweetsProvider";
 import Loading from "../components/Loading";
@@ -13,7 +13,9 @@ export default function MainContent() {
     return <Loading />;
   }
   if (errorTweetItems) {
-    return <Error />;
+    <div className="md:w-[580px]">
+      return <Error />;{" "}
+    </div>;
   }
   return (
     <div className="md:w-[580px]">
@@ -23,7 +25,9 @@ export default function MainContent() {
         </TweetsProvider>
       </div>
       {TweetItems?.map((tweet) => (
-        <Tweets key={tweet._id} tweet={tweet} />
+        <div>
+          <TweetsAndReplay key={tweet._id} tweet={tweet} />
+        </div>
       ))}
     </div>
   );

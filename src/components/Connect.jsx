@@ -8,12 +8,13 @@ export default function Connect() {
   const PROFILES_IMAGE_URL = import.meta.env.VITE_BASE_URL+"profilesImage/";
 
   const { users, usersError, usersIsLoading } = useUser();
+  
 
   if (usersIsLoading) {
-    <Loading />;
+    return <Loading />;
   }
   if (usersError) {
-    <Error />;
+    return <Error />;
   }
   return (
     <>
@@ -21,7 +22,7 @@ export default function Connect() {
         <h2 className="text-xl font-bold text-black dark:text-white mb-3">
           Who to follow
         </h2>
-        {users?.map((u) => (
+        {Array.isArray(users) && users.map((u) => (
           <div
             key={u._id}
             className="flex items-center gap-3 py-2.5 dark:hover:bg-gray-900 hover:bg-gray-200 rounded-lg px-1  transition-colors"

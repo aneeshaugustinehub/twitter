@@ -36,7 +36,7 @@ export default function NavBar() {
     <>
       <div className="navbar">
         <div className="nav-item">
-          <Link to="home" className="nav-link text-4xl">
+          <Link to="home" className="nav-link">
             <IoLogoOctocat />
           </Link>
         </div>
@@ -85,7 +85,7 @@ export default function NavBar() {
                   </Link>
                 )}
               </li>
-              {/* <li className="nav-item">
+              <li className="nav-item hidden">
                 <button
                   className="nav-link"
                   aria-expanded="false"
@@ -96,7 +96,7 @@ export default function NavBar() {
                   <CiCircleMore />
                   <span className="nav-title">More</span>
                 </button>
-              </li> */}
+              </li>
             </ul>
             <dialog
               className={`dropdown ${navMore ? "flex " : ""}`}
@@ -179,52 +179,64 @@ export default function NavBar() {
               <div className="username px-4 hidden xl:block">
                 <span className="text-md font-bold p-0">{userdata?.name}</span>{" "}
                 <br />
-                <span className="font-light text-gray-500">@
-                  {userdata?.userId}
+                <span className="font-light text-gray-500">
+                  @{userdata?.userId}
                 </span>
               </div>
-              <BsThreeDots />
-            </div>
-            <dialog
-              className={`dropdown ${navAcc ? "flex flex-col" : ""}`}
-              closedby="any"
-              id="account-menu"
-            >
-              <button
-                onClick={handleLogout}
-                className="dropdown-item py-2 px-2 my-1"
+              <BsThreeDots className=" hidden xl:block" />
+            </div>{" "}
+            {navAcc && (
+              <div
+                className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
+                onClick={() => setNavAcc(false)}
               >
-                <div>Log out{userdata?.user_id}</div>
-              </button>
-              <button className="dropdown-item py-2 px-2 my-1 ">
-                <div className="">Add an existing account</div>
-              </button>
-            </dialog>
+                <dialog
+                  className={`dropdown flex flex-col`}
+                  closedby="any"
+                  id="account-menu"
+                >
+                  <button
+                    onClick={handleLogout}
+                    className="dropdown-item py-2 px-2 my-1"
+                  >
+                    <div>Log out{userdata?.user_id}</div>
+                  </button>
+                  <button className="dropdown-item py-2 px-2 my-1 ">
+                    <div className="">Add an existing account</div>
+                  </button>
+                </dialog>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <dialog
-        className={`${navPost ? "flex fixed popup  p-4 pb-3" : ""}`}
-        closedby="any"
-        id="post-popup"
+      {navPost && (
+      <div
+        className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
+        onClick={() => setNavPost(false)}
       >
-        <div className="block ">
-          <div className="bg-slate-300">
-            <span
-              className="px-2 hover:bg-slate-700 rounded-full"
-              onClick={() => {
-                setNavPost(!navPost);
-              }}
-            >
-              x
-            </span>
-            <span className=" flex-row ml-auto text-sky-500">Drafts</span>
+        <dialog
+          className={"flex color-popup color  p-4 pb-3 min-w-96"}
+          closedby="any"
+        >
+          <div className="block ">
+            <div>
+              <span
+                className="px-2 hover:bg-slate-700 rounded-full"
+                onClick={() => {
+                  setNavPost(!navPost);
+                }}
+              >
+                x
+              </span>
+              <span className=" flex-row ml-auto text-sky-500">Drafts</span>
+            </div>
+            <TweetsProvider>
+              <CreateTweet />
+            </TweetsProvider>
           </div>
-          <TweetsProvider>
-            <CreateTweet />
-          </TweetsProvider>
-        </div>
-      </dialog>
+        </dialog>
+      </div>)}
     </>
   );
 }

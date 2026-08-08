@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function JoinToday() {
   const navigate = useNavigate();
-  const [loginPopup, setloginPopup] = useState(false);
+  const [loginPopup, setLoginPopup] = useState(false);
   const [SignupPopup, setSignupPopup] = useState(false);
   const [user_id, setUser_id] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,7 @@ export default function JoinToday() {
   const handleLogin = () => {
     if (!user_id || !password) return;
     Login(user_id, password);
-    setloginPopup(false);
+    setLoginPopup(false);
     //console.log("loggedin");
     navigate("/home");
   };
@@ -66,7 +66,7 @@ export default function JoinToday() {
                 type="submit"
                 className="btn-join"
                 id="join-today-btn"
-                onClick={() => setloginPopup(!loginPopup)}
+                onClick={() => setLoginPopup(!loginPopup)}
               >
                 <span className="">Continue</span>
               </button>
@@ -97,7 +97,7 @@ export default function JoinToday() {
               <div className="" id="login-popup">
                 <button
                   className="p-2 px-4 bg-slate-900 rounded-full"
-                  onClick={() => setloginPopup(!loginPopup)}
+                  onClick={() => setLoginPopup(!loginPopup)}
                 >
                   {" "}
                   x{" "}

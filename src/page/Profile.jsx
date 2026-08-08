@@ -2,35 +2,38 @@ import { CiLocationOn } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import Tweets from "../components/Tweets";
 import { useTweets } from "../components/tweetsContext";
-import axios from "axios";
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
 import FollowButton from "../components/FollowButton";
 import { GoArrowLeft } from "react-icons/go";
 import Loading from "../components/Loading";
 
 export default function Profile() {
-  const { user } = useUser();
+  const { user, GetUserByUsername } = useUser();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [profile, setProfile] = useState();
+  // const [profile, setProfile] = useState();
   const { username } = useParams();
-
-  useEffect(() => {
-    async function fetchUser(id) {
-      const res = await axios.get(BASE_URL + "users/" + id);
-      setProfile(res.data);
-    }
-    fetchUser(username);
-  }, [username, BASE_URL]);
-
-  const userData = profile;
-
   const { useTweetsByUser } = useTweets();
+
+  // useEffect(() => {
+  //   async function fetchUser(id) {
+  //     const res = await axios.get(BASE_URL + "users/" + id);
+  //     setProfile(res.data);
+  //   }
+  //   fetchUser(username);
+  // }, [username, BASE_URL]);
+
+  const {
+    data: userData = [],
+    isLoading: userLoading,
+    error: errorUser,
+  } = GetUserByUsername(username);
 
   const {
     data: tweetsByUser = [],
-    isLoading,
-    error,
+    isLoading: tweetLoading,
+    error: tweetError,
   } = useTweetsByUser(userData?._id);
 
   const bannerImage = userData?.bannerPic
@@ -40,11 +43,20 @@ export default function Profile() {
     ? BASE_URL + "profilesImage/" + userData.profilePic
     : "https://placehold.co/60x60";
 
-  if (isLoading) {
-    <Loading />;
+  if (userLoading) {
+    return <Loading />;
   }
-  if (error) {
-    <Loading />;
+  if (errorUser) {
+    return (
+      <div
+        className={`${userData ? "hidden" : "pt-20 items-center align-middle justify-center"}`}
+      >
+        <h1 className="text-3xl font-black">
+          This account doesn’t <br /> exist
+        </h1>
+        <p className="text-gray-600">Try searching for another.</p>
+      </div>
+    );
   }
   return (
     <>
@@ -55,16 +67,8 @@ export default function Profile() {
           </Link>
           <h1 className="pl-6">{userData?.name}</h1>
         </div>
-        <div className="mt-9">
-          <div
-            className={`${profile ? "hidden" : "pt-20 items-center align-middle justify-center"}`}
-          >
-            <h1 className="text-3xl font-black">
-              This account doesn’t <br /> exist
-            </h1>
-            <p className="text-gray-600">Try searching for another.</p>
-          </div>
-          <div className={`${profile ? "" : "hidden"}`}>
+        <div className="mt-11">
+          <div className={`${userData ? "" : "hidden"}`}>
             {/* Banner */}
             <img
               src={bannerImage}
@@ -73,7 +77,7 @@ export default function Profile() {
               height=""
             />
             {/* Profile info */}
-            <div className="border border-gray-700 p-3">
+            <div className="border-b border-gray-700 p-3">
               <div className="flex flex-col">
                 {/* Avatar + Edit button row */}
                 <div className="flex justify-between items-start">
@@ -155,9 +159,19 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            {tweetsByUser?.map((tweet) => (
-              <Tweets key={tweet._id} tweet={tweet} />
-            ))}{" "}
+            {tweetLoading && <Loading />}
+            {tweetError && (
+              <>
+                <div className="flex justify-center items-center py-4">
+                  <h1>no posts </h1>
+                </div>
+              </>
+            )}
+            {!tweetLoading &&
+              !tweetError &&
+              tweetsByUser?.map((tweet) => (
+                <Tweets key={tweet._id} tweet={tweet} />
+              ))}
           </div>
         </div>
       </div>

@@ -1,11 +1,12 @@
+// import PublicRoute from "./components/PublicRoute";
+// import PublicRoute from "./components/PublicRoute";
+// import Error from "./components/error";
+import Todo from "./components/Todo";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./page/Profile";
 import EditProfile from "./page/EditProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import PublicRoute from "./components/PublicRoute";
-// import PublicRoute from "./components/PublicRoute";
-// import Error from "./components/error";
-// import Todo from "./components/Todo";
+import PublicRoute from "./components/PublicRoute";
 import MainLayout from "./layout/MainLayout";
 import SubLayout from "./layout/SubLayout";
 import MainContent from "./layout/MainContent";
@@ -16,33 +17,41 @@ import AIChat from "./page/AIChat";
 import Bookmarks from "./page/Bookmarks";
 import JoinToday from "./page/JoinToday";
 import Comment from "./layout/Comment";
+import FullView from "./layout/FullView";
 import { TweetsProvider } from "../src/components/tweetsProvider";
-import { Navigate } from "react-router-dom";
-import { useUser } from "./components/UserContext";
 
 export default function App() {
-  const { user } = useUser();
-  const isLoggedIn = !!user?.token;
   return (
     <>
       <div className="color min-h-screen flex justify-center">
         <Routes>
           <Route
-            path="/"
+            path="/login"
             element={
-              isLoggedIn ? (
-                <Navigate to="/home" replace />
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <PublicRoute>
+                <JoinToday />
+              </PublicRoute>
             }
           />
           <Route
-            path="/login"
-            element={isLoggedIn ? <Navigate to="/" replace /> : <JoinToday />}
+            path="/"
+            element={
+              <PublicRoute>
+                <JoinToday />
+              </PublicRoute>
+            }
           />
-          {/* <Route path="/todo" element={<Todo />} /> */}
-          {/* <Route path="/*" element={<Error />}></Route> */}
+          <Route
+            path="/full/:id"
+            element={
+              <ProtectedRoute>
+                <TweetsProvider>
+                  <FullView />
+                </TweetsProvider>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/todo" element={<Todo />} />
           <Route element={<SubLayout />}>
             <Route
               path="/chat"
@@ -91,7 +100,9 @@ export default function App() {
               path="/Bookmarks"
               element={
                 <ProtectedRoute>
-                  <Bookmarks />
+                  <TweetsProvider>
+                    <Bookmarks />
+                  </TweetsProvider>
                 </ProtectedRoute>
               }
             />
@@ -126,7 +137,7 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <TweetsProvider>
-                    <Comment/>
+                    <Comment />
                   </TweetsProvider>
                 </ProtectedRoute>
               }

@@ -12,7 +12,7 @@ const PHASES = [
         day: "Monday",
         focus: "Backend – Auth",
         tasks: [
-          { id: "m1", text: "Review/write User model (mongoose schema)", done: false },
+          { id: "m1", text: "Review/write User model (mongoo schema)", done: false },
           { id: "m2", text: "Build POST /api/auth/register route", done: false },
           { id: "m3", text: "Build POST /api/auth/login route + JWT generation", done: false },
           { id: "m4", text: "Test both routes in Postman / Thunder Client", done: false },

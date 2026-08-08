@@ -36,7 +36,7 @@
   @apply transition flex items-center
  }
  .navbar {
-  @apply sticky top-0 h-dvh overflow-y-auto xl:mx-8 mx-2 min-w-3 shrink-0 flex flex-col
+  @apply text-xl sticky top-0 h-dvh overflow-y-auto xl:px-8 px-2 min-w-3 shrink-0 flex flex-col border-r border-gray-800
  }
 
  .nav-link {
@@ -47,11 +47,11 @@
  }
 
  .custom-border {
-  @apply border-l border-r border-t border-gray-800
+  @apply border-b border-gray-800
  }
 
  .sidebar {
-  @apply sticky top-0 h-screen w-[275px] overflow-y-auto 
+  @apply sticky top-0 h-screen w-[275px]
  }
 
  .box-link {
