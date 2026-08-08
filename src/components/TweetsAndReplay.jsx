@@ -1,7 +1,3 @@
-// import { HiOutlineShare } from "react-icons/hi2";
-// import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-// import { RiVerifiedBadgeFill } from "react-icons/ri";
-// import { MdOutlineBookmarkRemove } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTweets } from "./tweetsContext";
