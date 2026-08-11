@@ -17,6 +17,9 @@ export default function Bookmarks() {
       queryKey: ["bookmarkTweet", id], // match whatever key TweetByID uses, so cache is shared
       queryFn: async () => {
         const res = await axios.get(`${BASE_URL}tweets/${id}`);
+        if (res.data.tweets === null) {
+          return id;
+        }
         return res.data.tweets;
       },
       enabled: !!id,
@@ -33,6 +36,7 @@ export default function Bookmarks() {
     const q = search.toLowerCase();
     return b.description?.toLowerCase().includes(q);
   });
+  // console.log(bookmarkTweets);
 
   return (
     <div className="flex flex-col w-full max-w-[580px] min-h-screen border-x border-gray-800">
@@ -58,8 +62,8 @@ export default function Bookmarks() {
       </div>
 
       {/* Tag filters */}
-      <div className="flex gap-2 px-4 py-3 border-b border-gray-800 overflow-x-auto">
-        {/* {ALL_TAGS.map((tag) => (
+      {/* <div className="flex gap-2 px-4 py-3 border-b border-gray-800 overflow-x-auto">
+        {ALL_TAGS.map((tag) => (
           <button
             key={tag}
             onClick={() => setActiveTag(tag)}
@@ -71,8 +75,8 @@ export default function Bookmarks() {
           >
             {tag}
           </button>
-        ))} */}
-      </div>
+        ))}
+      </div> */}
 
       {/* Count */}
       {user.bookmarks.length > 0 && (
@@ -89,9 +93,9 @@ export default function Bookmarks() {
         <Loading />
       ) : filtered.length > 0 ? (
         filtered.map((b, i) =>
-          !b ? (
+          !b._id ? (
             <>
-              <div className="flex p-2 justify-center">
+              <div className="flex py-5 justify-center custom-border">
                 <div>
                   <h1 key={i} className="text-2xl justify-center">
                     This Tweet was deleted.
@@ -99,14 +103,14 @@ export default function Bookmarks() {
                   <p className="justify-center">This Tweet is unavailable.</p>
                 </div>
               </div>
-              <button
-                className=" w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
-                onClick={(tweetId) => {
-                  AddBookmark({ userId: user._id, tweetId: tweetId });
-                }}
-              >
-                Delete Bookmark
-              </button>
+              <div className="flex py-5 justify-center">
+                <button
+                  className="justify-center w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
+                  onClick={()=>AddBookmark({ userId: user._id, tweetId: b })}
+                >
+                  Delete Bookmark
+                </button>
+              </div>
             </>
           ) : (
             <TweetsAndReplay key={b._id} tweet={b} />

@@ -68,7 +68,7 @@ export function ActionBtn({tweets,tweetUserID}) {
 
   function formatCount(n) {
     if (n >= 1000) return (n / 1000).toFixed(1).replace(".0", "") + "K";
-    return n.toString();
+    return n?.toString();
   }
 
   return (

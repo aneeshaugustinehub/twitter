@@ -62,7 +62,7 @@ export default function FullView() {
         <div className="inline-flex text-xl font-bold fixed w-full">
           <Link
             className="bg-slate-800/70 custom-border rounded-full m-3 p-2"
-            to="/home"
+            onClick={()=>history.back()}
           >
             <GoArrowLeft />
           </Link>
