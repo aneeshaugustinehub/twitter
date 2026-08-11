@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { useTweets } from "./tweetsContext";
 import { useUser } from "./UserContext";
-import {CopyLinkButton} from "./Elements";
+import { CopyLinkButton } from "./Elements";
+import CreateTweet from "./CreateTweet";
 
 export function TweetImage({ tweets }) {
   const TWEET_IMAGE_URL = import.meta.env.VITE_BASE_URL + "tweetsImage/";
@@ -56,14 +57,14 @@ export function TweetProfile({ tweet }) {
   );
 }
 
-export function ActionBtn({tweets,tweetUserID}) {
-  const { AddBookmark } = useUser();
+export function ActionBtn({ tweets }) {
+  const {user, AddBookmark } = useUser();
   const [RepostPopUp, setRepostPopUp] = useState(false);
   const onLike = (id) => {
     console.log(id);
   };
   const onClickBookmark = (tweetId) => {
-    AddBookmark({ userId:tweetUserID,tweetId:tweetId});
+    AddBookmark({ userId: user._id, tweetId: tweetId });
   };
 
   function formatCount(n) {
@@ -76,9 +77,9 @@ export function ActionBtn({tweets,tweetUserID}) {
       {RepostPopUp && (
         <div
           className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
-          onClick={() => {
-            setRepostPopUp(false);
-          }}
+          // onClick={() => {
+          //   setRepostPopUp(false);
+          // }}
         >
           <ReplayPopup />
         </div>
@@ -89,9 +90,11 @@ export function ActionBtn({tweets,tweetUserID}) {
         }}
         className="flex items-center text-gray-500 hover:text-sky-400 group/btn transition-colors"
       >
-        <span className="p-1.5 round
+        <span
+          className="p-1.5 round
       <button
-        onClick={() => {ed-full group-hover/btn:bg-sky-400/10 transition-colors">
+        onClick={() => {ed-full group-hover/btn:bg-sky-400/10 transition-colors"
+        >
           <BiMessageRounded className="text-base" />
         </span>
         <span className="">{formatCount(tweets?.commentCount)}</span>
@@ -118,7 +121,9 @@ export function ActionBtn({tweets,tweetUserID}) {
         </span>
       </button>
       <div className="ml-auto flex">
-        <CopyLinkButton url={`${window.location.origin}/comment/${tweets?._id}`} />
+        <CopyLinkButton
+          url={`${window.location.origin}/comment/${tweets?._id}`}
+        />
         <button
           onClick={() => onClickBookmark(tweets?._id)}
           className="flex items-center  text-gray-500 hover:text-sky-400 group/btn transition-colors"
@@ -133,12 +138,10 @@ export function ActionBtn({tweets,tweetUserID}) {
   );
 }
 export function ReplayPopup() {
-  console.log("hi");
-
   return (
     <>
-      <div>
-        <h1>hi</h1>
+      <div className="color">
+        <CreateTweet />
       </div>
     </>
   );
@@ -151,7 +154,7 @@ export default function Tweets({ tweet }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { data: tweetUser = [] } = GetUserById(tweet?.postedBy);
-  
+
   const handleDelete = () => {
     deleteMutation.mutateAsync(tweet?._id);
   };
@@ -314,7 +317,11 @@ export default function Tweets({ tweet }) {
             </div>
             {/* Action buttons */}
             <div className="ml-11">
-              <ActionBtn key={tweet?._id} tweets={tweet} tweetUserID={tweetUser?._id} />
+              <ActionBtn
+                key={tweet?._id}
+                tweets={tweet}
+                tweetUserID={tweetUser?._id}
+              />
             </div>
           </div>
         </div>

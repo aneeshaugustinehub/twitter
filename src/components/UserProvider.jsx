@@ -179,14 +179,13 @@ export const UserProvider = ({ children }) => {
   //     });
   //   },
   // });
-
   const { mutate: AddBookmark } = useMutation({
     mutationFn: async ({ userId, tweetId }) => {
       await axios.put(USER_URL + "bookmark/" + userId, { tweetId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["bookmarkTweet"],
+        queryKey: ["user"],
       });
     },
   });

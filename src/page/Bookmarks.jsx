@@ -14,7 +14,7 @@ export default function Bookmarks() {
 
   const bookmarkQueries = useQueries({
     queries: user.bookmarks.map((id) => ({
-      queryKey: ["bookmarkTweet", id], // match whatever key TweetByID uses, so cache is shared
+      queryKey: ["bookmarkTweet", id],
       queryFn: async () => {
         const res = await axios.get(`${BASE_URL}tweets/${id}`);
         if (res.data.tweets === null) {
@@ -106,7 +106,7 @@ export default function Bookmarks() {
               <div className="flex py-5 justify-center">
                 <button
                   className="justify-center w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
-                  onClick={()=>AddBookmark({ userId: user._id, tweetId: b })}
+                  onClick={() => AddBookmark({ userId: user._id, tweetId: b })}
                 >
                   Delete Bookmark
                 </button>
