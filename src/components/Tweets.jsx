@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { BiRepost, BiMessageRounded, BiBookmark } from "react-icons/bi";
+import { FaBookmark,FaRegBookmark } from "react-icons/fa";
+import {  } from "react-icons/fa";
+import { BiRepost, BiMessageRounded } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -58,7 +60,7 @@ export function TweetProfile({ tweet }) {
 }
 
 export function ActionBtn({ tweets }) {
-  const {user, AddBookmark } = useUser();
+  const { user, AddBookmark } = useUser();
   const [RepostPopUp, setRepostPopUp] = useState(false);
   const onLike = (id) => {
     console.log(id);
@@ -66,6 +68,9 @@ export function ActionBtn({ tweets }) {
   const onClickBookmark = (tweetId) => {
     AddBookmark({ userId: user._id, tweetId: tweetId });
   };
+  const isBookmarked = user.bookmarks.some(
+    (id) => id.toString() === tweets._id,
+  );
 
   function formatCount(n) {
     if (n >= 1000) return (n / 1000).toFixed(1).replace(".0", "") + "K";
@@ -77,11 +82,13 @@ export function ActionBtn({ tweets }) {
       {RepostPopUp && (
         <div
           className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
-          // onClick={() => {
-          //   setRepostPopUp(false);
-          // }}
+          onClick={() => {
+            setRepostPopUp(false);
+          }}
         >
-          <ReplayPopup />
+          <div className="z-10">
+            <ReplayPopup />
+          </div>
         </div>
       )}
       <button
@@ -130,7 +137,11 @@ export function ActionBtn({ tweets }) {
           aria-label="Remove bookmark"
         >
           <span className="p-1.5 rounded-full group-hover/btn:bg-sky-400/10 transition-colors">
-            <BiBookmark className="text-base" />
+            {isBookmarked ? (
+              <FaBookmark className="text-base text-blue-500" />
+            ) : (
+              <FaRegBookmark className="text-base" />
+            )}
           </span>
         </button>
       </div>
