@@ -1,11 +1,14 @@
 import { UserContext } from "./UserContext";
 import axios from "axios";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 export const UserProvider = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const USER_URL = BASE_URL + "users/";
   const USER_ID_URL = BASE_URL + "users/id/";
+
+  const queryClient = useQueryClient();
+
 
   const {
     data: users,
@@ -76,6 +79,7 @@ export const UserProvider = ({ children }) => {
         const res = await axios.get(USER_URL + username);
         return res.data;
       },
+      retry: false,
     });
   };
 
@@ -177,11 +181,11 @@ export const UserProvider = ({ children }) => {
 
   const { mutate: AddBookmark } = useMutation({
     mutationFn: async ({ userId, tweetId }) => {
-      await axios.put(USER_URL + "bookmark/" + userId,{tweetId});
+      await axios.put(USER_URL + "bookmark/" + userId, { tweetId });
     },
     onSuccess: () => {
-      QueryClient.invalidateQueries({
-        queryKey: ["bookmark"],
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarkTweet"],
       });
     },
   });

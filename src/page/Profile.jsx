@@ -44,17 +44,21 @@ export default function Profile() {
     : "https://placehold.co/60x60";
 
   if (userLoading) {
-    return <Loading />;
+    return (
+      <div className="flex flex-col md:w-[580px] ">
+        <Loading />
+      </div>
+    );
   }
   if (errorUser) {
     return (
-      <div
-        className={`${userData ? "hidden" : "pt-20 items-center align-middle justify-center"}`}
-      >
-        <h1 className="text-3xl font-black">
+      <div className="md:w-[580px] pt-20 flex justify-center">
+        <div className="">
+        <h1 className="text-3xl font-black ">
           This account doesn’t <br /> exist
         </h1>
         <p className="text-gray-600">Try searching for another.</p>
+        </div>
       </div>
     );
   }

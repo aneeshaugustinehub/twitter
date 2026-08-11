@@ -62,8 +62,7 @@ export function ActionBtn({tweets,tweetUserID}) {
   const onLike = (id) => {
     console.log(id);
   };
-  const onClickBookmark = async (tweetId) => {
-    console.log(tweetId,"tweetId");
+  const onClickBookmark = (tweetId) => {
     AddBookmark({ userId:tweetUserID,tweetId:tweetId});
   };
 
