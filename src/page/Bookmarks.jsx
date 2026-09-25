@@ -95,21 +95,25 @@ export default function Bookmarks() {
         filtered.map((b, i) =>
           !b._id ? (
             <>
-              <div className="flex py-5 justify-center custom-border">
-                <div>
-                  <h1 key={i} className="text-2xl justify-center">
-                    This Tweet was deleted.
-                  </h1>
-                  <p className="justify-center">This Tweet is unavailable.</p>
+              <div className="py-5 custom-border my-2">
+                <div className="flex justify-center">
+                  <div className="">
+                    <h1 key={i} className="text-2xl justify-center">
+                      This Tweet was deleted.
+                    </h1>
+                    <p className="justify-center">This Tweet is unavailable.</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex py-5 justify-center">
-                <button
-                  className="justify-center w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
-                  onClick={() => AddBookmark({ userId: user._id, tweetId: b })}
-                >
-                  Delete Bookmark
-                </button>
+                <div className="flex py-5 justify-center">
+                  <button
+                    className="justify-center w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
+                    onClick={() =>
+                      AddBookmark({ userId: user._id, tweetId: b })
+                    }
+                  >
+                    Delete Bookmark
+                  </button>
+                </div>
               </div>
             </>
           ) : (

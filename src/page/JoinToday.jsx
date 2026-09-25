@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useUser } from "../components/UserContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function JoinToday() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loginPopup, setLoginPopup] = useState(false);
+  const [loginErr, setLoginErr] = useState(false);
   const [SignupPopup, setSignupPopup] = useState(false);
   const [user_id, setUser_id] = useState("");
   const [password, setPassword] = useState("");
@@ -14,17 +15,24 @@ export default function JoinToday() {
   const { Login, Signup } = useUser();
 
   const handleSignup = () => {
-    if (!user_id || !password || !Fullname) return console.log("invalid data");
-    Signup(Email, Fullname, user_id, password,birthday);    
+    if (!user_id || !password || !Fullname) {
+      setLoginErr("Please fill out this field.");
+      return;
+    }
+    Signup(Email, Fullname, user_id, password, birthday);
     setSignupPopup(false);
   };
 
-  const handleLogin = () => {
-    if (!user_id || !password) return;
-    Login(user_id, password);
-    setLoginPopup(false);
-    //console.log("loggedin");
-    navigate("/home");
+  const handleLogin = async () => {
+    if (!user_id || !password) {
+      setLoginErr("Please fill out this field.");
+      console.log();
+    } else {
+      const err = await Login(user_id, password);
+      if (err) {
+        setLoginErr("invalid login credentials");
+      }
+    }
   };
 
   return (
@@ -113,7 +121,10 @@ export default function JoinToday() {
                       className="input-join"
                       placeholder="Email or username"
                       value={user_id}
-                      onChange={(e) => setUser_id(e.target.value)}
+                      onChange={(e) => {
+                        setUser_id(e.target.value);
+                        setLoginErr(false);
+                      }}
                     />
                     <input
                       type="password"
@@ -123,7 +134,9 @@ export default function JoinToday() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <span className="hidden">Please fill out this field.</span>
+                    {loginErr && (
+                      <h1 className=" text-red-500 text-lg">{loginErr}</h1>
+                    )}
                     <span className="my-2 text-sm">Forgot password</span>
                     <button
                       type="submit"
@@ -218,8 +231,9 @@ export default function JoinToday() {
                         class="color block w-full rounded-lg border  px-4 py-2.5 text-sm focus:outline-none aria-labelledby='dob-label'"
                       />
                     </div>
-
-                    <span className="hidden">Please fill out this field.</span>
+                    {loginErr && (
+                      <h1 className=" text-red-500 text-lg">{loginErr}</h1>
+                    )}{" "}
                     <Link to="" className="mt-4">
                       forgot password
                     </Link>

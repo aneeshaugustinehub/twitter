@@ -146,7 +146,6 @@ export const UserProvider = ({ children }) => {
     try {
       const stored = await axios.get(USER_URL + userid);
       // console.log(stored.data);
-
       const isEmail = emailRegex.test(userid);
       const match = isEmail
         ? stored.data.mail === userid
@@ -158,7 +157,7 @@ export const UserProvider = ({ children }) => {
         console.log("Invalid credentials");
       }
     } catch (error) {
-      console.log(error, "error fetching tweets");
+      return error 
     }
   };
 
