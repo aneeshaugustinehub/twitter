@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useUser } from "../components/UserContext";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 export default function JoinToday() {
-  // const navigate = useNavigate();
   const [loginPopup, setLoginPopup] = useState(false);
   const [loginErr, setLoginErr] = useState(false);
   const [SignupPopup, setSignupPopup] = useState(false);
@@ -32,6 +31,8 @@ export default function JoinToday() {
       if (err) {
         setLoginErr("invalid login credentials");
       }
+      console.log("login");
+      window.location.reload()
     }
   };
 

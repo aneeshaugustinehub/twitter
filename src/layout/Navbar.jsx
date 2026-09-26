@@ -7,7 +7,7 @@ import { CiUser } from "react-icons/ci";
 import { CiCircleMore } from "react-icons/ci";
 import { CiAirportSign1 } from "react-icons/ci";
 import { IoLogoOctocat } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { useEffect } from "react";
 import { useUser } from "../components/UserContext";
 import CreateTweet from "../components/CreateTweet";
@@ -17,7 +17,6 @@ import { useState } from "react";
 export default function NavBar() {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
-  const Navigate = useNavigate();
   const { logout, user } = useUser();
   const userdata = user;
   // console.log(user);
@@ -29,7 +28,7 @@ export default function NavBar() {
 
   const handleLogout = () => {
     logout();
-    Navigate("/");
+    window.location.reload()
   };
 
   return (

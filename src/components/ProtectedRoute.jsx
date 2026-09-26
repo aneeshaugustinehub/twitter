@@ -14,13 +14,7 @@ export default function ProtectedRoute({ children }) {
       </div>
     );
   }
-  if (userError) {
-    console.log("userError");
-    return <JoinToday />;
-  }
-  if (!isLoggedIn) {
-    console.log("isLoggedIn");
-
+  if (userError || !isLoggedIn) {
     return <JoinToday />;
   }
   return children;
