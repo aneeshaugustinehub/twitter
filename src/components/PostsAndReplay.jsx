@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useTweets } from "./tweetsContext";
+import { usePosts } from "./PostsContext";
 import { FiTrash2 } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
 import { useUser } from "./UserContext";
 import Loading from "./Loading";
-import { TweetProfile,TweetImage, ActionBtn } from "./Tweets";
+import { PostProfile,PostImage, ActionBtn } from "./Posts";
 
-export default function TweetsAndReplay({ tweet }) {
+export default function PostsAndReplay({ post }) {
+  
   const { user, GetUserById } = useUser();
-  const { deleteMutation } = useTweets();
-  const [TweetMenu, setTweetMenu] = useState(false);
+  const { deleteMutation } = usePosts();
+  const [PostMenu, setPostMenu] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { data: tweetUser = [] } = GetUserById(tweet.postedBy);
+  const { data: postUser = [] } = GetUserById(post?.postedBy);
 
   const handleDelete = () => {
-    deleteMutation.mutateAsync(tweet._id);
+    deleteMutation.mutateAsync(post?._id);
   };
   const profileAction = (value, id) => {
     console.log(value, id);
@@ -27,16 +28,16 @@ export default function TweetsAndReplay({ tweet }) {
       <div className="custom-border pt-2">
         <div className="flex gap-3">
           <div className="shrink-0"></div>
-          {TweetMenu && (
+          {PostMenu && (
             <div
               className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
-              onClick={() => setTweetMenu(false)}
+              onClick={() => setPostMenu(false)}
             >
               <dialog
                 closedby="any"
                 className={`color dark:bg-gray-900 bg-gray-200  m-auto rounded-lg flex`}
               >
-                {tweetUser?._id === user._id ? (
+                {postUser?._id === user._id ? (
                   <ul className="rounded-lg">
                     <li className="dropdown-item inline-flex ">
                       <button
@@ -113,18 +114,18 @@ export default function TweetsAndReplay({ tweet }) {
                     <li className="dropdown-item inline-flex ">
                       <button
                         onClick={() =>
-                          profileAction("Unfollow", tweetUser?._id)
+                          profileAction("Unfollow", postUser?._id)
                         }
                         className="p-3 inline-flex hover:bg-slate-700 w-full font-bold"
                       >
                         <FiTrash2 className="mr-3 text-xl" /> Unfollow @
-                        {tweetUser?.name}
+                        {postUser?.name}
                       </button>
                     </li>
                     <li className="dropdown-item">
                       <button
                         onClick={() =>
-                          profileAction("Unfollow", tweetUser?._id)
+                          profileAction("Unfollow", postUser?._id)
                         }
                         className="p-3 inline-flex hover:bg-slate-700 w-full font-bold"
                       >
@@ -134,20 +135,20 @@ export default function TweetsAndReplay({ tweet }) {
                     </li>
                     <li className="dropdown-item">
                       <button
-                        onClick={() => profileAction("Mute", tweetUser?._id)}
+                        onClick={() => profileAction("Mute", postUser?._id)}
                         className="p-3 inline-flex hover:bg-slate-700 w-full font-bold"
                       >
                         <FiTrash2 className="mr-3 text-xl" /> Mute @
-                        {tweetUser?.name}
+                        {postUser?.name}
                       </button>
                     </li>
                     <li className="dropdown-item">
                       <button
-                        onClick={() => profileAction("Block", tweetUser?._id)}
+                        onClick={() => profileAction("Block", postUser?._id)}
                         className="p-3 inline-flex hover:bg-slate-700 w-full font-bold"
                       >
                         <FiTrash2 className="mr-3 text-xl" /> Block @
-                        {tweetUser?.name}
+                        {postUser?.name}
                       </button>
                     </li>
                   </ul>
@@ -156,34 +157,34 @@ export default function TweetsAndReplay({ tweet }) {
             </div>
           )}
           <div className="flex flex-col flex-1">
-            {/* tweetName row */}
+            {/* postName row */}
             <div className="flex justify-center align-top py-2 mr-4">
-              <TweetProfile key={tweet._id} tweet={tweet} />
+              <PostProfile key={post?._id} post={post} />
               <div
-                onClick={() => setTweetMenu(!TweetMenu)}
+                onClick={() => setPostMenu(!PostMenu)}
                 className="ml-auto rounded-full hover:bg-gray-800 hover:text-sky-400 justify-start"
               >
                 <BsThreeDots />
               </div>
             </div>
-            {/* Tweet content */}
+            {/* Post content */}
             <div className="ml-12 -mt-5">
-              <Link to={`/comment/${tweet._id}`}>
+              <Link to={`/comment/${post?._id}`}>
                 <p className="mt-1 font-thin pb-2 text-[15px]">
-                  {tweet.description}
+                  {post?.description}
                 </p>
               </Link>
-              <TweetImage key={tweet._id} tweets={tweet} />
+              <PostImage key={post?._id} posts={post} />
             </div>
-            {tweet.replayId && (
+            {post?.replayId && (
               <div>
                 {" "}
-                <Replay key={tweet.replayId} Replay={tweet} />{" "}
+                <Replay key={post?.replayId} Replay={post} />{" "}
               </div>
             )}
             {/* Action buttons */}
             <div className="ml-12">
-            <ActionBtn key={tweet.replayId} tweets={tweet} tweetUserID={tweetUser._id}/>
+            <ActionBtn key={post?.replayId} posts={post} postUserID={postUser._id}/>
             </div>
           </div>
         </div>
@@ -206,7 +207,7 @@ export default function TweetsAndReplay({ tweet }) {
             </p>
             <div className="flex flex-col gap-3">
               <button
-                onClick={() => handleDelete(tweet._id)}
+                onClick={() => handleDelete(post._id)}
                 className="w-full py-3 bg-red-500 hover:bg-red-400 text-black dark:text-white font-semibold rounded-full transition-colors text-sm"
               >
                 Delete
@@ -226,31 +227,31 @@ export default function TweetsAndReplay({ tweet }) {
 }
 
 export function Replay({ Replay }) {
-  const { TweetByID } = useTweets();
-  const { data: tweets = [], isLoading, error } = TweetByID(Replay.replayId);
+  const { PostByID } = usePosts();
+  const { data: posts = [], isLoading, error } = PostByID(Replay.replayId);
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!tweets) return <div>no post: </div>;
+  if (!posts) return <div>no post: </div>;
 
   return (
     <>
       <div className=" border-gray-800 border rounded-xl p-4 m-4 ml-12">
         <div className="flex align-top">
-          <TweetProfile key={tweets._id} tweet={tweets} />
+          <PostProfile key={posts._id} post={posts} />
           
-          {/* Tweet content */}
+          {/* Post content */}
         </div>
         <div className="">
-          <Link to={`/comment/${tweets._id}`}>
+          <Link to={`/comment/${posts._id}`}>
             <p className="mt-1 font-thin pb-2 text-[15px]">
-              {tweets.description}
+              {posts?.description}
             </p>
           </Link>
           {!Replay.imagePath && (
             <div>
-              {tweets.imagePath && (
-                <TweetImage key={tweets._id} tweets={tweets} />
+              {posts.imagePath && (
+                <PostImage key={posts._id} posts={posts} />
               )}
             </div>
           )}

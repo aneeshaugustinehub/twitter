@@ -1,6 +1,6 @@
-import Tweets from "../components/Tweets";
+import Posts from "../components/Posts";
 import { useParams } from "react-router-dom";
-import { useTweets } from "../components/tweetsContext";
+import { usePosts } from "../components/PostsContext";
 import Loading from "../components/Loading";
 import { GoArrowLeft } from "react-icons/go";
 import { Link } from "react-router-dom";
@@ -8,10 +8,10 @@ import { FiImage } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { useUser } from "../components/UserContext";
-import TweetsAndReplay from "../components/TweetsAndReplay";
+import PostsAndReplay from "../components/PostsAndReplay";
 
 export default function Comment() {
-  const { CreateReplay, TweetByID, useGetReplay } = useTweets();
+  const { CreateReplay, PostByID, useGetReplay } = usePosts();
   const { user } = useUser();
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
   const CommentImageRef = useRef();
@@ -20,26 +20,26 @@ export default function Comment() {
   const [Comment, setComment] = useState("");
   const { id } = useParams();
 
-  // const [tweet, setTweet] = useState();
+  // const [post, setPost] = useState();
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
 
   // useEffect(() => {
-  //   const getTweet = async () => {
+  //   const getPost = async () => {
   //     try {
   //       setIsLoading(true);
-  //       const res = await TweetByID(id);
-  //       setTweet(res);
+  //       const res = await PostByID(id);
+  //       setPost(res);
   //     } catch (err) {
   //       setError(err);
   //     } finally {
   //       setIsLoading(false);
   //     }
   //   };
-  //   getTweet();
-  // }, [TweetByID, id]);
+  //   getPost();
+  // }, [PostByID, id]);
 
-  const { data: tweets = [], isLoading, error } = TweetByID(id);
+  const { data: posts = [], isLoading, error } = PostByID(id);
   const { data: replay = [] } = useGetReplay(id);
   const ImagePreviewHandle = (e) => {
     const file = e.target.files[0];
@@ -49,10 +49,10 @@ export default function Comment() {
   };
 
   const CommentHandle = () => {
-    if (!tweets._id) return;
+    if (!posts._id) return;
     if (!Comment && !CommentImage) return;
     CreateReplay({
-      tweetId: tweets._id,
+      postId: posts._id,
       ReplayText: Comment,
       ReplayImage: CommentImage,
     });
@@ -62,8 +62,8 @@ export default function Comment() {
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!tweets) return <div>no post: </div>;
-  // if(tweets.replayId){
+  if (!posts) return <div>no post: </div>;
+  // if(posts.replayId){
 
   // }
 
@@ -78,7 +78,7 @@ export default function Comment() {
         </div>
         <div className="overflow-y-scroll">
           <div className="mt-9">
-            <TweetsAndReplay key={tweets._id} tweet={tweets} />
+            <PostsAndReplay key={posts._id} post={posts} />
           </div>
           <div className="flex px-3 py-4 w-full h-full custom-border">
             <div className="shrink-0">
@@ -132,7 +132,7 @@ export default function Comment() {
           </div>
         </div>
         {replay?.map((replay) => (
-          <Tweets key={replay._id} tweet={replay} />
+          <Posts key={replay._id} post={replay} />
         ))}
       </div>
     </>

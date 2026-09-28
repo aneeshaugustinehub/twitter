@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from "../components/UserContext";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { IoLogoOctocat } from "react-icons/io5";
 
 export default function JoinToday() {
   const [loginPopup, setLoginPopup] = useState(false);
@@ -32,7 +33,7 @@ export default function JoinToday() {
         setLoginErr("invalid login credentials");
       }
       console.log("login");
-      window.location.reload()
+      window.location.reload();
     }
   };
 
@@ -41,17 +42,19 @@ export default function JoinToday() {
       <div className="flex flex-col">
         <section className="grid lg:grid-cols-2 grid-cols-1 mt-20 ">
           <div className="flex flex-col  justify-center items-center lg:my-0 my-10 lg:order-2">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/960px-X_logo_2023.svg.png?_=20250120013756"
-              alt=""
-              className="lg:h-[400px] h-24"
-            />
+            <IoLogoOctocat className="text-[400px]">
+            </IoLogoOctocat>
+
+            {/* <img alt="" className="lg:h-[400px] h-24" /> */}
           </div>
           <div className="flex flex-col justify-center items-center lg:order-1">
             <div className="flex flex-col ">
-              <h1 className="xl:text-6xl text-5xl font-bold p-0 my-2">
-                Happening now.
+              <h1 className="xl:text-6xl text-5xl font-bold p-0 mt-2">
+                dev-focused
               </h1>
+              <h2 className="xl:text-3xl text-2xl font-light p-0 my-0">
+                microblog
+              </h2>
               <button
                 type="submit"
                 className="btn-join"

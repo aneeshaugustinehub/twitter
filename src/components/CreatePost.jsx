@@ -2,32 +2,35 @@ import { FiImage } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { useUser } from "./UserContext";
-import { useTweets } from "../components/tweetsContext";
+import { usePosts } from "./PostsContext";
 
-export default function CreateTweet() {
+export default function CreatePost() {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
-  const { CreateTweet } = useTweets();
+  const { CreatePost } = usePosts();
   const { user } = useUser();
   const [Description, setDescription] = useState("");
   const [PostImage, setPostImage] = useState();
   const [PostImagePreview, setPostImagePreview] = useState();
   const ProfileImage = user?.profilePic;
   const PostImageRef = useRef();
-  const TweetImages = [];
+  const PostImages = [];
 
   const PostImagePreviewHandel = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
-    const newTweetImages = [...TweetImages, url];
-    setPostImagePreview(newTweetImages);
+    const newPostImages = [...PostImages, url];
+    setPostImagePreview(newPostImages);
     setPostImage(file);
   };
+
   const PostHandle = async () => {
-    CreateTweet({ Description: Description, tweetImage: PostImage });
-    setDescription("")
+    if (!Description && !PostImage) return;
+    await CreatePost({Description,PostImage });
+    setDescription("");
     setPostImagePreview(null);
   };
+
   return (
     <div className="flex px-4 py-2  w-full h-full">
       <div className="shrink-0">

@@ -10,8 +10,8 @@ import { IoLogoOctocat } from "react-icons/io5";
 import { Link } from "react-router-dom";
 // import { useEffect } from "react";
 import { useUser } from "../components/UserContext";
-import CreateTweet from "../components/CreateTweet";
-import { TweetsProvider } from "../components/tweetsProvider";
+import CreatePost from "../components/CreatePost";
+import { PostsProvider } from "../components/PostsProvider";
 import { useState } from "react";
 
 export default function NavBar() {
@@ -67,7 +67,7 @@ export default function NavBar() {
               </li>
               <li className="nav-item">
                 <Link to="/Gork" className="nav-link ">
-                  <CiAirportSign1 /> <span className="nav-title">Gork</span>
+                  <CiAirportSign1 /> <span className="nav-title">AI</span>
                 </Link>
               </li>
               <li className="nav-item">
@@ -212,7 +212,7 @@ export default function NavBar() {
       {navPost && (
       <div
         className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
-        onClick={() => setNavPost(false)}
+        // onClick={() => setNavPost(false)}
       >
         <dialog
           className={"flex color-popup color  p-4 pb-3 min-w-96"}
@@ -230,9 +230,9 @@ export default function NavBar() {
               </span>
               <span className=" flex-row ml-auto text-sky-500">Drafts</span>
             </div>
-            <TweetsProvider>
-              <CreateTweet />
-            </TweetsProvider>
+            <PostsProvider>
+              <CreatePost />
+            </PostsProvider>
           </div>
         </dialog>
       </div>)}

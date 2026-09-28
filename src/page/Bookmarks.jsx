@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { BiBookmark } from "react-icons/bi";
 import { useUser } from "../components/UserContext";
 import Loading from "../components/Loading";
-import TweetsAndReplay from "../components/TweetsAndReplay";
+import PostsAndReplay from "../components/PostsAndReplay";
 import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -14,29 +14,29 @@ export default function Bookmarks() {
 
   const bookmarkQueries = useQueries({
     queries: user.bookmarks.map((id) => ({
-      queryKey: ["bookmarkTweet", id],
+      queryKey: ["bookmarkPost", id],
       queryFn: async () => {
-        const res = await axios.get(`${BASE_URL}tweets/${id}`);
-        if (res.data.tweets === null) {
+        const res = await axios.get(`${BASE_URL}Posts/${id}`);
+        if (res.data.Posts === null) {
           return id;
         }
-        return res.data.tweets;
+        return res.data.Posts;
       },
       enabled: !!id,
     })),
   });
 
   const isLoading = bookmarkQueries.some((q) => q.isLoading);
-  const bookmarkTweets = bookmarkQueries
+  const bookmarkPosts = bookmarkQueries
     .filter((q) => q.isSuccess)
     .map((q) => q.data);
 
-  const filtered = bookmarkTweets.filter((b) => {
+  const filtered = bookmarkPosts.filter((b) => {
     if (!search) return true;
     const q = search.toLowerCase();
     return b.description?.toLowerCase().includes(q);
   });
-  // console.log(bookmarkTweets);
+  // console.log(bookmarkPosts);
 
   return (
     <div className="flex flex-col w-full max-w-[580px] min-h-screen border-x border-gray-800">
@@ -99,16 +99,16 @@ export default function Bookmarks() {
                 <div className="flex justify-center">
                   <div className="">
                     <h1 key={i} className="text-2xl justify-center">
-                      This Tweet was deleted.
+                      This Post was deleted.
                     </h1>
-                    <p className="justify-center">This Tweet is unavailable.</p>
+                    <p className="justify-center">This Post is unavailable.</p>
                   </div>
                 </div>
                 <div className="flex py-5 justify-center">
                   <button
                     className="justify-center w-24 border rounded-xl border-gray-600 text-black dark:text-white hover:border-red-500 hover:text-red-500"
                     onClick={() =>
-                      AddBookmark({ userId: user._id, tweetId: b })
+                      AddBookmark({ userId: user._id, PostId: b })
                     }
                   >
                     Delete Bookmark
@@ -117,7 +117,7 @@ export default function Bookmarks() {
               </div>
             </>
           ) : (
-            <TweetsAndReplay key={b._id} tweet={b} />
+            <PostsAndReplay key={b._id} Post={b} />
           ),
         )
       ) : (

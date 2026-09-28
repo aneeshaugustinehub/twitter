@@ -7,7 +7,7 @@ import { MdContentCopy, MdOutlineRefresh } from "react-icons/md";
 import { RiRobot2Line } from "react-icons/ri";
 
 const suggestions = [
-  { icon: "✍️", label: "Write a tweet", prompt: "Write a viral tweet about React and Vite that developers would love" },
+  { icon: "✍️", label: "Write a post", prompt: "Write a viral post about React and Vite that developers would love" },
   { icon: "🧵", label: "Thread ideas", prompt: "Give me 5 ideas for a Twitter thread about building a Twitter clone with React" },
   { icon: "💡", label: "Explain code", prompt: "Explain how React Router v6 layout routes work in simple terms" },
   { icon: "🐛", label: "Debug help", prompt: "My useEffect is causing an infinite loop. What are the common causes?" },
@@ -105,7 +105,7 @@ export default function AIChat() {
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
-          system: "You are a helpful AI assistant built into a Twitter-like app called Tweetly. You help users write tweets, threads, bios, and answer questions about coding and social media growth. Keep responses concise and conversational. When writing tweets, make them engaging and ready to post.",
+          system: ". You help users write posts, threads, bios, and answer questions about coding and social media growth. Keep responses concise and conversational. When writing posts, make them engaging and ready to post.",
           messages: [...history, { role: "user", content: userText }],
         }),
       });
@@ -166,7 +166,7 @@ export default function AIChat() {
           </div>
           <h2 className="text-2xl font-bold text-black dark:text-white mb-2 text-center">What can I help with?</h2>
           <p className="text-gray-500 text-sm text-center mb-8 max-w-sm">
-            Ask me to write tweets, threads, bios, explain code, or anything else.
+            Ask me to write posts, threads, bios, explain code, or anything else.
           </p>
           <div className="grid grid-cols-2 gap-3 w-full max-w-md">
             {suggestions.map((s, i) => (

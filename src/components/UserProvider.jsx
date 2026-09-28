@@ -165,22 +165,22 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
-  //   const { mutate: CreateTweet } = useMutation({
-  //   mutationFn: async ({ Description, tweetImage }) => {
+  //   const { mutate: CreatePost } = useMutation({
+  //   mutationFn: async ({ Description, postImage }) => {
   //     const formData = new FormData();
   //     formData.append("Description", Description);
-  //     formData.append("tweetImage", tweetImage);
-  //     await axios.post(TWEET_URL + user._id, formData);
+  //     formData.append("postImage", postImage);
+  //     await axios.post(POST_URL + user._id, formData);
   //   },
   //   onSuccess: () => {
   //     queryClient.invalidateQueries({
-  //       queryKey: ["tweets"],
+  //       queryKey: ["posts"],
   //     });
   //   },
   // });
   const { mutate: AddBookmark } = useMutation({
-    mutationFn: async ({ userId, tweetId }) => {
-      await axios.put(USER_URL + "bookmark/" + userId, { tweetId });
+    mutationFn: async ({ userId, postId }) => {
+      await axios.put(USER_URL + "bookmark/" + userId, { postId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

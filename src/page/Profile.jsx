@@ -1,7 +1,7 @@
 import { CiLocationOn } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
-import Tweets from "../components/Tweets";
-import { useTweets } from "../components/tweetsContext";
+import Posts from "../components/Posts";
+import { usePosts } from "../components/PostsContext";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
@@ -14,7 +14,7 @@ export default function Profile() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   // const [profile, setProfile] = useState();
   const { username } = useParams();
-  const { useTweetsByUser } = useTweets();
+  const { usePostsByUser } = usePosts();
 
   // useEffect(() => {
   //   async function fetchUser(id) {
@@ -31,10 +31,10 @@ export default function Profile() {
   } = GetUserByUsername(username);
 
   const {
-    data: tweetsByUser = [],
-    isLoading: tweetLoading,
-    error: tweetError,
-  } = useTweetsByUser(userData?._id);
+    data: postsByUser = [],
+    isLoading: postLoading,
+    error: postError,
+  } = usePostsByUser(userData?._id);
 
   const bannerImage = userData?.bannerPic
     ? BASE_URL + "profilesImage/" + userData?.bannerPic
@@ -163,18 +163,18 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            {tweetLoading && <Loading />}
-            {tweetError && (
+            {postLoading && <Loading />}
+            {postError && (
               <>
                 <div className="flex justify-center items-center py-4">
                   <h1>no posts </h1>
                 </div>
               </>
             )}
-            {!tweetLoading &&
-              !tweetError &&
-              tweetsByUser?.map((tweet) => (
-                <Tweets key={tweet._id} tweet={tweet} />
+            {!postLoading &&
+              !postError &&
+              postsByUser?.map((post) => (
+                <Posts key={post._id} post={post} />
               ))}
           </div>
         </div>

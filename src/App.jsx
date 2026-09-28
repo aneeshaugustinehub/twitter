@@ -18,7 +18,7 @@ import Bookmarks from "./page/Bookmarks";
 import JoinToday from "./page/JoinToday";
 import Comment from "./layout/Comment";
 import FullView from "./layout/FullView";
-import { TweetsProvider } from "../src/components/tweetsProvider";
+import { PostsProvider } from "../src/components/PostsProvider";
 
 export default function App() {
   return (
@@ -45,9 +45,9 @@ export default function App() {
             path="/full/:id"
             element={
               <ProtectedRoute>
-                <TweetsProvider>
+                <PostsProvider>
                   <FullView />
-                </TweetsProvider>
+                </PostsProvider>
               </ProtectedRoute>
             }
           />
@@ -74,9 +74,9 @@ export default function App() {
             <Route
               path="/:username"
               element={
-                <TweetsProvider>
+                <PostsProvider>
                   <Profile />
-                </TweetsProvider>
+                </PostsProvider>
               }
             />
 
@@ -100,9 +100,9 @@ export default function App() {
               path="/Bookmarks"
               element={
                 <ProtectedRoute>
-                  <TweetsProvider>
+                  <PostsProvider>
                     <Bookmarks />
-                  </TweetsProvider>
+                  </PostsProvider>
                 </ProtectedRoute>
               }
             />
@@ -126,9 +126,9 @@ export default function App() {
               path="/home"
               element={
                 <ProtectedRoute>
-                  <TweetsProvider>
+                  <PostsProvider>
                     <MainContent />
-                  </TweetsProvider>
+                  </PostsProvider>
                 </ProtectedRoute>
               }
             />
@@ -136,9 +136,9 @@ export default function App() {
               path="/comment/:id"
               element={
                 <ProtectedRoute>
-                  <TweetsProvider>
+                  <PostsProvider>
                     <Comment />
-                  </TweetsProvider>
+                  </PostsProvider>
                 </ProtectedRoute>
               }
             />

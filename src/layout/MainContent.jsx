@@ -1,18 +1,19 @@
-// import { getTweets } from "../api";
-import CreateTweet from "../components/CreateTweet";
-import TweetsAndReplay from "../components/TweetsAndReplay";
-import { useTweets } from "../components/tweetsContext";
-import { TweetsProvider } from "../components/tweetsProvider";
+// import { getPosts } from "../api";
+import CreatePost from "../components/CreatePost";
+import PostsAndReplay from "../components/PostsAndReplay";
+import { usePosts } from "../components/PostsContext";
+import { PostsProvider } from "../components/PostsProvider";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 
 export default function MainContent() {
-  const { TweetItems, isTweetItemsLoading, errorTweetItems } = useTweets();
+  const { PostItems, isPostItemsLoading, errorPostItems } = usePosts();
+  
 
-  if (isTweetItemsLoading) {
+  if (isPostItemsLoading) {
     return <Loading />;
   }
-  if (errorTweetItems) {
+  if (errorPostItems) {
     <div className="md:w-[580px]">
       return <Error />;{" "}
     </div>;
@@ -20,13 +21,13 @@ export default function MainContent() {
   return (
     <div className="md:w-[580px]">
       <div className="flex md:w-[580px] h-30 custom-border py-2">
-        <TweetsProvider>
-          <CreateTweet />
-        </TweetsProvider>
+        <PostsProvider>
+          <CreatePost />
+        </PostsProvider>
       </div>
-      {TweetItems?.map((tweet) => (
+      {PostItems?.map((post) => (
         <div>
-          <TweetsAndReplay key={tweet._id} tweet={tweet} />
+          <PostsAndReplay key={post._id} post={post} />
         </div>
       ))}
     </div>

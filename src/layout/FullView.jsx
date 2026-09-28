@@ -1,9 +1,9 @@
-import Tweets, {
+import Posts, {
   ActionBtn,
-  TweetImage,
-} from "../components/Tweets";
+  PostImage,
+} from "../components/Posts";
 import { useParams } from "react-router-dom";
-import { useTweets } from "../components/tweetsContext";
+import { usePosts } from "../components/PostsContext";
 import Loading from "../components/Loading";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Link } from "react-router-dom";
@@ -19,16 +19,16 @@ export default function FullView() {
 
   const [sidebar, setSidebar] = useState(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
-  const { CreateReplay, TweetByID, useGetReplay } = useTweets();
+  const { CreateReplay, PostByID, useGetReplay } = usePosts();
   const CommentImageRef = useRef();
   const [CommentImagePreview, setCommentImagePreview] = useState();
   const [CommentImage, setCommentImage] = useState();
   const [Comment, setComment] = useState("");
   const { id } = useParams();
 
-  const { data: tweets = [], isLoading, error } = TweetByID(id);
+  const { data: posts = [], isLoading, error } = PostByID(id);
   const { data: replay = [] } = useGetReplay(id);
-  const { data: tweetUser = [] } = GetUserById(tweets.postedBy);
+  const { data: postUser = [] } = GetUserById(posts.postedBy);
 
   const ImagePreviewHandle = (e) => {
     const file = e.target.files[0];
@@ -38,10 +38,10 @@ export default function FullView() {
   };
 
   const CommentHandle = () => {
-    if (!tweets._id) return;
+    if (!posts._id) return;
     if (!Comment && !CommentImage) return;
     CreateReplay({
-      tweetId: tweets._id,
+      postId: posts._id,
       ReplayText: Comment,
       ReplayImage: CommentImage,
     });
@@ -51,8 +51,8 @@ export default function FullView() {
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!tweets) return <div>no post: </div>;
-  // if(tweets.replayId){
+  if (!posts) return <div>no post: </div>;
+  // if(posts.replayId){
   // }
 
   return (
@@ -78,7 +78,7 @@ export default function FullView() {
         {/* Image */}
         <div className="w-full flex h-dvh ">
           <div className="flex h-full w-full justify-center items-center">
-            <TweetImage key={tweets._id} tweets={tweets} />
+            <PostImage key={posts._id} posts={posts} />
           </div>
         </div>
       </div>
@@ -86,27 +86,27 @@ export default function FullView() {
         <div className="w-[410px] max-w-[410px] border-l border-gray-800 ">
           <div className="flex py-4 custom-border">
             <div className="items-center w-full">
-              {/* tweet info */}
+              {/* post info */}
               <div className="custom-border my-2 inline-block">
                 <div className="flex justify-center p-2">
                   <img
-                    src={BASE_URL + tweetUser?.profilePic}
+                    src={BASE_URL + postUser?.profilePic}
                     alt=""
                     width={30}
                     height={30}
                     className="rounded-full h-10 w-10 object-cover"
                   />
                   <Link
-                    to={`/${tweetUser?.userId}`}
+                    to={`/${postUser?.userId}`}
                     className="flex justify-center font-bold p-2"
                   >
-                    {tweetUser?.name}
+                    {postUser?.name}
                     <p className="font-thin text-sm text-gray-500 mx-2">
-                      @{tweetUser?.userId}
+                      @{postUser?.userId}
                     </p>{" "}
                   </Link>
                   <button
-                    // onClick={() => setTweetMenu(!TweetMenu)}
+                    // onClick={() => setPostMenu(!PostMenu)}
                     className="ml-auto rounded-full hover:bg-gray-800 hover:text-sky-400 px-2"
                   >
                     <BsThreeDots />
@@ -114,20 +114,20 @@ export default function FullView() {
                 </div>
                 <div>
                   {" "}
-                  <Link to={`/comment/${tweets._id}`}>
-                    {/* tweets text */}
+                  <Link to={`/comment/${posts._id}`}>
+                    {/* posts text */}
                     <p className="font-thin text-[15px]">
-                      {tweets.description}
+                      {posts.description}
                     </p>
                   </Link>
                 </div>
                 <p className="font-thin text-sm text-gray-500 my-3 px-2">
-                  {moment(tweets.createdAt).calendar()}{" "}
+                  {moment(posts.createdAt).calendar()}{" "}
                 </p>
 
                 {/* action button */}
                 <div>
-                  <ActionBtn key={tweets._id} tweets={tweets} />
+                  <ActionBtn key={posts._id} posts={posts} />
                 </div>
               </div>
               {/* replay */}
@@ -179,7 +179,7 @@ export default function FullView() {
               <div className="w-24">
                 {replay?.map((replay) => (
                   <div className="">
-                    <Tweets key={replay._id} tweet={replay} />
+                    <Posts key={replay._id} post={replay} />
                   </div>
                 ))}
               </div>
