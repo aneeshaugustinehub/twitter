@@ -231,7 +231,7 @@ export default function NavBar() {
               <span className=" flex-row ml-auto text-sky-500">Drafts</span>
             </div>
             <PostsProvider>
-              <CreatePost />
+              <CreatePost onPostCreated={() => setNavPost(null)}/>
             </PostsProvider>
           </div>
         </dialog>

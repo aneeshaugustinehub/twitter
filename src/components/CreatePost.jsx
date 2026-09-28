@@ -4,7 +4,7 @@ import { FaRegSmile } from "react-icons/fa";
 import { useUser } from "./UserContext";
 import { usePosts } from "./PostsContext";
 
-export default function CreatePost() {
+export default function CreatePost({ onPostCreated }) {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "profilesImage/";
 
   const { CreatePost } = usePosts();
@@ -29,6 +29,7 @@ export default function CreatePost() {
     await CreatePost({Description,PostImage });
     setDescription("");
     setPostImagePreview(null);
+    onPostCreated?.();
   };
 
   return (
