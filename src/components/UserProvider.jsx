@@ -9,8 +9,6 @@ export const UserProvider = ({ children }) => {
 
   const queryClient = useQueryClient();
 
-  
-
   const {
     data: users,
     isLoading: usersIsLoading,
@@ -29,7 +27,6 @@ export const UserProvider = ({ children }) => {
   //       const res = await axios.get(USER_URL);
   //       setUsers(res.data);
   //     } catch (error) {
-  //       console.log(error, "error fetching fetchUsers");
   //     }
   //   };
   //   fetchUsers();
@@ -44,7 +41,6 @@ export const UserProvider = ({ children }) => {
   //         setUser(res.data);
   //       }
   //     } catch (error) {
-  //       console.log(error, "error fetching fetchUser");
   //     }
   //   };
   //   fetchUser();
@@ -70,7 +66,6 @@ export const UserProvider = ({ children }) => {
   //       return (res.data);
   //     }
   //   } catch (error) {
-  //     console.log(error, "error fetching fetchUser");
   //   }
   // };
   const GetUserByUsername = (username) => {
@@ -127,7 +122,6 @@ export const UserProvider = ({ children }) => {
   const Signup = async (email, name, userId, password, birthday) => {
     if (!email.trim() || !name || !userId || !password || !birthday) return;
     try {
-      // console.log(Description,PostImagePreview);
       const response = await axios.post(USER_URL, {
         email: email,
         name: name,
@@ -137,7 +131,7 @@ export const UserProvider = ({ children }) => {
       });
       localStorage.setItem("user", JSON.stringify(response.data.newUser));
     } catch (error) {
-      console.log(error, "error Signup");
+      return error;
     }
   };
 
@@ -145,7 +139,6 @@ export const UserProvider = ({ children }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
       const stored = await axios.get(USER_URL + userid);
-      // console.log(stored.data);
       const isEmail = emailRegex.test(userid);
       const match = isEmail
         ? stored.data.mail === userid
@@ -154,10 +147,10 @@ export const UserProvider = ({ children }) => {
         const updated = { ...stored.data, token: password };
         localStorage.setItem("user", JSON.stringify(updated));
       } else {
-        console.log("Invalid credentials");
+        return ("Invalid credentials");
       }
     } catch (error) {
-      return error 
+      return error;
     }
   };
 

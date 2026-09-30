@@ -9,6 +9,7 @@ import { PostProfile,PostImage, ActionBtn } from "./Posts";
 
 export default function PostsAndReplay({ post }) {
   
+  
   const { user, GetUserById } = useUser();
   const { deleteMutation } = usePosts();
   const [PostMenu, setPostMenu] = useState(false);
@@ -20,7 +21,7 @@ export default function PostsAndReplay({ post }) {
     deleteMutation.mutateAsync(post?._id);
   };
   const profileAction = (value, id) => {
-    console.log(value, id);
+    value+id
   };
 
   return (

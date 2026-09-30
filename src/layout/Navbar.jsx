@@ -19,7 +19,6 @@ export default function NavBar() {
 
   const { logout, user } = useUser();
   const userdata = user;
-  // console.log(user);
 
   const ProfileImage = BASE_URL + userdata?.profilePic;
   const [navMore, setNavMore] = useState(null);
@@ -231,7 +230,7 @@ export default function NavBar() {
               <span className=" flex-row ml-auto text-sky-500">Drafts</span>
             </div>
             <PostsProvider>
-              <CreatePost />
+              <CreatePost onPostCreated={() => setNavPost(null)}/>
             </PostsProvider>
           </div>
         </dialog>

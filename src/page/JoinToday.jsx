@@ -26,13 +26,11 @@ export default function JoinToday() {
   const handleLogin = async () => {
     if (!user_id || !password) {
       setLoginErr("Please fill out this field.");
-      console.log();
     } else {
       const err = await Login(user_id, password);
       if (err) {
         setLoginErr("invalid login credentials");
       }
-      console.log("login");
       window.location.reload();
     }
   };

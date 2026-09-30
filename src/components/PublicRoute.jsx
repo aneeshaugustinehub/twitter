@@ -7,16 +7,13 @@ export default function PublicRoute({ children }) {
   const { user, userError, userIsLoading } = useUser();  
   const isLoggedIn = !!user?.token;
   if (userIsLoading) {
-    console.log("Loading");
 
     return <Loading />;
   }
   if (userError) {
-    console.log("userError");
     return <JoinToday/>;
   }
   if (isLoggedIn) {
-    console.log("isLoggedIn");
     return <Navigate to="/home" replace />;
   }
   return children;

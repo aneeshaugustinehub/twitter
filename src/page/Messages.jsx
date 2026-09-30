@@ -8,8 +8,6 @@ import { MdOutlineGif } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { conversations, initialMessages} from "../components/DemoData";
 
-// console.log(conversations,"demo data");
-
 const avatarColors = [
   "bg-blue-500", "bg-purple-500", "bg-green-500",
   "bg-orange-500", "bg-pink-500", "bg-teal-500",

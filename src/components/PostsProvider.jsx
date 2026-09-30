@@ -74,7 +74,6 @@ export const PostsProvider = ({ children }) => {
   //     // formData.append("postedBy", user.userId);
   //     formData.append("Description", Description);
   //     formData.append("postImage", PostImage);
-  //     // console.log(formData, "formData");
   //     await axios.post(POST_URL + user._id, formData, {
   //       headers: {
   //         "Content-Type": "multipart/form-data",
@@ -87,10 +86,10 @@ export const PostsProvider = ({ children }) => {
   // };
 
   const { mutate: CreatePost } = useMutation({
-    mutationFn: async ({ Description, postImage }) => {
+    mutationFn: async ({ Description, PostImage }) => {
       const formData = new FormData();
       formData.append("Description", Description);
-      formData.append("postImage", postImage);
+      formData.append("PostImage", PostImage);
       await axios.post(POST_URL + user._id, formData);
     },
     onSuccess: () => {
@@ -102,12 +101,11 @@ export const PostsProvider = ({ children }) => {
 
   const { mutate: CreateReplay } = useMutation({
     mutationFn: async ({ postId, ReplayText, ReplayImage }) => {
-      // console.log({ postId, ReplayText, ReplayImage });
 
       const formData = new FormData();
       formData.append("postedBy", user._id);
       formData.append("replayText", ReplayText);
-      formData.append("postImage", ReplayImage);
+      formData.append("PostImage", ReplayImage);
 
       await axios.post(POST_REPLAY_URL + postId, formData);
     },

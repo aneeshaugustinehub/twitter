@@ -29,7 +29,6 @@ export default function EditProfile() {
     const file = e.target.files[0];
     if (!file) {
       // setStatus('Please select a file first.');
-      console.log("Please select a file first.");
 
       return;
     }
@@ -45,10 +44,8 @@ export default function EditProfile() {
   const handleProfileImage = (e) => {
     const file = e.target.files[0];
     if (!file) {
-      // console.log('Please select a file first.');
       return;
     }
-    // console.log(ProfileImage,ProfilePreview);
     const url = URL.createObjectURL(file);
     setProfileImage(file);
     setProfilePreview(url);
@@ -64,8 +61,7 @@ export default function EditProfile() {
       !ProfileImage &&
       !BannerImage
     ) {
-      console.log("no data");
-      return;
+      return ("no data");
     }
     EditUserProfile(
       user_id,

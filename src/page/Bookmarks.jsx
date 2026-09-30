@@ -11,16 +11,17 @@ export default function Bookmarks() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const { user, AddBookmark } = useUser();
   const [search, setSearch] = useState("");
+  
 
   const bookmarkQueries = useQueries({
     queries: user.bookmarks.map((id) => ({
       queryKey: ["bookmarkPost", id],
       queryFn: async () => {
         const res = await axios.get(`${BASE_URL}Posts/${id}`);
-        if (res.data.Posts === null) {
+        if (res.data.posts === null) {
           return id;
         }
-        return res.data.Posts;
+        return res.data.posts;
       },
       enabled: !!id,
     })),
@@ -32,11 +33,10 @@ export default function Bookmarks() {
     .map((q) => q.data);
 
   const filtered = bookmarkPosts.filter((b) => {
-    if (!search) return true;
+    if (!search) return true;    
     const q = search.toLowerCase();
     return b.description?.toLowerCase().includes(q);
   });
-  // console.log(bookmarkPosts);
 
   return (
     <div className="flex flex-col w-full max-w-[580px] min-h-screen border-x border-gray-800">
@@ -117,7 +117,7 @@ export default function Bookmarks() {
               </div>
             </>
           ) : (
-            <PostsAndReplay key={b._id} Post={b} />
+            <PostsAndReplay key={b._id} post={b} />
           ),
         )
       ) : (
